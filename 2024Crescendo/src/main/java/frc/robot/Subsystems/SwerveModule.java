@@ -56,10 +56,6 @@ public class SwerveModule extends SubsystemBase {
     drive_motor_ = new TalonFX(driveDeviceNumber);
     pivot_motor_ = new WPI_TalonSRX(pivotDeviceNumber); 
 
-    //These two may let the swerve rotate itself many times when startup
-    //drive_motor_.configFactoryDefault();
-    //pivot_motor_.configFactoryDefault();
-    
     drive_motor_.setNeutralMode(NeutralModeValue.Brake);
     pivot_motor_.setNeutralMode(NeutralMode.Coast);
     m_MotorOutputConfigs.PeakForwardDutyCycle=SwerveConstants.kDriveMotorMaxOutput;
@@ -89,24 +85,6 @@ public class SwerveModule extends SubsystemBase {
     pivot_motor_.configClosedloopRamp(SwerveConstants.kLoopSeconds);
 
     pivot_encoder_inverted = pivotEncoderInvert ? -1.0 : 1.0;
-
-    //drive_motor_.configVoltageCompSaturation(12);
-    //drive_motor_.enableVoltageCompensation(true);//TODO
-
-    //pivot_motor_.configVoltageCompSaturation(12);
-    //pivot_motor_.enableVoltageCompensation(true);
-
-    // Sets current limits for motors
-    //drive_motor_.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true,
-    //SwerveConstants.SWERVE_MOTOR_CURRENT_LIMIT, SwerveConstants.SWERVE_MOTOR_CURRENT_LIMIT, 0));
-
-    //pivot_motor_.configSupplyCurrentLimit(new SupplyCurrentLimitConfiguration(true,
-    //SwerveConstants.SWERVE_DRIVE_MOTOR_CURRENT_LIMIT, SwerveConstants.SWERVE_DRIVE_MOTOR_CURRENT_LIMIT, 0));
-
-    //drive_motor_.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 50);
-    //drive_motor_.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 20);
-    //pivot_motor_.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 50);
-    //pivot_motor_.setStatusFramePeriod(StatusFrameEnhanced.Status_2_Feedback0, 20);
 
     SetDriveMotorInverted(driveMotorInvert);
     SetPivotMotorInverted(pivotMotorInvert);

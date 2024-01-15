@@ -5,6 +5,8 @@ import java.util.OptionalDouble;
 
 import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -151,28 +153,10 @@ private static LinearInterpolationTable distTable = new LinearInterpolationTable
   }
 
   
-  public double getRobotToTargetDistance() {
-    /**
-     * This method uses a medianFilter to prevent the Limelight oscilliation
-     */
-    //return medianFilter.calculate(GoalConstants.LL_UPPER_HUB_HEIGHT - LimelightConstants.LL_MOUNT_HEIGHT)
-    //   / Math.tan(Math.toRadians(LimelightConstants.LL_MOUNT_ANGLE + Get_ty()));
-
-		return (GoalConstants.LL_UPPER_HUB_HEIGHT - LimelightConstants.LL_MOUNT_HEIGHT)
-             / Math.tan(Math.toRadians(LimelightConstants.LL_MOUNT_ANGLE + Get_ty()));
-	}
-
-  public OptionalDouble getRobotToTargetDistance_Opt(){
-    distancetoTarget = OptionalDouble.of(
-      (GoalConstants.LL_UPPER_HUB_HEIGHT - LimelightConstants.LL_MOUNT_HEIGHT)
-      / Math.tan(Math.toRadians(LimelightConstants.LL_MOUNT_ANGLE + Get_ty())));
-    return distancetoTarget;
-  }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("LimelightDistance", getRobotToTargetDistance());
   }
 
   public void reloadLimeLightSimu() {

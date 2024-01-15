@@ -433,7 +433,22 @@ public Command followPathCommand(String pathName){
     }
 
   }
-
+  public Translation2d GetRobotToSpeakerTranslation()
+  {
+    return new Translation2d();
+  }
+  public Rotation2d GetRobotToSpeakerRotation()
+  {
+    return new Rotation2d();
+  }
+  public Translation2d GetRobotToAMPTranslation()
+  {
+    return new Translation2d();
+  }
+  public Rotation2d GetRobotToAMPRotation()
+  {
+    return new Rotation2d();
+  }
   private boolean IsOpenLoopMode(){
     return isOpenLoop;
   }
