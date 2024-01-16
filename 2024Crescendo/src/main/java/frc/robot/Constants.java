@@ -61,6 +61,24 @@ public final class Constants
         
         public static final double HOOD_EJECT_ANGLE = 10;  //TODO
     }
+    public static final class IntakConstants {
+        public static final int IntakeMotorPort=0;
+        public static final int m_NoteSensor=0;
+        public static final double m_NoteInPct=0.;
+        // public static final double m_IntakeP=0.;
+        // public static final double m_IntakeI=0.;
+        // public static final double m_IntakeD=0.;
+    } 
+    public static final class ArmConstants{
+        public static final int ArmMotorPort=0;
+        public static final double ArmMovementSpeed=0.;
+        public static final double ArmDegreeTolerance=0.;
+        public static final double m_ArmP=0.;
+        public static final double m_ArmI=0.;
+        public static final double m_ArmD=0.;
+        public static final double m_ArmVelocity=0.;
+        public static final double m_ArmAcceleration=0.;
+    }
     public static final class GlobalConstants {
         public static final double kLoopTime = 0.020;
         public static final float INF = (float)Math.pow(10, 5); // This represents the Infinite
