@@ -19,6 +19,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -88,7 +89,7 @@ public class SwerveDriveTrain extends SubsystemBase {
         new Translation2d(-SwerveConstants.kLength / 2, -SwerveConstants.kWidth / 2)//back right
   );
 
-  public SwerveDriveOdometry odometry_;
+  public SwerveDrivePoseEstimator m_SwervePoseEstimator;
 
   public SwerveDriveTrain() {
 
@@ -101,7 +102,7 @@ public class SwerveDriveTrain extends SubsystemBase {
     swerve_modules_[2] = new SwerveModule(3, 4, false,  false, 711,  false, false);//back left
     swerve_modules_[3] = new SwerveModule(5, 6, false, false, 2651,  false, false);//back right
     
-  odometry_=new SwerveDriveOdometry(
+  m_SwervePoseEstimator=new SwerveDrivePoseEstimator(
     SwerveConstants.swerveKinematics,
     new Rotation2d(0),
      getModulePositions(), new Pose2d()
@@ -236,7 +237,7 @@ public Command followPathCommand(String pathName){
      * @return The pose.
      */
     public Pose2d getPose() {
-      return odometry_.getPoseMeters();
+      return m_SwervePoseEstimator.getEstimatedPosition();
     }
 
 
@@ -308,7 +309,7 @@ public Command followPathCommand(String pathName){
   }
 
   public void ResetOdometry(Pose2d pose){
-    odometry_.resetPosition(GetGyroRotation2d(), getModulePositions(),pose);
+    m_SwervePoseEstimator.resetPosition(GetGyroRotation2d(), getModulePositions(),pose);
     //for (int i = 0 ; i < swerve_modules_.length; i++){
     //  swerve_modules_[i].setPose(pose);
     //}
@@ -348,7 +349,7 @@ public Command followPathCommand(String pathName){
   }
 
   public void resetOdometry(){
-    odometry_.resetPosition(new Rotation2d(),getModulePositions(),new Pose2d());
+    m_SwervePoseEstimator.resetPosition(new Rotation2d(),getModulePositions(),new Pose2d());
   }
 
   public SwerveModuleState[] getStates(){
@@ -414,7 +415,7 @@ public Command followPathCommand(String pathName){
       moduleStates[i].speedMetersPerSecond*=Constants.SwerveConstants.VelocityCorrectionFactor;
     }
     // This method will be called once per scheduler run
-    odometry_.update(
+    m_SwervePoseEstimator.update(
       GetGyroRotation2d(), 
       getModulePositions());
 
