@@ -12,15 +12,18 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
+import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.ShooterConstants;
 
 public class Shooter extends SubsystemBase {
     public static Shooter m_Instance;
     TalonFX m_ShooterLeft;
     TalonFX m_ShooterRght;
+    double    m_TargetSpeed=0.;
     MotorOutputConfigs m_LeftMotorOutputConfigs=new MotorOutputConfigs();
     MotorOutputConfigs m_RghtMorotOutputConfigs=new MotorOutputConfigs();
     Slot0Configs m_Slot0Configs=new Slot0Configs();
-    VelocityDutyCycle m_VelocityDutyCycle =new VelocityDutyCycle(0, 0, false, Constants.ShooterConstants.kShootF, 0, false, true, true);
+    VelocityDutyCycle m_VelocityDutyCycle =new VelocityDutyCycle(0, 0, false, Constants.ShooterConstants.kShooterF, 0, false, true, true);
     VoltageConfigs m_VoltageConfigs=new VoltageConfigs();
     
     Shooter()
@@ -35,13 +38,12 @@ public class Shooter extends SubsystemBase {
      */
     void SetRPS(double _RPS)
     {
-        if(!m_Enabled) return;
         m_TargetSpeed = _RPS;
         if(_RPS == 0){
             m_ShooterLeft.stopMotor();
         }
         else{
-            m_ShooterLeft.setControl(m_request.withVelocity(_RPS));
+            m_ShooterLeft.setControl(m_VelocityDutyCycle.withVelocity(_RPS));
         }
     }
     /**
@@ -49,20 +51,18 @@ public class Shooter extends SubsystemBase {
      */
     double GetRPS()
     {
-        if(m_Enabled){
             return m_ShooterLeft.getVelocity().getValue();
-        }
-        return 0.;
     }
     /**
      * Get the Target Rotation speed of the shooter, Positive stands for get the Note out
      */
     double GetTargetRPS()
     {
-        if(m_Enabled){
             return m_TargetSpeed;
-        }
-        return 0.;
+    }
+    double GetShooterError()
+    {
+        return m_ShooterLeft.getClosedLoopError().getValueAsDouble();
     }
     /**
      * Is shooter at TargetRPM
@@ -71,7 +71,7 @@ public class Shooter extends SubsystemBase {
     boolean IsAtTargetRPM()
     {
 
-        return true;
+        return m_ShooterLeft.getClosedLoopError().getValue()<=Constants.ShooterConstants.kShooterTorlerance;
     }
     public Shooter GetInstance()
     {
