@@ -1,9 +1,33 @@
 package frc.robot.Subsystems;
 
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.VoltageConfigs;
+import com.ctre.phoenix6.controls.VelocityDutyCycle;
+import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
     public static Shooter m_Instance;
+    TalonFX m_ShooterLeft;
+    TalonFX m_ShooterRght;
+    MotorOutputConfigs m_LeftMotorOutputConfigs=new MotorOutputConfigs();
+    MotorOutputConfigs m_RghtMorotOutputConfigs=new MotorOutputConfigs();
+    Slot0Configs m_Slot0Configs=new Slot0Configs();
+    VelocityDutyCycle m_VelocityDutyCycle =new VelocityDutyCycle(0, 0, false, Constants.ShooterConstants.kShootF, 0, false, true, true);
+    VoltageConfigs m_VoltageConfigs=new VoltageConfigs();
+    
+    Shooter()
+    {
+        m_LeftMotorOutputConfigs.NeutralMode=NeutralModeValue.Coast;
+        m_LeftMotorOutputConfigs.Inverted=InvertedValue.Clockwise_Positive;
+        
+    }
     /**
      * Set the Rotation speed of the shooter, Positive stands for get the Note out
      * @param _RPS
@@ -26,10 +50,6 @@ public class Shooter extends SubsystemBase {
     boolean IsAtTargetRPM()
     {
         return true;
-    }
-    Shooter()
-    {
-
     }
     public Shooter GetInstance()
     {
