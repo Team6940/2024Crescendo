@@ -87,7 +87,7 @@ public final class Constants
         };
         public static final LinearInterpolationTable kHoodTable = new LinearInterpolationTable(kHoodPoints);
     
-        private static final Point2D[] kRPMPoints = new Point2D.Double[] {
+        private static final Point2D[] kRPSPoints = new Point2D.Double[] {
             // (distance, shooterSpeedRPM)
             new Point2D.Double(2.48/*90*/, 2300), //
             new Point2D.Double(3/*135*/, 2400), //
@@ -101,7 +101,7 @@ public final class Constants
             new Point2D.Double(7.06/*270*/, 2720),
             new Point2D.Double(7.53/*270*/, 2720),
         };        
-        public static final LinearInterpolationTable kRPMTable = new LinearInterpolationTable(kRPMPoints);
+        public static final LinearInterpolationTable kRPMTable = new LinearInterpolationTable(kRPSPoints);
 
         private static final Point2D[] kShotTimes = new Point2D.Double[] {
         // (ty-angle,time)
@@ -116,22 +116,10 @@ public final class Constants
         public static final double SHOOTER_MOUNT_HEIGHT = 0.83;  //SHOOTER高度  //TODO
         public static final int SHOOT_L_MASTER_ID = 10;  //TODO
         public static final int SHOOT_R_MASTER_ID = 18;  //TODO
-        public static final double SHOOTER_KS = 0 / 12;
-        public static final double SHOOTER_KV = 0 / 12;
-        public static final double SHOOTER_KA = 0 / 12;
-        public static final double ShootingDegreeTolerance= 3.;
-        public static final double ShootingFixSpeed = 1;
-        public static final double kFlywheelIdleVelocity = 1000; //RPM //TODO
-        public static double kFlyWheelEncoderReductionRatio =  1 ;  //TODO
-        public static double kFlyWheelWheelDiameter = 0.108;//The unit is meter //TODO
-        public static double kFlyWheelWheelDefaultSpeed = 3.0;  //meters/s //TODO
-        public static double kShooterTolerance = 80; //RPM //TODO
-        public static double kPreventShooterOscilliationRPM = 20;
-        public static double kFlyWheelCircumference = Math.PI * kFlyWheelWheelDiameter;
-        public static double kShootOneBallTime = 1.5; //TODO every one shooting ball time(seconds)
-        public static double kWaitBallTime = 0.5;
-        public static double kShootTestTime = 1;
-        public static double kShootOneWrongBallTime = 0.5 ; //TODO every one shooting ball time(seconds)
+        public static final double kShootP=0.1;
+        public static final double kShootI=0.;
+        public static final double kShootD=0.;
+        public static final double kShootF=0.;
     
         public static final double [] angleCoefficients = {-0.00074772,	0.00107806,	-0.00056204, -0.000010622,
                         0.01432893, -0.13352268, 0.00632465, 0.1574279, -0.01956647, 1.49045868};
@@ -152,13 +140,13 @@ public final class Constants
         public static final double LL_MOUNT_ANGLE = 0.; /* limelight竖直方向固定角度，+ is up */   //TODO
         public static final double kTrackTolerance = 0.; // Allowable Limelight angle(degree) error in radians //TODO
         public static final Translation3d[] Apriltag_Position = {       //x is for front/back, y is for left/right, z is for height
-            //TODO
+            //TODO, 到时候记得在前面塞一个占位0
         };
-        public static final Translation3d[] Apriltag_Facing = {
-            //TODO
+        public static final double[] Apriltag_Facing={  //apriltag与场地长边平行线右上夹角
+            //the unit is rotation
+            //TODO, 到时候记得在前面塞一个占位0
         };
-}
-    
+    }
     public static final class GoalConstants {
         public static final Translation2d kGoalLocation = new Translation2d(8.23, 4.115);
         public static final Translation2d kWrongBallGoal = new Translation2d(5.50, 4.115);
@@ -331,5 +319,7 @@ public final class Constants
         public static double SHOOTER_KP = 0.;             //TODO
         public static double SHOOTER_KI = 0.;             //TODO
         public static double SHOOTER_KD = 0.;             //TODO
+        public static double kShooterTolerance = 0.;      //TODO
     }
 }
+
