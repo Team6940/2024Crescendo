@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
@@ -67,10 +68,17 @@ public final class Constants
     
     public static final class LimelightConstants {
         // Limelight Constants
-        public static final double kHorizAngleCorrection = 2.5;   // + is left
-        public static final double LL_MOUNT_HEIGHT = 0.95;  /* limelight 固定height */  //TODO
-        public static final double LL_MOUNT_ANGLE = 30; /* limelight固定角度 */   //TODO
-        public static final double kTrackTolerance = 1.146; // Allowable Limelight angle(degree) error in radians //TODO
+        public static final double LL_HORIZONTAL_CORRECTION = 0.;   //limelight水平修正， + is left
+        public static final Translation3d LL_POS_TO_ROBOT =        //limelight相对外框中心位置
+            new Translation3d(0., 0., 0.);  //TODO
+        public static final double LL_MOUNT_ANGLE = 0.; /* limelight竖直方向固定角度，+ is up */   //TODO
+        public static final double kTrackTolerance = 0.; // Allowable Limelight angle(degree) error in radians //TODO
+        public static final Translation3d[] Apriltag_Position = {       //x is for front/back, y is for left/right, z is for height
+            //TODO
+        };
+        public static final Translation3d[] Apriltag_Facing = {
+            //TODO
+        };
 }
     
     public static final class GoalConstants {

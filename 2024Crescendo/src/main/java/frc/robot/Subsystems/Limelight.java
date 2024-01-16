@@ -172,15 +172,15 @@ private static LinearInterpolationTable distTable = new LinearInterpolationTable
      * @return the distance to the target in meters
   */
   public double getDistance() {  //TODO
-      final double tx = Get_tx();
-      final double tyAdj = (Get_ty() -0.0084125*tx*tx)/(0.000267*tx*tx+1.0); //New geometric correction function
-      final double distance = distTable.getOutput(tyAdj);
-      SmartDashboard.putNumber("Limelight ty", Get_ty());
-      SmartDashboard.putNumber("LimelightDistance", distance);
-      return distance;
+      
   }
 
 public Pose2d getPose() {
-    return null;
+  if(isTargetVisible()==false) {
+    //TODO 报错
+    return new Pose2d();
+  }
+  
+  return null;
 }
 }
