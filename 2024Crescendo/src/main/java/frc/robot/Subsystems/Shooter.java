@@ -34,7 +34,7 @@ public class Shooter extends SubsystemBase {
     private TalonFXConfiguration m_Shooter_Configuration = new TalonFXConfiguration();
     final DutyCycleOut m_Shooter_DutyCycleOut = new DutyCycleOut(0);
     final VelocityDutyCycle m_request = new VelocityDutyCycle(0, 0, false, 0, 0, true, true, true);
-    private boolean m_Enabled = true;
+    // private boolean m_Enabled = true;
     private double m_TargetSpeed;   //Parametre is RPS;
     Shooter()
     {
@@ -70,34 +70,34 @@ public class Shooter extends SubsystemBase {
      */
     void SetRPS(double _RPS)
     {
-        if(!m_Enabled) return;
+        // if(!m_Enabled) return;
         m_TargetSpeed = _RPS;
-        if(_RPS == 0){
-            m_ShooterLeft.stopMotor();
-        }
-        else{
+        // if(_RPS == 0){
+        //     m_ShooterLeft.stopMotor();
+        // }
+        // else{
             m_ShooterLeft.setControl(m_request.withVelocity(_RPS));
-        }
+        // }
     }
     /**
      * Get the Rotation speed of the shooter, Positive stands for get the Note out
      */
     double GetRPS()
     {
-        if(m_Enabled){
+        // if(m_Enabled){
             return m_ShooterLeft.getVelocity().getValue();
-        }
-        return 0.;
+        // }
+        // return 0.;
     }
     /**
      * Get the Target Rotation speed of the shooter, Positive stands for get the Note out
      */
     double GetTargetRPS()
     {
-        if(m_Enabled){
+        // if(m_Enabled){
             return m_TargetSpeed;
-        }
-        return 0.;
+        // }
+        // return 0.;
     }
     /**
      * Is shooter at TargetRPM
@@ -105,10 +105,10 @@ public class Shooter extends SubsystemBase {
      */
     boolean IsAtTargetRPM()
     {
-        if(m_Enabled){
+        // if(m_Enabled){
             return Math.abs(GetRPS()-GetTargetRPS())<LPX_ShooterConstants.kShooterTolerance;
-        }
-        return false;
+        // }
+        // return false;
     }
     //TODO Dashboard Related;
 }
