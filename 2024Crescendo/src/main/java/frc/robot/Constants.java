@@ -305,4 +305,11 @@ public final class Constants
         public static final int ClimberBackUnits=400000;//TODO
         public static final int ClimberPort=16;
     }
+    public static class LPX_ShooterConstants{
+        public static final int SHOOTER_L_MASTER_ID = 0;  //TODO
+        public static final int SHOOTER_R_MASTER_ID = 0;  //TODO
+        public static double SHOOTER_KP = 0.;             //TODO
+        public static double SHOOTER_KI = 0.;             //TODO
+        public static double SHOOTER_KD = 0.;             //TODO
+    }
 }

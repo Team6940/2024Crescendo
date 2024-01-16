@@ -10,6 +10,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
@@ -34,13 +35,33 @@ public class Shooter extends SubsystemBase {
      */
     void SetRPS(double _RPS)
     {
-
+        if(!m_Enabled) return;
+        m_TargetSpeed = _RPS;
+        if(_RPS == 0){
+            m_ShooterLeft.stopMotor();
+        }
+        else{
+            m_ShooterLeft.setControl(m_request.withVelocity(_RPS));
+        }
     }
     /**
      * Get the Rotation speed of the shooter, Positive stands for get the Note out
      */
     double GetRPS()
     {
+        if(m_Enabled){
+            return m_ShooterLeft.getVelocity().getValue();
+        }
+        return 0.;
+    }
+    /**
+     * Get the Target Rotation speed of the shooter, Positive stands for get the Note out
+     */
+    double GetTargetRPS()
+    {
+        if(m_Enabled){
+            return m_TargetSpeed;
+        }
         return 0.;
     }
     /**
@@ -49,11 +70,12 @@ public class Shooter extends SubsystemBase {
      */
     boolean IsAtTargetRPM()
     {
+
         return true;
     }
     public Shooter GetInstance()
     {
         return m_Instance==null?m_Instance=new Shooter():m_Instance;
     }
-    
+    //TODO Dashboard Related;
 }
