@@ -172,15 +172,31 @@ private static LinearInterpolationTable distTable = new LinearInterpolationTable
      * @return the distance to the target in meters
   */
   public double getDistance() {  //TODO
-      final double tx = Get_tx();
-      final double tyAdj = (Get_ty() -0.0084125*tx*tx)/(0.000267*tx*tx+1.0); //New geometric correction function
-      final double distance = distTable.getOutput(tyAdj);
-      SmartDashboard.putNumber("Limelight ty", Get_ty());
-      SmartDashboard.putNumber("LimelightDistance", distance);
-      return distance;
+    final int id=(int)m_limTable.getEntry("tid").getDouble(0);
+    final double ty=m_limTable.getEntry("ty").getDouble(0);
+    final double height =LimelightConstants.Apriltag_Position[id].getZ();
+    final double distance=height/Math.atan(Math.toRadians(ty));
+    return distance;
   }
 
-public Pose2d getPose() {
-    return null;
-}
+  public double getRotation(){
+    //TODO
+    return 0;
+  };
+
+  public Pose2d getPose() {
+    if(isTargetVisible()==false) {
+      //TODO 报错
+      return new Pose2d();
+    }
+    final int id=(int)m_limTable.getEntry("tid").getDouble(0);
+    final double AprX =LimelightConstants.Apriltag_Position[id].getX();
+    final double AprY =LimelightConstants.Apriltag_Position[id].getY();
+    final double AprRad = LimelightConstants.Apriltag_Facing[id];
+    final double addangel = m_limTable.getEntry("camerapose_targetspace").getDoubleArray(new double[6])[5];
+    Rotation2d rt=new Rotation2d(AprRad+addangel-Math.PI);
+    double newX = AprX+Math.acos(AprRad+addangel-Math.PI);
+    double newY = AprY+Math.asin(AprRad+addangel-Math.PI);
+  return new Pose2d(newX, newY, rt);
+  }
 }
