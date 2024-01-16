@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
@@ -133,12 +134,19 @@ public final class Constants
     
     public static final class LimelightConstants {
         // Limelight Constants
-        public static final double kHorizAngleCorrection = 2.5;   // + is left
-        public static final double LL_MOUNT_HEIGHT = 0.95;  /* limelight 固定height */  //TODO
-        public static final double LL_MOUNT_ANGLE = 30; /* limelight固定角度 */   //TODO
-        public static final double kTrackTolerance = 1.146; // Allowable Limelight angle(degree) error in radians //TODO
-}
-    
+        public static final double LL_HORIZONTAL_CORRECTION = 0.;   //limelight水平修正， + is left
+        public static final Translation3d LL_POS_TO_ROBOT =        //limelight相对外框中心位置
+            new Translation3d(0., 0., 0.);  //TODO
+        public static final double LL_MOUNT_ANGLE = 0.; /* limelight竖直方向固定角度，+ is up */   //TODO
+        public static final double kTrackTolerance = 0.; // Allowable Limelight angle(degree) error in radians //TODO
+        public static final Translation3d[] Apriltag_Position = {       //x is for front/back, y is for left/right, z is for height
+            //TODO, 到时候记得在前面塞一个占位0
+        };
+        public static final double[] Apriltag_Facing={  //apriltag与场地长边平行线右上夹角
+            //the unit is rotation
+            //TODO, 到时候记得在前面塞一个占位0
+        };
+    }
     public static final class GoalConstants {
         public static final Translation2d kGoalLocation = new Translation2d(8.23, 4.115);
         public static final Translation2d kWrongBallGoal = new Translation2d(5.50, 4.115);
@@ -311,5 +319,7 @@ public final class Constants
         public static double SHOOTER_KP = 0.;             //TODO
         public static double SHOOTER_KI = 0.;             //TODO
         public static double SHOOTER_KD = 0.;             //TODO
+        public static double kShooterTolerance = 0.;      //TODO
     }
 }
+
