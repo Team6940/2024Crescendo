@@ -92,13 +92,13 @@ public final class Constants
         public static final double LL_MOUNT_ANGLE = 0.; /* limelight竖直方向固定角度，+ is up */   //TODO
         public static final double kTrackTolerance = 0.; // Allowable Limelight angle(degree) error in radians //TODO
         public static final Translation3d[] Apriltag_Position = {       //x is for front/back, y is for left/right, z is for height
-            //TODO
+            //TODO, 到时候记得在前面塞一个占位0
         };
-        public static final Translation3d[] Apriltag_Facing = {
-            //TODO
+        public static final double[] Apriltag_Facing={  //apriltag与场地长边平行线右上夹角
+            //the unit is rotation
+            //TODO, 到时候记得在前面塞一个占位0
         };
-}
-    
+    }
     public static final class GoalConstants {
         public static final Translation2d kGoalLocation = new Translation2d(8.23, 4.115);
         public static final Translation2d kWrongBallGoal = new Translation2d(5.50, 4.115);
@@ -308,3 +308,4 @@ public final class Constants
 
     }
 }
+
