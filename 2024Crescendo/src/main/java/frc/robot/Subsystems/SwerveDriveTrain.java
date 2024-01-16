@@ -19,6 +19,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -88,7 +89,7 @@ public class SwerveDriveTrain extends SubsystemBase {
         new Translation2d(-SwerveConstants.kLength / 2, -SwerveConstants.kWidth / 2)//back right
   );
 
-  public SwerveDriveOdometry odometry_;
+  public SwerveDrivePoseEstimator odometry_;
 
   public SwerveDriveTrain() {
 
@@ -101,7 +102,7 @@ public class SwerveDriveTrain extends SubsystemBase {
     swerve_modules_[2] = new SwerveModule(3, 4, false,  false, 711,  false, false);//back left
     swerve_modules_[3] = new SwerveModule(5, 6, false, false, 2651,  false, false);//back right
     
-  odometry_=new SwerveDriveOdometry(
+  odometry_=new SwerveDrivePoseEstimator(
     SwerveConstants.swerveKinematics,
     new Rotation2d(0),
      getModulePositions(), new Pose2d()
