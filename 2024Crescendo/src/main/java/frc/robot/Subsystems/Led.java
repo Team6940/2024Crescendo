@@ -8,6 +8,6 @@ public class Led extends SubsystemBase{
 
     }
     public static Led GetInstance(){
-        return m_Instance==null?new Led():m_Instance;
+        return m_Instance==null?m_Instance = new Led():m_Instance;
     }
 }
