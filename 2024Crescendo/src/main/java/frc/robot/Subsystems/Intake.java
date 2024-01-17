@@ -23,24 +23,24 @@ public class Intake extends SubsystemBase {
      * Set the output of the intake 1 stands for taking the note in
      * @param _Out range -1 to 1
      */
-    void SetIntakeOutput(double _Out)
+    public void SetIntakeOutput(double _Out)
     {
         m_Intake.set(_Out);
     }
-    double GetIntakeOutput(){
+    public double GetIntakeOutput(){
         return m_Intake.get();
     }
     /**
      * Is there a note in the intake?
      * @return true stands for there is a note
      */
-    boolean HasNote(){
+    public boolean HasNote(){
         return !m_InfraredNoteSensor.get();//有球1没球0
     }
     /**
      * Get the Note into the intake and stop rotating when there is a note
      */
-    void NoteIn()
+    public void NoteIn()
     {
         if(HasNote()) SetIntakeOutput(0);
         else SetIntakeOutput(IntakConstants.m_NoteInPct);
@@ -48,7 +48,7 @@ public class Intake extends SubsystemBase {
     /**
      * Get the Note out of the Intake into the shooter , keep rotating until there is no Note in the Intake
      */
-    void NoteOut()
+    public void NoteOut()
     {
         if(!HasNote()) SetIntakeOutput(0);
         else SetIntakeOutput(IntakConstants.m_NoteInPct);
@@ -67,7 +67,7 @@ public class Intake extends SubsystemBase {
         m_Intake.getConfigurator().apply(m_IntakeOutputConfigs);
         m_Intake.getConfigurator().apply(m_Slot0Configs);
     }
-    public Intake GetInstance()
+    public static Intake GetInstance()
     {
         return m_Instance==null?m_Instance=new Intake():m_Instance;
     }

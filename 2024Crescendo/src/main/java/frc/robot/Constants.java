@@ -70,14 +70,14 @@ public final class Constants
         // public static final double m_IntakeD=0.;
     } 
     public static final class ArmConstants{
-        public static final int ArmMotorPort=0;
-        public static final double ArmMovementSpeed=0.;
-        public static final double ArmDegreeTolerance=0.;
-        public static final double m_ArmP=0.;
-        public static final double m_ArmI=0.;
-        public static final double m_ArmD=0.;
-        public static final double m_ArmVelocity=0.;
-        public static final double m_ArmAcceleration=0.;
+        public static final int ArmMotorPort=0;             //TODO
+        public static final double ArmMovementSpeed=0.;     //TODO
+        public static final double ArmDegreeTolerance=0.;   //TODO
+        public static final double m_ArmP=0.;               //TODO
+        public static final double m_ArmI=0.;               //TODO
+        public static final double m_ArmD=0.;               //TODO
+        public static final double m_ArmVelocity=0.;        //TODO
+        public static final double m_ArmAcceleration=0.;    //TODO
     }
     public static final class GlobalConstants {
         public static final double kLoopTime = 0.020;
@@ -272,7 +272,7 @@ public final class Constants
         public static double SHOOTER_KI = 0.;             //TODO
         public static double SHOOTER_KD = 0.;      
         public static double kShooterF=0.;       //TODO
-        public static double kShooterTorlerance=0.;//TODO
+        public static double kShooterTolerance=0.;//TODO
         private static final Point2D[] kHoodPoints = new Point2D.Double[] {
             // (distance, ty-angle)
             new Point2D.Double(2.48/*90*/,7), //
@@ -305,6 +305,21 @@ public final class Constants
         };        
         public static final LinearInterpolationTable kRPMTable = new LinearInterpolationTable(kRPSPoints);
 
+    }
+    public static class CommandConstants{
+        public enum ShootingMode{
+            Default, SpeakerPos1, SpeakerPos2, AMP, NotePassing;
+        }
+        public static Point2D[] kShootingSets = new Point2D.Double[]{   //x是角度，y是转速（RPS）
+            new Point2D.Double(0.,0.),  //TODO Default
+            new Point2D.Double(0.,0.),  //TODO SpeakerPos1
+            new Point2D.Double(0.,0.),  //TODO SpeakerPos2
+            new Point2D.Double(0.,0.),  //TODO AMP
+            new Point2D.Double(0.,0.),  //TODO NotePassing
+        };
+        public static final double kClimbDegree=0.0;//TODO 爬链角度
+        public static final double kClimbDefaultDegree=0.0;//TODO 放下arm的角度
+        public static final double kClimbOpenDegree=0.0;//TODO 打开角度
 
     }
 }

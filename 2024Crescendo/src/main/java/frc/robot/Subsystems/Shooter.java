@@ -39,7 +39,7 @@ public class Shooter extends SubsystemBase {
     {
         ShooterConfig();
     }
-    public Shooter GetInstance()
+    public static Shooter GetInstance()
     {
         return m_Instance==null?m_Instance=new Shooter():m_Instance;
     }
@@ -67,7 +67,7 @@ public class Shooter extends SubsystemBase {
      * Set the Rotation speed of the shooter, Positive stands for get the Note out
      * @param _RPS
      */
-    void SetRPS(double _RPS)
+    public void SetRPS(double _RPS)
     {
         // if(!m_Enabled) return;
         m_TargetSpeed = _RPS;
@@ -81,7 +81,7 @@ public class Shooter extends SubsystemBase {
     /**
      * Get the Rotation speed of the shooter, Positive stands for get the Note out
      */
-    double GetRPS()
+    public double GetRPS()
     {
         // if(m_Enabled){
             return m_ShooterLeft.getVelocity().getValue();
@@ -91,7 +91,7 @@ public class Shooter extends SubsystemBase {
     /**
      * Get the Target Rotation speed of the shooter, Positive stands for get the Note out
      */
-    double GetTargetRPS()
+    public double GetTargetRPS()
     {
         // if(m_Enabled){
             return m_TargetSpeed;
@@ -102,10 +102,10 @@ public class Shooter extends SubsystemBase {
      * Is shooter at TargetRPM
      * @return true means the shooter is at Target RPM
      */
-    boolean IsAtTargetRPM()
+    public boolean IsAtTargetRPS()
     {
         // if(m_Enabled){
-            return Math.abs(GetRPS()-GetTargetRPS())<ShooterConstants.kShooterTorlerance;
+            return Math.abs(GetRPS()-GetTargetRPS())<ShooterConstants.kShooterTolerance;
         // }
         // return false;
     }
