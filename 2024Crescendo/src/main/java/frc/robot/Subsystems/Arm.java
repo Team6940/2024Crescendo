@@ -57,7 +57,7 @@ public class Arm extends SubsystemBase{
     {
          return m_ArmMotor.getPosition().getValue()*360.;
     }
-    public Arm GetInstance()
+    public static Arm GetInstance()
     {
         return m_Instance==null?m_Instance=new Arm():m_Instance;
     }

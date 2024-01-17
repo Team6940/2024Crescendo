@@ -39,7 +39,7 @@ public class Shooter extends SubsystemBase {
     {
         ShooterConfig();
     }
-    public Shooter GetInstance()
+    public static Shooter GetInstance()
     {
         return m_Instance==null?m_Instance=new Shooter():m_Instance;
     }

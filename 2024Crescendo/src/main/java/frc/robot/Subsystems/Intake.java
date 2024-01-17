@@ -67,7 +67,7 @@ public class Intake extends SubsystemBase {
         m_Intake.getConfigurator().apply(m_IntakeOutputConfigs);
         m_Intake.getConfigurator().apply(m_Slot0Configs);
     }
-    public Intake GetInstance()
+    public static Intake GetInstance()
     {
         return m_Instance==null?m_Instance=new Intake():m_Instance;
     }
