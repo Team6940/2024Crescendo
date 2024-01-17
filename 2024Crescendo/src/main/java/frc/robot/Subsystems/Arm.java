@@ -22,7 +22,7 @@ import com.ctre.phoenix6.controls.VoltageOut;
 public class Arm extends SubsystemBase{
     public static Arm m_Instance;
     private static TalonFX m_ArmMotor;
-
+    private double m_TargetPosition;    //parametre is degrees;
     private TalonFXConfiguration m_TalonFXConfiguration=new TalonFXConfiguration();
     private MotionMagicDutyCycle m_MotionMagicDutyCycle=new MotionMagicDutyCycle(0, false, 0.3, 0, true, false, false);
     
@@ -45,17 +45,28 @@ public class Arm extends SubsystemBase{
      * Set the arm to the target Position
      * @param _Degree degree
      */
-    void SetArmPosition(double _Degree)
+    public void SetArmPosition(double _Degree)
     {
+        m_TargetPosition=_Degree;
         m_ArmMotor.setControl(m_MotionMagicDutyCycle.withPosition(_Degree/360.));
     }
     /**
      * Get the Arm's Postion In degree
      * @return the Arm's Position Compare to the Initial Degree
      */
-    double GetArmPosition()
+    public double GetArmPosition()
     {
          return m_ArmMotor.getPosition().getValue()*360.;
+    }
+    /*
+     * Get the Arm's Position in degrees
+     * @return the Arm's Target Position Comapred to the Initial Position
+     */
+    public double GetTargetPosition(){
+        return m_TargetPosition;
+    }
+    public boolean IsAtTargetPosition(){
+        return Math.abs(GetArmPosition()-GetTargetPosition())<ArmConstants.ArmDegreeTolerance;
     }
     public static Arm GetInstance()
     {
