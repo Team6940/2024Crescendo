@@ -44,7 +44,7 @@ public class Climb extends Command{
     @Override
     public void end(boolean interrupted)
     {
-        RobotContainer.m_Arm.SetArmPosition(CommandConstants.kClimbDefaultDegree);
+        RobotContainer.m_Arm.SetArmPosition(CommandConstants.kClimbOpenDegree);
     }
     @Override
     public boolean isFinished() 
