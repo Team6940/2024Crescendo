@@ -56,7 +56,7 @@ public class Shoot extends Command{
         if(m_State == ShooterState.Aiming)
             Aim();
         if(m_State == ShooterState.Shooting)
-            Shoot();
+            Shooting();
     }
     void Aim(){
         RobotContainer.m_Arm.SetArmPosition(m_ShootAngle);
@@ -64,7 +64,7 @@ public class Shoot extends Command{
         if(RobotContainer.m_Arm.IsAtTargetPosition()&&RobotContainer.m_Shooter.IsAtTargetRPS())
             m_State = ShooterState.Shooting;
     }
-    void Shoot(){
+    void Shooting(){
         if(m_Mode == CommandConstants.ShootingMode.AMP)
         {
             if(RobotContainer.m_driverController.getAButton()){     //TODO 哪个键？
