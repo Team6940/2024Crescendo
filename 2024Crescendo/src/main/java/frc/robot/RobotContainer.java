@@ -7,30 +7,20 @@ package frc.robot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-<<<<<<< Updated upstream
 import frc.robot.Subsystems.Shooter;
 import frc.robot.Subsystems.Intake;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.Led;
-=======
->>>>>>> Stashed changes
 import frc.robot.Subsystems.Limelight;
 import frc.robot.Subsystems.SwerveDriveTrain;
 
 public class RobotContainer {
-<<<<<<< Updated upstream
-  public static SwerveDriveTrain m_swerve = SwerveDriveTrain.getInstance();
-  public static Shooter m_Shooter = Shooter.GetInstance();
-  public static Arm m_Arm = Arm.GetInstance();
-  public static Intake m_Intake = Intake.GetInstance();
-  public static Limelight m_Limelight = Limelight.GetInstance();
-  public static Led m_Led = Led.GetInstance();
-  public static XboxController m_driverController= new XboxController(0);
-=======
    public static SwerveDriveTrain m_swerve = null;
    public static Limelight m_Limelight= Limelight.GetInstance();
+   public static Arm m_Arm=Arm.GetInstance();
+   public static Shooter m_Shooter=Shooter.GetInstance();
+   public static Intake m_Intake=Intake.GetInstance();
  public static XboxController m_driverController= new XboxController(0);
->>>>>>> Stashed changes
   
   public RobotContainer() {
     configureBindings();

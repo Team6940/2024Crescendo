@@ -308,7 +308,7 @@ public final class Constants
     }
     public static class CommandConstants{
         public enum ShootingMode{
-            Default, SpeakerPos1, SpeakerPos2, AMP, NotePassing;
+            Default, SpeakerPos1, SpeakerPos2, AMP, NotePassing, Auto;
         }
         public static Point2D[] kShootingSets = new Point2D.Double[]{   //x是角度，y是转速（RPS）
             new Point2D.Double(0.,0.),  //TODO Default

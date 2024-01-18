@@ -75,36 +75,4 @@ private static LinearInterpolationTable distTable = new LinearInterpolationTable
     // This method will be called once per scheduler run
   }
 
-<<<<<<< Updated upstream
-  public void reloadLimeLightSimu() {
-    simTx = constTx ;
-    simTy = constTy;
-    simTv = constTv ;
-    simuTxStop = 0;
-  }
-
-  /**
-     * Uses tuned interpolation table to report distance
-     *
-     * @return the distance to the target in meters
-  */
-  public double GetDistance() {  //TODO
-    final double _DeltaX = m_limTable.getEntry("camerapose_targetspace").getDoubleArray(new double[6])[0];
-    final double _DeltaY = m_limTable.getEntry("camerapose_targetspace").getDoubleArray(new double[6])[1];
-    final double _Distance=Math.sqrt(_DeltaX*_DeltaX+_DeltaY*_DeltaY);
-    return _Distance;
-  }
-
-  public double GetRotation(){
-    final int id=(int)m_limTable.getEntry("tid").getDouble(0);
-    final double AprRad = LimelightConstants.Apriltag_Facing[id];
-    final double addangel = m_limTable.getEntry("camerapose_targetspace").getDoubleArray(new double[6])[5];
-    return AprRad+addangel-2*Math.PI;
-  };
-
-  public Pose2d GetPose() {
-    return null;
-  }
-=======
->>>>>>> Stashed changes
 }
