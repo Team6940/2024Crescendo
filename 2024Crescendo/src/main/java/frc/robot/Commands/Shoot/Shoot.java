@@ -115,7 +115,10 @@ public class Shoot extends Command{
     public boolean isFinished() 
     {
         // if(!RobotContainer.m_Intake.HasNote()) return true;
-        if(!RobotContainer.m_driverController.getAButton()) return true;    //TODO 哪个键？
+        if(!RobotContainer.m_driverController.getLeftBumper()&&m_Mode==CommandConstants.ShootingMode.AMP) return true;    //TODO 哪个键？
+        if(!RobotContainer.m_driverController.getRightBumper()&&m_Mode==CommandConstants.ShootingMode.Auto) return true;    //TODO 哪个键？
+        if(!RobotContainer.m_driverController.getAButton()&&m_Mode==CommandConstants.ShootingMode.SpeakerPos1) return true;    //TODO 哪个键？
+        
         return false;
     }
 }
