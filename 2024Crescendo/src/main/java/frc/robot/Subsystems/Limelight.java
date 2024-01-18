@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.Constants.GoalConstants;
 import frc.robot.Constants.LimelightConstants;
+import frc.robot.Library.LimelightHelper.LimelightHelpers;
 import frc.robot.Library.team1706.LinearInterpolationTable;
 
 import java.awt.geom.Point2D;
@@ -66,99 +67,15 @@ private static LinearInterpolationTable distTable = new LinearInterpolationTable
     }
     return instance;
   }
-  public double Get_tx(){
-    tx = m_limTable.getEntry("tx").getDouble(0.0);
-    if (RobotBase.isSimulation()){
-      if(simTx >= 0.2){
-        simTx = simTx-0.2;
-      }
-      tx = simTx; 
-    }
-    SmartDashboard.putNumber("Debug/Limglight/tx", tx);
-    return tx;
-  }
-
-  public double Get_ty(){
-    ty = m_limTable.getEntry("ty").getDouble(0.0);
-    if (RobotBase.isSimulation()){
-      if(simTy >= 0.2){
-        simTy = simTy-0.2;
-      }
-      ty = simTy; 
-    }
-    SmartDashboard.putNumber("Debug/Limglight/ty", ty);
-    return ty;
-  }
-
-  public double Get_ta(){
-    ta = m_limTable.getEntry("ta").getDouble(0);
-    return ta;
-  }
-
-  public double Get_tv(){
-    tv = m_limTable.getEntry("tv").getDouble(0);
-    if (RobotBase.isSimulation()){
-      simTv = simTv-0.5;
-      if( simTv <= 1.0){
-        simTv = 1.0;
-      }
-      tv = simTv; 
-    }
-    SmartDashboard.putNumber("Debug/Limglight/tv", tv);
-    return tv;
-  }
-
-  public boolean isTargetVisible() {
-    return (Get_tv() == 1.0);
-}
-/**
- * 
- * @param mode 0-defalt 1-off 2-blink 3-on
- */
-  public void setLightMode(int mode){
-    m_limTable.getEntry("ledMode").setNumber(mode);
-  }
-
-  public double getLightMode(){
-    return m_limTable.getEntry("ledMode").getDouble(0);
-  }
-
-
-  public double limelightXPID(double tx){
-    double kP = 0.008;
-    double correctionMin = 0.003;
-    double deadZone = 0.05;
-    double correction = tx * kP;
-    if(correction < correctionMin) {
-      correction = Math.copySign(correctionMin, correction);
-    }
-    if(Math.abs(tx) < deadZone){
-      correction = 0;
-    }
-    return correction;
-  }
-
-  public double limelightYPID(double ty){
-    double kP = 0.008;
-    double correctionMin = 0.003;
-    double deadZone = 0.05;
-    double correction = ty * kP;
-    if(correction < correctionMin){
-      correction = Math.copySign(correctionMin, correction);
-    }
-    if(Math.abs(ty)< deadZone){
-      correction = 0;
-    }
-    return correction;
-  }
-
   
 
   @Override
   public void periodic() {
+    LimelightHelpers.getLatestResults("limelight");
     // This method will be called once per scheduler run
   }
 
+<<<<<<< Updated upstream
   public void reloadLimeLightSimu() {
     simTx = constTx ;
     simTy = constTy;
@@ -188,4 +105,6 @@ private static LinearInterpolationTable distTable = new LinearInterpolationTable
   public Pose2d GetPose() {
     return null;
   }
+=======
+>>>>>>> Stashed changes
 }
