@@ -322,5 +322,10 @@ public final class Constants
         public static final double kClimbOpenDegree=0.0;//TODO 打开角度
 
     }
+    public static class LedConstants{
+        public static final int LedPort = 0;    //TODO
+        public static final int LedLength = 0;  //TODO
+
+    }
 }
 
