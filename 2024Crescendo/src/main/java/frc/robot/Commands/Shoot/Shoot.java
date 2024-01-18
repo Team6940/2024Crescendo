@@ -62,7 +62,7 @@ public class Shoot extends Command{
         if(m_State == ShooterState.Aiming)
             Aim();
         if(m_State == ShooterState.Shooting)
-            Shoot();
+            Shooting();
     }
     void Aim(){
         if(m_Mode==ShootingMode.Auto)
@@ -94,7 +94,7 @@ public class Shoot extends Command{
         }
         
     }
-    void Shoot(){
+    void Shooting(){
         if(m_Mode == CommandConstants.ShootingMode.AMP)
         {
             if(RobotContainer.m_driverController.getAButton()){     //TODO 哪个键？
