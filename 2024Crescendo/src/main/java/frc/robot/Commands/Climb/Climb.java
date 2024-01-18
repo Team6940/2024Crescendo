@@ -3,7 +3,7 @@ package frc.robot.Commands.Climb;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.CommandConstants;
-import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.ShootConstants;
 import frc.robot.Subsystems.Shooter;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.XboxController.Button;

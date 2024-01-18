@@ -2,11 +2,17 @@ package frc.robot.Commands.Shoot;
 
 import frc.robot.RobotContainer;
 import frc.robot.Constants.CommandConstants;
-import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.GoalConstants;
+import frc.robot.Constants.ShootConstants;
+import frc.robot.Constants.GoalConstants;
+import frc.robot.Constants.ShootConstants;
+import frc.robot.Constants.CommandConstants.ShootingMode;
 import frc.robot.Subsystems.Shooter;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+
+import edu.wpi.first.wpilibj.DriverStation;
 
 public class Shoot extends Command{
 
@@ -32,9 +38,9 @@ public class Shoot extends Command{
         if(_Mode==CommandConstants.ShootingMode.Auto)
         {
             addRequirements(RobotContainer.m_swerve);
-            double _TargetDistance=RobotContainer.m_swerve.GetRobotToSpeakerTranslation().getDistance(new Translation2d());
-            m_ShootAngle=ShooterConstants.kHoodTable.getOutput(_TargetDistance);
-            m_ShootRPS=ShooterConstants.kRPMTable.getOutput(_TargetDistance);
+            double _TargetDistance=RobotContainer.m_swerve.GetRobotToTargetTranslation(DriverStation.getAlliance(),GoalConstants.FieldElement.Speaker).getDistance(new Translation2d());
+            m_ShootAngle=ShootConstants.kHoodTable.getOutput(_TargetDistance);
+            m_ShootRPS=ShootConstants.kRPMTable.getOutput(_TargetDistance);
         
         }
         else
@@ -59,10 +65,34 @@ public class Shoot extends Command{
             Shoot();
     }
     void Aim(){
-        RobotContainer.m_Arm.SetArmPosition(m_ShootAngle);
-        RobotContainer.m_Shooter.SetRPS(m_ShootRPS);
-        if(RobotContainer.m_Arm.IsAtTargetPosition()&&RobotContainer.m_Shooter.IsAtTargetRPS())
-            m_State = ShooterState.Shooting;
+        if(m_Mode==ShootingMode.Auto)
+        {
+            RobotContainer.m_Arm.SetArmPosition(m_ShootAngle);
+            RobotContainer.m_Shooter.SetRPS(m_ShootRPS);
+            double _SwerveToSpeakerDegree=RobotContainer.m_swerve.GetRobotToTargetRotation(DriverStation.getAlliance(), GoalConstants.FieldElement.Speaker).minus(RobotContainer.m_swerve.getPose().getRotation()).getDegrees();
+            if(_SwerveToSpeakerDegree>ShootConstants.kShootDirectionTolerance)
+            {
+                RobotContainer.m_swerve.Drive(new Translation2d(), -ShootConstants.kShootFixOmega, true, true);
+            }
+            else if (_SwerveToSpeakerDegree<-ShootConstants.kShootDirectionTolerance)
+            {
+                RobotContainer.m_swerve.Drive(new Translation2d(), ShootConstants.kShootFixOmega, true, true);
+            
+            }
+            else{
+                RobotContainer.m_swerve.Drive(new Translation2d(), 0, true, true);
+                if(RobotContainer.m_Arm.IsAtTargetPosition()&&RobotContainer.m_Shooter.IsAtTargetRPS())
+                    m_State = ShooterState.Shooting;
+            
+            }
+        }
+        else{
+            RobotContainer.m_Arm.SetArmPosition(m_ShootAngle);
+            RobotContainer.m_Shooter.SetRPS(m_ShootRPS);
+            if(RobotContainer.m_Arm.IsAtTargetPosition()&&RobotContainer.m_Shooter.IsAtTargetRPS())
+                m_State = ShooterState.Shooting;
+        }
+        
     }
     void Shoot(){
         if(m_Mode == CommandConstants.ShootingMode.AMP)

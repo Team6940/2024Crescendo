@@ -4,6 +4,8 @@
 
 package frc.robot.Subsystems;
 
+import java.util.Optional;
+
 import com.ctre.phoenix.sensors.PigeonIMU;
 import com.ctre.phoenix.sensors.WPI_PigeonIMU;
 import com.ctre.phoenix6.hardware.Pigeon2;
@@ -18,6 +20,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -35,7 +38,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.GlobalConstants;
+import frc.robot.Constants.GoalConstants;
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.Constants.GoalConstants.FieldElement;
 import frc.robot.Library.team1706.FieldRelativeAccel;
 import frc.robot.Library.team1706.FieldRelativeSpeed;
 import frc.robot.Library.team95.BetterSwerveKinematics;
@@ -435,21 +440,21 @@ public Command followPathCommand(String pathName){
     }
 
   }
-  public Translation2d GetRobotToSpeakerTranslation()
+  public Translation2d GetRobotToTargetTranslation(Translation2d _TargetTranslation2d)
   {
-    return new Translation2d();
+    return _TargetTranslation2d.minus(getPose().getTranslation());
   }
-  public Rotation2d GetRobotToSpeakerRotation()
+   public Translation2d GetRobotToTargetTranslation(Optional<Alliance> optional,Constants.GoalConstants.FieldElement _FieldElement)
   {
-    return new Rotation2d();
+    return GoalConstants.FieldElementLoctaion[optional.get().ordinal()][_FieldElement.ordinal()].minus(getPose().getTranslation());
   }
-  public Translation2d GetRobotToAMPTranslation()
+  public Rotation2d GetRobotToTargetRotation(Translation2d _TargetTranslation2d)
   {
-    return new Translation2d();
+    return _TargetTranslation2d.minus(getPose().getTranslation()).getAngle().minus(getPose().getRotation());
   }
-  public Rotation2d GetRobotToAMPRotation()
+  public Rotation2d GetRobotToTargetRotation(Optional<Alliance> optional,Constants.GoalConstants.FieldElement _FieldElement)
   {
-    return new Rotation2d();
+    return GetRobotToTargetRotation(GoalConstants.FieldElementLoctaion[optional.get().ordinal()][_FieldElement.ordinal()]);
   }
   private boolean IsOpenLoopMode(){
     return isOpenLoop;
@@ -495,6 +500,7 @@ public Command followPathCommand(String pathName){
     .withSize(1, 1);
              
   }
+
   
 
 }

@@ -3,7 +3,7 @@ package frc.robot.Subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants.ShooterConstants;
+import frc.robot.Constants.ShootConstants;
 import frc.robot.Library.team1678.math.Conversions;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -45,12 +45,12 @@ public class Shooter extends SubsystemBase {
     }
     private void ShooterConfig() 
     {
-        m_ShooterLeft = new TalonFX(ShooterConstants.SHOOTER_L_MASTER_ID);
+        m_ShooterLeft = new TalonFX(ShootConstants.SHOOTER_L_MASTER_ID);
         m_ShooterLeft.setInverted(true);
         m_ShooterLeft.setNeutralMode(NeutralModeValue.Coast);
-        m_Shooter_Configuration.Slot0.kP = ShooterConstants.SHOOTER_KP;
-        m_Shooter_Configuration.Slot0.kI = ShooterConstants.SHOOTER_KI;
-        m_Shooter_Configuration.Slot0.kD = ShooterConstants.SHOOTER_KD;
+        m_Shooter_Configuration.Slot0.kP = ShootConstants.SHOOTER_KP;
+        m_Shooter_Configuration.Slot0.kI = ShootConstants.SHOOTER_KI;
+        m_Shooter_Configuration.Slot0.kD = ShootConstants.SHOOTER_KD;
         m_Shooter_Configuration.MotorOutput.PeakForwardDutyCycle = 1.;
         m_Shooter_Configuration.MotorOutput.PeakReverseDutyCycle = -1.;
         //TODO Configs of Sensors;
@@ -105,7 +105,7 @@ public class Shooter extends SubsystemBase {
     public boolean IsAtTargetRPS()
     {
         // if(m_Enabled){
-            return Math.abs(GetRPS()-GetTargetRPS())<ShooterConstants.kShooterTolerance;
+            return Math.abs(GetRPS()-GetTargetRPS())<ShootConstants.kShooterTolerance;
         // }
         // return false;
     }

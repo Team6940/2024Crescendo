@@ -11,10 +11,13 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.Library.team1706.LinearInterpolationTable;
 import frc.robot.Library.team95.BetterSwerveKinematics;
 
+import java.awt.Point;
 import java.awt.geom.Point2D;
+import java.util.Map;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -100,13 +103,18 @@ public final class Constants
         };
     }
     public static final class GoalConstants {
-        public static final Translation2d kGoalLocation = new Translation2d(8.23, 4.115);
-        public static final Translation2d kWrongBallGoal = new Translation2d(5.50, 4.115);
-        public static final Translation2d kHangerLocation = new Translation2d(2.00, 6.00);
-
-        public static final double LL_UPPER_HUB_HEIGHT = 2.64;
-        public static final double CARGO_DIAMETER = 0.64;
-        public static final double UPPER_HUB_DIAMETER = 1.22;
+        public enum FieldElement{
+            Speaker,AMP,Source;
+        }
+        /**
+         * Alliance and then FieldElement
+         */
+        public static Translation2d[][]FieldElementLoctaion= new Translation2d[][]
+        {
+            {new Translation2d(16.56,5.59),new Translation2d(14.70,8.11),new Translation2d(0.88,0.53)},
+            {new Translation2d(0.08,5.59),new Translation2d(1.87,8.11),new Translation2d(15.70,0.53)}
+        };
+        
     }
     public static final class DriveConstants {
         public static final double kMaxAcceleration = 3.0;
@@ -265,7 +273,7 @@ public final class Constants
         public static final int ClimberBackUnits=400000;//TODO
         public static final int ClimberPort=16;
     }
-    public static class ShooterConstants{
+    public static class ShootConstants{
         public static final int SHOOTER_L_MASTER_ID = 0;  //TODO
         public static final int SHOOTER_R_MASTER_ID = 0;  //TODO
         public static double SHOOTER_KP = 0.;             //TODO
@@ -273,6 +281,8 @@ public final class Constants
         public static double SHOOTER_KD = 0.;      
         public static double kShooterF=0.;       //TODO
         public static double kShooterTolerance=0.;//TODO
+        public static double kShootDirectionTolerance=0.;
+        public static double kShootFixOmega=0.;
         private static final Point2D[] kHoodPoints = new Point2D.Double[] {
             // (distance, ty-angle)
             new Point2D.Double(2.48/*90*/,7), //
@@ -307,6 +317,7 @@ public final class Constants
 
     }
     public static class CommandConstants{
+
         public enum ShootingMode{
             Default, SpeakerPos1, SpeakerPos2, AMP, NotePassing, Auto;
         }
