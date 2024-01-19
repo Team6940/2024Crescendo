@@ -20,6 +20,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.controller.PIDController;
@@ -40,7 +41,9 @@ import frc.robot.Constants;
 import frc.robot.Constants.GlobalConstants;
 import frc.robot.Constants.GoalConstants;
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.GoalConstants.FieldElement;
+import frc.robot.Library.LimelightHelper.LimelightHelpers;
 import frc.robot.Library.team1706.FieldRelativeAccel;
 import frc.robot.Library.team1706.FieldRelativeSpeed;
 import frc.robot.Library.team95.BetterSwerveKinematics;
@@ -403,7 +406,10 @@ public Command followPathCommand(String pathName){
   public FieldRelativeAccel getFieldRelativeAccel() {
     return m_fieldRelAccel;
   }
-
+  public void FixPoseEstimator(Pose2d _Pose2d,double _TimeStamp)
+  {
+    m_SwervePoseEstimator.addVisionMeasurement(_Pose2d,_TimeStamp);
+  }
   public void getGyroRollVelocity() {
     gyroRollVelocity = (getRoll() - lastGyroRoll) / GlobalConstants.kLoopTime;
     lastGyroRoll = getRoll();
@@ -424,6 +430,7 @@ public Command followPathCommand(String pathName){
     m_SwervePoseEstimator.update(
       GetGyroRotation2d(), 
       getModulePositions());
+    
 
     m_field.setRobotPose(getPose());
     if(enanbleTelemetry){
@@ -437,6 +444,10 @@ public Command followPathCommand(String pathName){
       SmartDashboard.putNumber("Debug/Drive/rot radians", getPose().getRotation().getDegrees());
       SmartDashboard.putBoolean("Debug/Drive/isOpenloop", isOpenLoop);
       
+    }
+    if(LimelightHelpers.getTV("limelight"))
+    {
+      RobotContainer.m_swerve.FixPoseEstimator(LimelightHelpers.getBotPose2d_wpiBlue("limelight"),Timer.getFPGATimestamp()-LimelightHelpers.getLatency_Capture("limelight")+LimelightHelpers.getLatency_Pipeline("limelight"));
     }
 
   }
