@@ -12,6 +12,7 @@ public class Led extends SubsystemBase{
     Led(){
         LedConfig();
     }
+
     private void LedConfig(){
         m_Led = new AddressableLED(LedConstants.LedPort);
         m_Led.setLength(LedConstants.LedLength);
@@ -21,12 +22,21 @@ public class Led extends SubsystemBase{
         }
         m_Led.setData(m_Buffer);
     }
+    /*
+     * Used to turn the led on;
+     */
     public void LedStart(){
         m_Led.start();
     }
+    /*
+     * Used to turn the led off;
+     */
     public void LedStop(){
         m_Led.stop();
     }
+    /*
+     * Set the RGB of the LED lights;
+     */
     public void SetRGB(int _R, int _G, int _B){
         for(int i=0; i<m_Buffer.getLength(); ++i){
             m_Buffer.setRGB(i, _R, _G, _B);
