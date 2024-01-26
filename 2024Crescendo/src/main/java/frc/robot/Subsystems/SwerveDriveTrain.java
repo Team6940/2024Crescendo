@@ -38,6 +38,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.GlobalConstants;
 import frc.robot.Constants.GoalConstants;
 import frc.robot.Constants.SwerveConstants;
@@ -471,7 +472,6 @@ public Command followPathCommand(String pathName){
     return isOpenLoop;
   }
 
-
   private void addShuffleboardDebug(){
     swerveDriveTab.addNumber("GetSpeed0", () ->this.swerve_modules_[0].GetSpeed())
     .withPosition(0, 0)
@@ -512,6 +512,15 @@ public Command followPathCommand(String pathName){
              
   }
 
-  
-
+  /*
+   * 以下是Command中可能会使用到的一些函数，
+   */
+  public boolean IsAtPosition(Pose2d _Pos){
+    return 
+      getPose().minus(_Pos).getTranslation().getNorm()<=DriveConstants.kPositionTolerance
+      && getPose().minus(_Pos).getRotation().getDegrees()<=DriveConstants.kRotationTolerance;
+  }
+  public void MoveToPose2D(Pose2d _Pos){
+    
+  }
 }
