@@ -25,8 +25,8 @@ import edu.wpi.first.wpilibj.StadiaController.Button;
 
 public class NewShoot extends Command{
     boolean m_Auto;
-    double m_TargetAngle;
-    double m_TargetRPS;
+    double m_ArmTargetAngle;
+    double m_ShooterTargetRPS;
     int m_AimButtonID;
     int m_ShootButtonID;
     class Movement{
@@ -43,25 +43,25 @@ public class NewShoot extends Command{
         Aiming, Shooting;
     }
     ShooterState m_State;
-    public NewShoot(double _TargetAngle, double _TargetRPS, int _AimButtonID, int _ShootButtonID, Pose2d _TargetPose){
+    public NewShoot(double _ArmTargetAngle, double _ShooterTargetRPS, int _AimButtonID, int _ShootButtonID, Pose2d _TargetPose){
         m_Auto=true;
         addRequirements(RobotContainer.m_Arm);
         addRequirements(RobotContainer.m_Intake);
         addRequirements(RobotContainer.m_Shooter);
         addRequirements(RobotContainer.m_swerve);
-        m_TargetAngle = _TargetAngle;
-        m_TargetRPS = _TargetRPS;
+        m_ArmTargetAngle = _ArmTargetAngle;
+        m_ShooterTargetRPS = _ShooterTargetRPS;
         m_AimButtonID = _AimButtonID;
         m_ShootButtonID = _ShootButtonID;
         m_Movement.m_TargetPose2d = _TargetPose;
     }
-    public NewShoot(double _TargetAngle, double _TargetRPS, Pose2d _TargetPose, int _AimButtonID, int _ShootButtonID){
+    public NewShoot(double _ArmTargetAngle, double _ShooterTargetRPS, Pose2d _TargetPose, int _AimButtonID, int _ShootButtonID){
         m_Auto=false;
         addRequirements(RobotContainer.m_Arm);
         addRequirements(RobotContainer.m_Intake);
         addRequirements(RobotContainer.m_Shooter);
-        m_TargetAngle = _TargetAngle;
-        m_TargetRPS = _TargetRPS;
+        m_ArmTargetAngle = _ArmTargetAngle;
+        m_ShooterTargetRPS = _ShooterTargetRPS;
         m_AimButtonID = _AimButtonID;
         m_ShootButtonID = _ShootButtonID;
         m_Movement.m_TargetPose2d = new Pose2d(null, null, null);
@@ -111,8 +111,8 @@ public class NewShoot extends Command{
             _Velocity=m_Movement.m_SemiAutoVelocitySlewRateLimiter.calculate(_Velocity); 
             RobotContainer.m_swerve.Drive(new Translation2d(_Velocity,m_Movement.m_VelocityDirection), _Omega, true, false);
         }
-        RobotContainer.m_Arm.SetArmPosition(m_TargetAngle);
-        RobotContainer.m_Shooter.SetRPS(m_TargetRPS);
+        RobotContainer.m_Arm.SetArmPosition(m_ArmTargetAngle);
+        RobotContainer.m_Shooter.SetRPS(m_ShooterTargetRPS);
         
         if(RobotContainer.m_Arm.IsAtTargetPosition()
             &&RobotContainer.m_Shooter.IsAtTargetRPS()
