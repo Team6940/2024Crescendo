@@ -132,6 +132,9 @@ public final class Constants
                                                           // maximized simultaneously)
         public static final double kTranslationSlew = 3.5;
         public static final double kRotationSlew = 3.00;
+
+        public static final double kPositionTolerance = 0.0;    //TODO
+        public static final double kRotationTolerance = 0.0;    //TODO
     }
     
     public static final class SwerveConstants {	
@@ -332,6 +335,9 @@ public final class Constants
         public static final double kClimbDefaultDegree=0.0;//TODO 放下arm的角度
         public static final double kClimbOpenDegree=0.0;//TODO 打开角度
 
+        public static final double kAMPDegree = 0.0;    //TODO
+        public static final double kAMPRPS = 0.0;       //TODO
+        
     }
     public static class LedConstants{
         public static final int LedPort = 0;    //TODO
