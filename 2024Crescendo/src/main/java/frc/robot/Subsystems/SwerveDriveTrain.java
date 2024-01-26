@@ -509,7 +509,4 @@ public Command followPathCommand(String pathName){
       getPose().minus(_Pos).getTranslation().getNorm()<=DriveConstants.kPositionTolerance
       && getPose().minus(_Pos).getRotation().getDegrees()<=DriveConstants.kRotationTolerance;
   }
-  public void MoveToPose2D(Pose2d _Pos){
-    
-  }
 }
