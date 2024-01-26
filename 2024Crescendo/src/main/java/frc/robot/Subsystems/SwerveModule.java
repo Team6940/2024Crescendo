@@ -90,7 +90,7 @@ public class SwerveModule extends SubsystemBase {
     SetPivotMotorInverted(pivotMotorInvert);
     SetPivotEncoderOffset((int)pivot_encoder_inverted * pivotEncoderOffset);
     SetPivotEncoderPhase(pivotEncoderPhase);
-
+    
     lastAngle = GetState().angle.getRadians();
   }
 
@@ -144,7 +144,7 @@ public class SwerveModule extends SubsystemBase {
   public SwerveModulePosition GetPosition()
   {
     return new SwerveModulePosition(
-      drive_motor_.getRotorPosition().getValue() *Math.PI*Constants.SwerveConstants.kWheelDiameter, new Rotation2d(GetAngle()));
+      drive_motor_.getRotorPosition().getValue() *drive_motor_inverted*Math.PI*Constants.SwerveConstants.kWheelDiameter/SwerveConstants.driveGearRatio, new Rotation2d(GetAngle()));
   }
   public void SetDesiredState(SwerveModuleState state,boolean isOpenLoop){
     double rawAngle = GetRawAngle();
@@ -161,7 +161,7 @@ public class SwerveModule extends SubsystemBase {
       state, new Rotation2d(angle));
 
     double driveOutput = optimalState.speedMetersPerSecond /
-    SwerveConstants.kWheelDiameter  /Math.PI;
+    SwerveConstants.kWheelDiameter  /Math.PI*SwerveConstants.driveGearRatio;
 
     //final double CTREDriveOutput = Conversions.MPSToFalcon(optimalState.speedMetersPerSecond, Constants.SwerveConstants.wheelCircumference, Constants.SwerveConstants.driveGearRatio);
 
@@ -197,12 +197,12 @@ public class SwerveModule extends SubsystemBase {
         //drive_motor_.set(ControlMode.Velocity, //TODO: Test combining FeedForward and velocity closed loop
         //    drive_motor_inverted * driveOutput/*, DemandType.ArbitraryFeedForward,
          //   drive_motor_inverted * percentOutput*/);
-        drive_motor_.setControl(m_request.withVelocity(drive_motor_inverted * driveOutput));
+        drive_motor_.setControl(m_request.withVelocity(driveOutput*drive_motor_inverted));
       }
     }
     else{
       if (drive_motor_output_enabled) {
-        drive_motor_.setControl(m_request.withVelocity(drive_motor_inverted * driveOutput));
+        drive_motor_.setControl(m_request.withVelocity(driveOutput*drive_motor_inverted));
         /* Try combing PID Control with FeedForward */
         
        
@@ -228,7 +228,7 @@ public class SwerveModule extends SubsystemBase {
     SwerveModuleState optimalState = SwerveModuleState.optimize(
       new SwerveModuleState(state.speedMetersPerSecond,state.angle), new Rotation2d(angle));
     
-    double driveOutput = optimalState.speedMetersPerSecond *Math.PI*Constants.SwerveConstants.kWheelDiameter;
+    double driveOutput = optimalState.speedMetersPerSecond /Math.PI/Constants.SwerveConstants.kWheelDiameter*SwerveConstants.driveGearRatio;
 
     //final double CTREDriveOutput = Conversions.MPSToFalcon(optimalState.speedMetersPerSecond, Constants.SwerveConstants.wheelCircumference, Constants.SwerveConstants.driveGearRatio);
 
@@ -266,12 +266,12 @@ public class SwerveModule extends SubsystemBase {
         //drive_motor_.set(ControlMode.Velocity, //TODO: Test combining FeedForward and velocity closed loop
         //    drive_motor_inverted * driveOutput/*, DemandType.ArbitraryFeedForward,
         //    drive_motor_inverted * percentOutput*/);
-        drive_motor_.setControl(m_request.withVelocity(drive_motor_inverted * driveOutput));
+        drive_motor_.setControl(m_request.withVelocity(driveOutput*drive_motor_inverted));
       }
     }
     else{
       if (drive_motor_output_enabled) {
-          drive_motor_.setControl(m_request);
+          drive_motor_.setControl(m_request.withVelocity(driveOutput*drive_motor_inverted));
         /* Try combing PID Control with FeedForward */
         
         //drive_motor_.set(ControlMode.Velocity, //TODO: Test combining FeedForward and velocity closed loop
@@ -281,7 +281,7 @@ public class SwerveModule extends SubsystemBase {
     }
     if (pivot_motor_output_enabled) {
       pivot_motor_.set(ControlMode.MotionMagic,//TODO
-          pivot_motor_inverted * pivotOutput,DemandType.ArbitraryFeedForward,pivot_motor_inverted*Math.toDegrees(state.omegaRadPerSecond)*Constants.SwerveConstants.piviotKV);
+          pivot_motor_inverted * pivotOutput);
     }
     lastAngle = Angle;
   }
@@ -367,7 +367,7 @@ public class SwerveModule extends SubsystemBase {
   public double GetSpeed(){
     /*The unit is meters_per_second */
     return
-        drive_motor_.getVelocity().getValue() * drive_motor_inverted *Math.PI*Constants.SwerveConstants.kWheelDiameter ;
+        drive_motor_.getVelocity().getValue() * drive_motor_inverted *Math.PI*Constants.SwerveConstants.kWheelDiameter /SwerveConstants.driveGearRatio;
     //return Conversions.falconToMPS(drive_motor_.getSelectedSensorVelocity(), Constants.kWheelDiameter * Math.PI,
     //    Constants.kDriveEncoderReductionRatioTest);
   }

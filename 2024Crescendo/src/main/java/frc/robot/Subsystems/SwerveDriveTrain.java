@@ -20,6 +20,7 @@ import com.pathplanner.lib.util.ReplanningConfig;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.controller.PIDController;
@@ -41,7 +42,9 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.GlobalConstants;
 import frc.robot.Constants.GoalConstants;
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.GoalConstants.FieldElement;
+import frc.robot.Library.LimelightHelper.LimelightHelpers;
 import frc.robot.Library.team1706.FieldRelativeAccel;
 import frc.robot.Library.team1706.FieldRelativeSpeed;
 import frc.robot.Library.team95.BetterSwerveKinematics;
@@ -104,10 +107,10 @@ public class SwerveDriveTrain extends SubsystemBase {
     gyro = new Pigeon2(SwerveConstants.PigeonIMUPort);
 
     // The coordinate system may be wrong 
-    swerve_modules_[0] = new SwerveModule(1, 2, false,  false, 2500, true, true);//front left
-    swerve_modules_[1] = new SwerveModule(7, 8, true, false, 230, true, true);//front right
-    swerve_modules_[2] = new SwerveModule(3, 4, false,  false, 711,  false, false);//back left
-    swerve_modules_[3] = new SwerveModule(5, 6, false, false, 2651,  false, false);//back right
+    swerve_modules_[0] = new SwerveModule(1, 2, false,  false, 2877, true, true);//front left
+    swerve_modules_[1] = new SwerveModule(7, 8, true, false, 485, true, true);//front right
+    swerve_modules_[2] = new SwerveModule(3, 4, false,  false, 1467,  false, false);//back left
+    swerve_modules_[3] = new SwerveModule(5, 6, true, false, 1720,  false, false);//back right
     
   m_SwervePoseEstimator=new SwerveDrivePoseEstimator(
     SwerveConstants.swerveKinematics,
@@ -404,7 +407,10 @@ public Command followPathCommand(String pathName){
   public FieldRelativeAccel getFieldRelativeAccel() {
     return m_fieldRelAccel;
   }
-
+  public void FixPoseEstimator(Pose2d _Pose2d,double _TimeStamp)
+  {
+    m_SwervePoseEstimator.addVisionMeasurement(_Pose2d,_TimeStamp);
+  }
   public void getGyroRollVelocity() {
     gyroRollVelocity = (getRoll() - lastGyroRoll) / GlobalConstants.kLoopTime;
     lastGyroRoll = getRoll();
@@ -417,27 +423,32 @@ public Command followPathCommand(String pathName){
     m_lastFieldRelVel = m_fieldRelVel;
     
     SwerveModuleState[] moduleStates = getStates();
-    for(int i=0;i<moduleStates.length;++i)
-    {
-      moduleStates[i].speedMetersPerSecond*=Constants.SwerveConstants.VelocityCorrectionFactor;
-    }
+    // for(int i=0;i<moduleStates.length;++i)
+    // {
+    //   moduleStates[i].speedMetersPerSecond*=Constants.SwerveConstants.VelocityCorrectionFactor;
+    // }
     // This method will be called once per scheduler run
     m_SwervePoseEstimator.update(
       GetGyroRotation2d(), 
       getModulePositions());
+    
 
     m_field.setRobotPose(getPose());
     if(enanbleTelemetry){
-      SmartDashboard.putNumber("GetSpeed0", swerve_modules_[0].GetSpeed());
-      SmartDashboard.putNumber("GetSpeed1", swerve_modules_[1].GetSpeed());
-      SmartDashboard.putNumber("GetSpeed2", swerve_modules_[2].GetSpeed());
-      SmartDashboard.putNumber("GetSpeed3", swerve_modules_[3].GetSpeed());
+      SmartDashboard.putNumber("GetPosition0", swerve_modules_[0].GetPosition().distanceMeters);
+      SmartDashboard.putNumber("GetPosition1", swerve_modules_[1].GetPosition().distanceMeters);
+      SmartDashboard.putNumber("GetPosition2", swerve_modules_[2].GetPosition().distanceMeters);
+      SmartDashboard.putNumber("GetPosition3", swerve_modules_[3].GetPosition().distanceMeters);
 
       SmartDashboard.putNumber("Debug/Drive/x meters", getPose().getX());
       SmartDashboard.putNumber("Debug/Drive/y meters", getPose().getY());
       SmartDashboard.putNumber("Debug/Drive/rot radians", getPose().getRotation().getDegrees());
       SmartDashboard.putBoolean("Debug/Drive/isOpenloop", isOpenLoop);
       
+    }
+    if(LimelightHelpers.getTV("limelight"))
+    {
+      RobotContainer.m_swerve.FixPoseEstimator(LimelightHelpers.getBotPose2d_wpiBlue("limelight"),Timer.getFPGATimestamp()-LimelightHelpers.getLatency_Capture("limelight")+LimelightHelpers.getLatency_Pipeline("limelight"));
     }
 
   }

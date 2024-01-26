@@ -15,7 +15,7 @@ import frc.robot.Subsystems.Limelight;
 import frc.robot.Subsystems.SwerveDriveTrain;
 
 public class RobotContainer {
-   public static SwerveDriveTrain m_swerve = null;
+   public static SwerveDriveTrain m_swerve = SwerveDriveTrain.getInstance();
    public static Limelight m_Limelight= Limelight.GetInstance();
    public static Arm m_Arm=Arm.GetInstance();
    public static Shooter m_Shooter=Shooter.GetInstance();
