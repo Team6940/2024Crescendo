@@ -45,7 +45,6 @@ public class Shoot extends Command{
         }
         else
         {
-            
             m_ShootAngle = CommandConstants.kShootingSets[_Mode.ordinal()].getX();
             m_ShootRPS = CommandConstants.kShootingSets[_Mode.ordinal()].getY();
             m_Mode=_Mode;

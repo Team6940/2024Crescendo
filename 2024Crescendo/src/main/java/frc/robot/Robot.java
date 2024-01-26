@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Commands.SwerveControl.SwerveControll;
 import frc.robot.Library.LimelightHelper.LimelightHelpers;
 
 public class Robot extends TimedRobot {
@@ -17,8 +18,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+   m_robotContainer.m_swerve.setDefaultCommand(new SwerveControll());
     m_robotContainer = new RobotContainer();
   }
+
 
   @Override
   public void robotPeriodic() {
@@ -49,6 +52,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    RobotContainer.m_swerve.resetOdometry();
+    RobotContainer.m_swerve.zeroGyro();
   }
 
   @Override

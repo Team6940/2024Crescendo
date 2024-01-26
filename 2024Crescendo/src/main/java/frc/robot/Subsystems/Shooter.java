@@ -46,6 +46,7 @@ public class Shooter extends SubsystemBase {
     private void ShooterConfig() 
     {
         m_ShooterLeft = new TalonFX(ShootConstants.SHOOTER_L_MASTER_ID);
+        m_ShooterRght=new TalonFX(ShootConstants.SHOOTER_R_MASTER_ID);
         m_ShooterLeft.setInverted(true);
         m_ShooterLeft.setNeutralMode(NeutralModeValue.Coast);
         m_Shooter_Configuration.Slot0.kP = ShootConstants.SHOOTER_KP;

@@ -143,8 +143,8 @@ public final class Constants
         public static final double openLoopRamp = 0.25;
         public static final double closedLoopRamp = 0.0;
     
-        public static final double driveGearRatio = 29/15*60/15;
-        public static final double angleGearRatio = 56/6*60/10; 
+        public static final double driveGearRatio = 29./15.*60./15.;
+        public static final double angleGearRatio = 56./6.*60./10.; 
         
         /* Drive Motor Characterization Values */
         public static final double driveKS = (0.69552 / 12); //divide by 12 to convert from volts to percent output for CTRE
@@ -177,10 +177,10 @@ public final class Constants
          * 车子在行驶过程中基本不抖动，底盘PID大部分情况下是正常的。
          * 
          */
-        public static double kDriveMotorkP = 0.15; // 5e-2 0.05   0.025
+        public static double kDriveMotorkP = 0.01; // 5e-2 0.05   0.025
         public static double kDriveMotorkI = 0; //5e-4 0.005  0.0016
-        public static double kDriveMotorkD = 0.00; //   5e-0 5 1.5  2.5
-        public static double kDriveMotorkF = 0.042;//   0.045       0.06
+        public static double kDriveMotorkD = 0.; //   5e-0 5 1.5  2.5
+        public static double kDriveMotorkF = 0.0;//   0.045       0.06
         public static double kDriveMotorIZone = 0;// 90          240
         public static double kSensorVelocityMeasPeriod = 10;
     
@@ -194,10 +194,10 @@ public final class Constants
     
         public static double kLoopSeconds = 0.0;
     
-        public static double kDriveMotorReductionRatio = 1.0 / (29/15*60/15); //29/15*60/15
-        public static double kPivotMotorReductionRatio = 1.0 / (56/6*60/10); //56/6*60/10
-        public static double kDriveEncoderReductionRatio = 1.0 / (29 / 15 * 60 / 15);
-        public static double kDriveEncoderReductionRatioTest = (29 / 15 * 60 / 15);
+        public final static double kDriveMotorReductionRatio = 1.0 / (29/15*60/15); //29/15*60/15
+        public final static double kPivotMotorReductionRatio = 1.0 / (56/6*60/10); //56/6*60/10
+        public final static double kDriveEncoderReductionRatio = 1.0 / (29 / 15 * 60 / 15);
+        public final static double kDriveEncoderReductionRatioTest = (29 / 15 * 60 / 15);
         public static double kPivotEncoderReductionRatio = -1.0 / 1.0;
     
         public static final double FALCON_TICS_PER_ROTATION = 2048.0;
