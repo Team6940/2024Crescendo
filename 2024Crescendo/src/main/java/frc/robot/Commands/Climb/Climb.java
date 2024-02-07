@@ -2,7 +2,7 @@ package frc.robot.Commands.Climb;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
-import frc.robot.Constants.CommandConstants;
+import frc.robot.Constants.ClimbCommandConstants;
 import frc.robot.Constants.ShootConstants;
 import frc.robot.Subsystems.Shooter;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -20,7 +20,7 @@ public class Climb extends Command{
     @Override
     public void initialize()
     {
-        RobotContainer.m_Arm.SetArmPosition(CommandConstants.kClimbOpenDegree);
+        RobotContainer.m_Arm.SetArmPosition(ClimbCommandConstants.kClimbOpenDegree);
     }
     @Override
     public void execute()
@@ -30,7 +30,7 @@ public class Climb extends Command{
     @Override
     public void end(boolean interrupted)
     {
-        RobotContainer.m_Arm.SetArmPosition(CommandConstants.kClimbDegree);
+        RobotContainer.m_Arm.SetArmPosition(ClimbCommandConstants.kClimbDegree);
     }
     @Override
     public boolean isFinished() 
