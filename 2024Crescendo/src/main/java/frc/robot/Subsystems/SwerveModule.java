@@ -61,6 +61,7 @@ public class SwerveModule extends SubsystemBase {
     m_MotorOutputConfigs.PeakForwardDutyCycle=SwerveConstants.kDriveMotorMaxOutput;
     m_MotorOutputConfigs.PeakReverseDutyCycle=-SwerveConstants.kDriveMotorMaxOutput;
     drive_motor_.getConfigurator().apply(m_MotorOutputConfigs);
+  
     pivot_motor_.configPeakOutputForward( SwerveConstants.kPivotMotorMaxOutput);
     pivot_motor_.configPeakOutputReverse(-SwerveConstants.kPivotMotorMaxOutput);
     
@@ -70,6 +71,8 @@ public class SwerveModule extends SubsystemBase {
     m_drive_slot0Configs.kI=SwerveConstants.kDriveMotorkI;
     m_drive_slot0Configs.kD=SwerveConstants.kDriveMotorkD;
     m_drive_slot0Configs.kV=SwerveConstants.kDriveMotorkF;
+                        
+    
     drive_motor_.getConfigurator().apply(m_drive_slot0Configs);
   
     pivot_motor_.config_kP(0, SwerveConstants.kPivotMotorkP);

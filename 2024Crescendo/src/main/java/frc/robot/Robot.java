@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Commands.Auto.Close4note;
+import frc.robot.Commands.Auto.FarUp4note;
 import frc.robot.Commands.SwerveControl.SwerveControll;
 import frc.robot.Library.LimelightHelper.LimelightHelpers;
 
@@ -26,6 +28,32 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
+    if(RobotContainer.m_driverController.getLeftBumper())
+    {
+      RobotContainer.m_Arm.SetArmPosition(4);
+      RobotContainer.m_Intake.SetIntakeOutput(0.5);
+
+    }
+    else if(RobotContainer.m_driverController.getLeftTriggerAxis()>0.3)
+    {
+      RobotContainer.m_Intake.SetIntakeOutput(-0.2);
+      RobotContainer.m_Shooter.SetPct(-0.2);
+    }
+    else if(RobotContainer.m_driverController.getRightBumper())
+    {
+      RobotContainer.m_Arm.SetArmPosition(20);
+      RobotContainer.m_Shooter.SetPct(0.8);
+      if(RobotContainer.m_driverController.getRightTriggerAxis()>0.3)
+      {
+        RobotContainer.m_Intake.SetIntakeOutput(1);
+      }
+    }
+    else 
+    {
+      RobotContainer.m_Shooter.SetPct(0);
+      RobotContainer.m_Intake.SetIntakeOutput(0);
+      RobotContainer.m_Arm.SetArmPosition(20);
+    }
   }
 
   @Override
@@ -39,6 +67,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
+    new FarUp4note().schedule();
   }
 
   @Override
@@ -58,7 +87,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    
+    if(m_robotContainer.m_driverController.getAButton())
+    {
+      
+    }
   }
 
   @Override

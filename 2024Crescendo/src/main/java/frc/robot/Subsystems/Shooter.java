@@ -32,7 +32,8 @@ public class Shooter extends SubsystemBase {
     //private VoltageConfigs m_ShooterVoltageConfigs = new VoltageConfigs();
     private TalonFXConfiguration m_Shooter_Configuration = new TalonFXConfiguration();
     final DutyCycleOut m_Shooter_DutyCycleOut = new DutyCycleOut(0);
-    final VelocityDutyCycle m_request = new VelocityDutyCycle(0, 0, false, 0, 0, true, true, true);
+    final VelocityDutyCycle m_request = new VelocityDutyCycle(0, 0, false, ShootConstants.kShooterF, 0, true, false, false
+    );
     // private boolean m_Enabled = true;
     private double m_TargetSpeed;   //Parametre is RPS;
     Shooter()
@@ -52,8 +53,7 @@ public class Shooter extends SubsystemBase {
         m_Shooter_Configuration.Slot0.kP = ShootConstants.SHOOTER_KP;
         m_Shooter_Configuration.Slot0.kI = ShootConstants.SHOOTER_KI;
         m_Shooter_Configuration.Slot0.kD = ShootConstants.SHOOTER_KD;
-        m_Shooter_Configuration.MotorOutput.PeakForwardDutyCycle = 1.;
-        m_Shooter_Configuration.MotorOutput.PeakReverseDutyCycle = -1.;
+    
         //TODO Configs of Sensors;
         //TODO Configs of VoltageCompSaturation
         //TODO Configs of Velocity Measurements
@@ -61,7 +61,6 @@ public class Shooter extends SubsystemBase {
         //Right Motor，同上
         m_ShooterRght.setInverted(false);   //TODO
         m_ShooterRght.getConfigurator().apply(m_Shooter_Configuration);
-        m_ShooterRght.setControl(new Follower(m_ShooterLeft.getDeviceID(), false));
 
     }
     /* 
@@ -77,7 +76,14 @@ public class Shooter extends SubsystemBase {
         // }
         // else{
             m_ShooterLeft.setControl(m_request.withVelocity(_RPS));
+            
+            m_ShooterRght.setControl(m_request.withVelocity(_RPS));
         // }
+    }
+    public void SetPct(double _Pct)
+    {
+        m_ShooterLeft.set(_Pct);
+        m_ShooterRght.set(_Pct);
     }
     /**
      * Get the Rotation speed of the shooter, Positive stands for get the Note out
@@ -110,5 +116,9 @@ public class Shooter extends SubsystemBase {
         // }
         // return false;
     }
-    //TODO Dashboard Related;
+    @Override
+    public void periodic()
+    {
+        SmartDashboard.putNumber("ShooterRPM", GetRPS());
+    }
 }

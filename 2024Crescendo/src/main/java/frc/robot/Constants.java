@@ -65,7 +65,7 @@ public final class Constants
         public static final double HOOD_EJECT_ANGLE = 10;  //TODO
     }
     public static final class IntakConstants {
-        public static final int IntakeMotorPort=0;
+        public static final int IntakeMotorPort=18;
         public static final int m_NoteSensor=0;
         public static final double m_NoteInPct=0.;
         // public static final double m_IntakeP=0.;
@@ -73,14 +73,18 @@ public final class Constants
         // public static final double m_IntakeD=0.;
     } 
     public static final class ArmConstants{
-        public static final int ArmMotorPort=0;             //TODO
+        public static final int ArmMotorLeftPort=9; 
+        public static final int ArmMotorRightPort=20;            //TODO
         public static final double ArmMovementSpeed=0.;     //TODO
         public static final double ArmDegreeTolerance=0.;   //TODO
-        public static final double m_ArmP=0.;               //TODO
+        public static final double m_ArmP=15;               //TODO
         public static final double m_ArmI=0.;               //TODO
-        public static final double m_ArmD=0.;               //TODO
-        public static final double m_ArmVelocity=0.;        //TODO
-        public static final double m_ArmAcceleration=0.;    //TODO
+        public static final double m_ArmD=0.;                        //TODO
+        public static final double m_ArmkV=0.;               //TODO
+        public static final double m_ArmkS=0.05;      //TODO
+        public static final double m_ArmVelocity=0.5;        //TODO
+        public static final double m_ArmAcceleration=1.7;    //TODO
+        public static final double ArmGearRatio=250.;
     }
     public static final class GlobalConstants {
         public static final double kLoopTime = 0.020;
@@ -177,10 +181,10 @@ public final class Constants
          * 车子在行驶过程中基本不抖动，底盘PID大部分情况下是正常的。
          * 
          */
-        public static double kDriveMotorkP = 0.01; // 5e-2 0.05   0.025
+        public static double kDriveMotorkP = 0.026; // 5e-2 0.05   0.025
         public static double kDriveMotorkI = 0; //5e-4 0.005  0.0016
         public static double kDriveMotorkD = 0.; //   5e-0 5 1.5  2.5
-        public static double kDriveMotorkF = 0.0;//   0.045       0.06
+        public static double kDriveMotorkF = 0.004;//   0.045       0.06
         public static double kDriveMotorIZone = 0;// 90          240
         public static double kSensorVelocityMeasPeriod = 10;
     
@@ -206,8 +210,8 @@ public final class Constants
         public static double kDriveEncoderResolution = 2048.0 / (Math.PI * 2);//the unit of "2"is rad 2_rad
         public static double kPivotEncoderResolution = 4096.0 / (Math.PI * 2);//the unit of "2"is rad 2_rad
     
-        public static double kWidth  = 0.572936;//The unit is 0.342_m
-        public static double kLength = 0.572936;//The unit is 0.342_m
+        public static double kWidth  = 0.464178;//The unit is 0.342_m
+        public static double kLength = 0.464178;//The unit is 0.342_m
     
         public static double kWheelDiameter = 0.093;//The unit is meter
     
@@ -277,11 +281,11 @@ public final class Constants
         public static final int ClimberPort=16;
     }
     public static class ShootConstants{
-        public static final int SHOOTER_L_MASTER_ID = 0;  //TODO
-        public static final int SHOOTER_R_MASTER_ID = 0;  //TODO
-        public static double SHOOTER_KP = 0.;             //TODO
+        public static final int SHOOTER_L_MASTER_ID = 11;  //TODO
+        public static final int SHOOTER_R_MASTER_ID = 12;  //TODO
+        public static double SHOOTER_KP = 0.2;             //TODO
         public static double SHOOTER_KI = 0.;             //TODO
-        public static double SHOOTER_KD = 0.;      
+        public static double SHOOTER_KD = 0.01;      
         public static double kShooterF=0.;       //TODO
         public static double kShooterTolerance=0.;//TODO
         public static double kShootDirectionTolerance=0.;

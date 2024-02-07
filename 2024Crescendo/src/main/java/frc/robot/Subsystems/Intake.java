@@ -58,7 +58,7 @@ public class Intake extends SubsystemBase {
         m_Intake= new TalonFX(IntakConstants.IntakeMotorPort);
         m_InfraredNoteSensor=new DigitalInput(IntakConstants.m_NoteSensor);
         m_IntakeOutputConfigs.NeutralMode=NeutralModeValue.Brake;
-        m_IntakeOutputConfigs.Inverted=InvertedValue.Clockwise_Positive;
+        m_IntakeOutputConfigs.Inverted=InvertedValue.CounterClockwise_Positive;
         m_IntakeOutputConfigs.PeakForwardDutyCycle=1;
         m_IntakeOutputConfigs.PeakReverseDutyCycle=-1;
         // m_Slot0Configs.kP=IntakConstants.m_IntakeP;
