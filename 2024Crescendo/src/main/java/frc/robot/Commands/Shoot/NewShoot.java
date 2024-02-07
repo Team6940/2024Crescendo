@@ -129,9 +129,8 @@ public class NewShoot extends Command{
     @Override
     public void end(boolean interrupted)
     {
-        //TODO 这两行实在是太丑了；
-        RobotContainer.m_Arm.SetArmPosition(CommandConstants.kShootingSets[CommandConstants.ShootingMode.Default.ordinal()].getX());
-        RobotContainer.m_Shooter.SetRPS(CommandConstants.kShootingSets[CommandConstants.ShootingMode.Default.ordinal()].getY());
+        RobotContainer.m_Arm.SetArmPosition(CommandConstants.DefaultSet.ArmAngle);
+        RobotContainer.m_Shooter.SetRPS(CommandConstants.DefaultSet.ShooterRPS);
     }
     @Override
     public boolean isFinished() 

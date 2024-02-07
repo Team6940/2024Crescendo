@@ -20,7 +20,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
-   m_robotContainer.m_swerve.setDefaultCommand(new SwerveControll());
+   RobotContainer.m_swerve.setDefaultCommand(new SwerveControll());
     m_robotContainer = new RobotContainer();
   }
 
@@ -34,7 +34,7 @@ public class Robot extends TimedRobot {
       RobotContainer.m_Intake.SetIntakeOutput(0.5);
 
     }
-    else if(RobotContainer.m_driverController.getLeftTriggerAxis()>0.3)
+    else if(RobotContainer.m_driverController.getLeftTrigger())
     {
       RobotContainer.m_Intake.SetIntakeOutput(-0.2);
       RobotContainer.m_Shooter.SetPct(-0.2);
@@ -43,7 +43,7 @@ public class Robot extends TimedRobot {
     {
       RobotContainer.m_Arm.SetArmPosition(20);
       RobotContainer.m_Shooter.SetPct(0.8);
-      if(RobotContainer.m_driverController.getRightTriggerAxis()>0.3)
+      if(RobotContainer.m_driverController.getRightTrigger())
       {
         RobotContainer.m_Intake.SetIntakeOutput(1);
       }

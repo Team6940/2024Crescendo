@@ -341,7 +341,22 @@ public final class Constants
 
         public static final double kAMPDegree = 0.0;    //TODO
         public static final double kAMPRPS = 0.0;       //TODO
-        
+
+        public static class ShootingSet{
+            public double ArmAngle = 0.0;
+            public double ShooterRPS = 0.0;
+            public ShootingSet(double _Angle, double _RPS){
+                
+                ArmAngle = _Angle;
+                ShooterRPS = _RPS;
+            }
+        }
+        public static final ShootingSet DefaultSet = new ShootingSet(0., 0.);  //TODO
+        public static final ShootingSet SpeakerSet[] = {
+            new ShootingSet(0., 0.),    //TODO, 第一个定点的数据，之后依次
+        };
+        public static final ShootingSet AMPSet = new ShootingSet(0., 0.);      //TODO
+        public static final ShootingSet PassSet = new ShootingSet(0., 0.);     //TODO
     }
     public static class LedConstants{
         public static final int LedPort = 0;    //TODO
