@@ -67,7 +67,7 @@ public final class Constants
     public static final class IntakConstants {
         public static final int IntakeMotorPort=18;
         public static final int m_NoteSensor=0;
-        public static final double m_NoteInPct=0.;
+        public static final double m_NoteInPct=0.5;
         // public static final double m_IntakeP=0.;
         // public static final double m_IntakeI=0.;
         // public static final double m_IntakeD=0.;
@@ -283,10 +283,10 @@ public final class Constants
     public static class ShootConstants{
         public static final int SHOOTER_L_MASTER_ID = 11;  //TODO
         public static final int SHOOTER_R_MASTER_ID = 12;  //TODO
-        public static double SHOOTER_KP = 0.2;             //TODO
+        public static double SHOOTER_KP = 0.052;             //TODO
         public static double SHOOTER_KI = 0.;             //TODO
-        public static double SHOOTER_KD = 0.01;      
-        public static double kShooterF=0.;       //TODO
+        public static double SHOOTER_KD = 0.0;      
+        public static double kShooterF=0.1;       //TODO
         public static double kShooterTolerance=0.;//TODO
         public static double kShootDirectionTolerance=0.;
         public static double kShootFixOmega=0.;
