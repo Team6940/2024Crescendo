@@ -21,7 +21,7 @@ public class RobotContainer {
    public static Arm m_Arm=Arm.GetInstance();
    public static Shooter m_Shooter=Shooter.GetInstance();
    public static Intake m_Intake=Intake.GetInstance();
- public static ImprovedXboxController m_driverController= new ImprovedXboxController(0);
+ public static ImprovedXboxController m_driverController= new ImprovedXboxController(0, 0.3);
   
   public RobotContainer() {
     configureBindings();

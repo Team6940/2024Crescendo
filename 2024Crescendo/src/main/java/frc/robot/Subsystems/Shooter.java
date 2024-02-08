@@ -113,7 +113,7 @@ public class Shooter extends SubsystemBase {
     public boolean IsAtTargetRPS()
     {
         // if(m_Enabled){
-            return Math.abs(GetRPS()-GetTargetRPS())<ShootConstants.kShooterTolerance;
+            return Math.abs(GetRPS()-GetTargetRPS())<ShootConstants.kShooterRPSTolerance;
         // }
         // return false;
     }
