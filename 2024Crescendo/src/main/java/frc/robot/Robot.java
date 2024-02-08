@@ -31,7 +31,7 @@ public class Robot extends TimedRobot {
     if(RobotContainer.m_driverController.getLeftBumper())
     {
       RobotContainer.m_Arm.SetArmPosition(4);
-      RobotContainer.m_Intake.SetIntakeOutput(0.5);
+      RobotContainer.m_Intake.NoteIn();;
 
     }
     else if(RobotContainer.m_driverController.getLeftTrigger())
@@ -44,6 +44,7 @@ public class Robot extends TimedRobot {
       RobotContainer.m_Arm.SetArmPosition(20);
       RobotContainer.m_Shooter.SetPct(0.8);
       if(RobotContainer.m_driverController.getRightTrigger())
+
       {
         RobotContainer.m_Intake.SetIntakeOutput(1);
       }
@@ -51,7 +52,7 @@ public class Robot extends TimedRobot {
     else 
     {
       RobotContainer.m_Shooter.SetPct(0);
-      RobotContainer.m_Intake.SetIntakeOutput(0);
+      RobotContainer.m_Intake.NoteOut();;;
       RobotContainer.m_Arm.SetArmPosition(20);
     }
   }

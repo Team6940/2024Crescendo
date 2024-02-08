@@ -53,6 +53,7 @@ public class Shooter extends SubsystemBase {
         m_Shooter_Configuration.Slot0.kP = ShootConstants.SHOOTER_KP;
         m_Shooter_Configuration.Slot0.kI = ShootConstants.SHOOTER_KI;
         m_Shooter_Configuration.Slot0.kD = ShootConstants.SHOOTER_KD;
+        m_Shooter_Configuration.MotorOutput.PeakReverseDutyCycle=0;
     
         //TODO Configs of Sensors;
         //TODO Configs of VoltageCompSaturation
