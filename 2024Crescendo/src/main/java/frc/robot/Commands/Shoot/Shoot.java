@@ -1,12 +1,12 @@
 package frc.robot.Commands.Shoot;
 
 import frc.robot.RobotContainer;
-import frc.robot.Constants.CommandConstants;
+import frc.robot.Constants.ShootCommandConstants;
 import frc.robot.Constants.GoalConstants;
+import frc.robot.Constants.ShootCommandConstants;
 import frc.robot.Constants.ShootConstants;
 import frc.robot.Constants.GoalConstants;
-import frc.robot.Constants.ShootConstants;
-import frc.robot.Constants.CommandConstants.ShootingMode;
+import frc.robot.Constants.ShootCommandConstants.ShootingMode;
 import frc.robot.Subsystems.Shooter;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,7 +21,7 @@ public class Shoot extends Command{
     }
     ShooterState m_State;
     int m_TargetDistance;
-    CommandConstants.ShootingMode m_Mode;
+    ShootCommandConstants.ShootingMode m_Mode;
     double m_ShootRPS;
     double m_ShootAngle;
     public Shoot(double _Angle, double _RPS){
@@ -31,11 +31,11 @@ public class Shoot extends Command{
         m_ShootAngle = _Angle;
         m_ShootRPS = _RPS;
     }
-    public Shoot(CommandConstants.ShootingMode _Mode){
+    public Shoot(ShootCommandConstants.ShootingMode _Mode){
         addRequirements(RobotContainer.m_Shooter);
         addRequirements(RobotContainer.m_Arm);
         addRequirements(RobotContainer.m_Intake);
-        if(_Mode==CommandConstants.ShootingMode.Auto)
+        if(_Mode==ShootCommandConstants.ShootingMode.Auto)
         {
             addRequirements(RobotContainer.m_swerve);
             double _TargetDistance=RobotContainer.m_swerve.GetRobotToTargetTranslation(DriverStation.getAlliance(),GoalConstants.FieldElement.Speaker).getDistance(new Translation2d());
@@ -45,8 +45,8 @@ public class Shoot extends Command{
         }
         else
         {
-            m_ShootAngle = CommandConstants.kShootingSets[_Mode.ordinal()].getX();
-            m_ShootRPS = CommandConstants.kShootingSets[_Mode.ordinal()].getY();
+            m_ShootAngle = ShootCommandConstants.kShootingSets[_Mode.ordinal()].getX();
+            m_ShootRPS = ShootCommandConstants.kShootingSets[_Mode.ordinal()].getY();
             m_Mode=_Mode;
         }
     }
@@ -94,7 +94,7 @@ public class Shoot extends Command{
         
     }
     void Shooting(){
-        if(m_Mode == CommandConstants.ShootingMode.AMP)
+        if(m_Mode == ShootCommandConstants.ShootingMode.AMP)
         {
             if(RobotContainer.m_driverController.getAButton()){     //TODO 哪个键？
                 RobotContainer.m_Intake.NoteOut();
@@ -107,16 +107,16 @@ public class Shoot extends Command{
     @Override
     public void end(boolean interrupted)
     {
-        RobotContainer.m_Arm.SetArmPosition(CommandConstants.kShootingSets[CommandConstants.ShootingMode.Default.ordinal()].getX());
-        RobotContainer.m_Shooter.SetRPS(CommandConstants.kShootingSets[CommandConstants.ShootingMode.Default.ordinal()].getY());
+        RobotContainer.m_Arm.SetArmPosition(ShootCommandConstants.kShootingSets[ShootCommandConstants.ShootingMode.Default.ordinal()].getX());
+        RobotContainer.m_Shooter.SetRPS(ShootCommandConstants.kShootingSets[ShootCommandConstants.ShootingMode.Default.ordinal()].getY());
     }
     @Override
     public boolean isFinished() 
     {
         // if(!RobotContainer.m_Intake.HasNote()) return true;
-        if(!RobotContainer.m_driverController.getLeftBumper()&&m_Mode==CommandConstants.ShootingMode.AMP) return true;    //TODO 哪个键？
-        if(!RobotContainer.m_driverController.getRightBumper()&&m_Mode==CommandConstants.ShootingMode.Auto) return true;    //TODO 哪个键？
-        if(!RobotContainer.m_driverController.getAButton()&&m_Mode==CommandConstants.ShootingMode.SpeakerPos1) return true;    //TODO 哪个键？
+        if(!RobotContainer.m_driverController.getLeftBumper()&&m_Mode==ShootCommandConstants.ShootingMode.AMP) return true;    //TODO 哪个键？
+        if(!RobotContainer.m_driverController.getRightBumper()&&m_Mode==ShootCommandConstants.ShootingMode.Auto) return true;    //TODO 哪个键？
+        if(!RobotContainer.m_driverController.getAButton()&&m_Mode==ShootCommandConstants.ShootingMode.SpeakerPos1) return true;    //TODO 哪个键？
         
         return false;
     }

@@ -2,13 +2,13 @@ package frc.robot.Commands.Shoot;
 
 import frc.robot.RobotContainer;
 import frc.robot.Library.NumberLimiter;
-import frc.robot.Constants.CommandConstants;
+import frc.robot.Constants.ShootCommandConstants;
 import frc.robot.Constants.GoalConstants;
 import frc.robot.Constants.SemiAutoConstants;
 import frc.robot.Constants.ShootConstants;
 import frc.robot.Constants.GoalConstants;
 import frc.robot.Constants.ShootConstants;
-import frc.robot.Constants.CommandConstants.ShootingMode;
+import frc.robot.Constants.ShootCommandConstants.ShootingMode;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Subsystems.Shooter;
 import edu.wpi.first.math.controller.PIDController;
@@ -43,7 +43,7 @@ public class NewShoot extends Command{
         Aiming, Shooting;
     }
     ShooterState m_State;
-    public NewShoot(double _ArmTargetAngle, double _ShooterTargetRPS, int _AimButtonID, int _ShootButtonID, Pose2d _TargetPose){
+    public NewShoot(double _ArmTargetAngle, double _ShooterTargetRPS, Pose2d _TargetPose, int _AimButtonID, int _ShootButtonID){
         m_Auto=true;
         addRequirements(RobotContainer.m_Arm);
         addRequirements(RobotContainer.m_Intake);
@@ -55,7 +55,7 @@ public class NewShoot extends Command{
         m_ShootButtonID = _ShootButtonID;
         m_Movement.m_TargetPose2d = _TargetPose;
     }
-    public NewShoot(double _ArmTargetAngle, double _ShooterTargetRPS, Pose2d _TargetPose, int _AimButtonID, int _ShootButtonID){
+    public NewShoot(double _ArmTargetAngle, double _ShooterTargetRPS, int _AimButtonID, int _ShootButtonID){
         m_Auto=false;
         addRequirements(RobotContainer.m_Arm);
         addRequirements(RobotContainer.m_Intake);
@@ -65,6 +65,12 @@ public class NewShoot extends Command{
         m_AimButtonID = _AimButtonID;
         m_ShootButtonID = _ShootButtonID;
         m_Movement.m_TargetPose2d = new Pose2d(null, null, null);
+    }
+    public NewShoot(ShootCommandConstants.ShootingSet _set, int _AimButtonID, int _ShootButtonID){
+        this(_set.ArmAngle, _set.ShooterRPS, _AimButtonID, _ShootButtonID);
+    }
+    public NewShoot(ShootCommandConstants.ShootingSet _set, Pose2d _TargetPose, int _AimButtonID, int _ShootButtonID){
+        this(_set.ArmAngle, _set.ShooterRPS, _TargetPose, _AimButtonID, _ShootButtonID);
     }
     @Override
     public void initialize()
@@ -122,21 +128,20 @@ public class NewShoot extends Command{
         }
     }
     void Shoot(){
-        if(RobotContainer.m_driverController.getRawButton(m_ShootButtonID)){
+        if(RobotContainer.m_driverController.getButton(m_ShootButtonID)){
             RobotContainer.m_Intake.NoteOut();
         }
     }
     @Override
     public void end(boolean interrupted)
     {
-        //TODO 这两行实在是太丑了；
-        RobotContainer.m_Arm.SetArmPosition(CommandConstants.kShootingSets[CommandConstants.ShootingMode.Default.ordinal()].getX());
-        RobotContainer.m_Shooter.SetRPS(CommandConstants.kShootingSets[CommandConstants.ShootingMode.Default.ordinal()].getY());
+        RobotContainer.m_Arm.SetArmPosition(ShootCommandConstants.DefaultSet.ArmAngle);
+        RobotContainer.m_Shooter.SetRPS(ShootCommandConstants.DefaultSet.ShooterRPS);
     }
     @Override
     public boolean isFinished() 
     {
-        if(!RobotContainer.m_driverController.getRawButton(m_AimButtonID)) return true;
+        if(!RobotContainer.m_driverController.getButton(m_AimButtonID)) return true;
         return false;
     }
 }

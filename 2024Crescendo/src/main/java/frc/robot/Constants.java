@@ -323,8 +323,7 @@ public final class Constants
         public static final LinearInterpolationTable kRPMTable = new LinearInterpolationTable(kRPSPoints);
 
     }
-    public static class CommandConstants{
-
+    public static class ShootCommandConstants{
         public enum ShootingMode{
             Default, SpeakerPos1, SpeakerPos2, AMP, NotePassing, Auto;
         }
@@ -335,13 +334,29 @@ public final class Constants
             new Point2D.Double(0.,0.),  //TODO AMP
             new Point2D.Double(0.,0.),  //TODO NotePassing
         };
+        public static class ShootingSet{
+            public double ArmAngle = 0.0;
+            public double ShooterRPS = 0.0;
+            public ShootingSet(double _Angle, double _RPS){
+                
+                ArmAngle = _Angle;
+                ShooterRPS = _RPS;
+            }
+        }
+        public static final ShootingSet DefaultSet = new ShootingSet(0., 0.);  //TODO
+        public static final ShootingSet SpeakerSet[] = {
+            new ShootingSet(0., 0.),    //TODO, 第一个定点的数据，之后依次
+        };
+        public static final ShootingSet AMPSet = new ShootingSet(0., 0.);      //TODO
+        public static final ShootingSet PassSet = new ShootingSet(0., 0.);     //TODO
+    }
+    public static class ClimbCommandConstants{
         public static final double kClimbDegree=0.0;//TODO 爬链角度
         public static final double kClimbDefaultDegree=0.0;//TODO 放下arm的角度
         public static final double kClimbOpenDegree=0.0;//TODO 打开角度
+    }
+    public static class IntakeCommandConstants{
 
-        public static final double kAMPDegree = 0.0;    //TODO
-        public static final double kAMPRPS = 0.0;       //TODO
-        
     }
     public static class LedConstants{
         public static final int LedPort = 0;    //TODO
