@@ -41,14 +41,6 @@ public final class Constants
         public static final double SemiAutoOmegaSlewRate=2;
         public static final double SemiAutoOmegaMax=2;
     }
-    public static final class IntakeConstants {
-        public static final int IntakerPort = 11;
-        public static final int IntakerSolenoidPort = 0;
-        public static final boolean vSwitchIntake = false;
-        public static final double INTAKE_OPEN_TIME = 0.0;
-        public static final double IntakeOutput = 1;
-        public static final double INTAKE_EJECTION_SPEED = -0.5;
-    }
     public static final class HoodConstants {
         
         public static final double kMinAngle = 0.5;
@@ -64,10 +56,13 @@ public final class Constants
         
         public static final double HOOD_EJECT_ANGLE = 10;  //TODO
     }
-    public static final class IntakConstants {
+    public static final class IntakeConstants {
         public static final int IntakeMotorPort=18;
         public static final int m_NoteSensor=0;
         public static final double m_NoteInPct=0.5;
+        public static final double m_NoteOutPct = 1.0;
+        public static final double ArmAngle = 4.;
+
         // public static final double m_IntakeP=0.;
         // public static final double m_IntakeI=0.;
         // public static final double m_IntakeD=0.;
@@ -76,7 +71,7 @@ public final class Constants
         public static final int ArmMotorLeftPort=9; 
         public static final int ArmMotorRightPort=20;            //TODO
         public static final double ArmMovementSpeed=0.;     //TODO
-        public static final double ArmDegreeTolerance=0.;   //TODO
+        public static final double ArmDegreeTolerance=1.;   //TODO，需要测试
         public static final double m_ArmP=15;               //TODO
         public static final double m_ArmI=0.;               //TODO
         public static final double m_ArmD=0.;                        //TODO
@@ -287,7 +282,7 @@ public final class Constants
         public static double SHOOTER_KI = 0.;             //TODO
         public static double SHOOTER_KD = 0.0;      
         public static double kShooterF=0.1;       //TODO
-        public static double kShooterTolerance=0.;//TODO
+        public static double kShooterRPSTolerance=1.;//TODO
         public static double kShootDirectionTolerance=0.;
         public static double kShootFixOmega=0.;
         private static final Point2D[] kHoodPoints = new Point2D.Double[] {
@@ -323,6 +318,7 @@ public final class Constants
         public static final LinearInterpolationTable kRPMTable = new LinearInterpolationTable(kRPSPoints);
 
     }
+
     public static class ShootCommandConstants{
         public enum ShootingMode{
             Default, SpeakerPos1, SpeakerPos2, AMP, NotePassing, Auto;
@@ -343,21 +339,20 @@ public final class Constants
                 ShooterRPS = _RPS;
             }
         }
-        public static final ShootingSet DefaultSet = new ShootingSet(0., 0.);  //TODO
+        public static final ShootingSet DefaultSet = new ShootingSet(20., 0.);  //TODO
         public static final ShootingSet SpeakerSet[] = {
-            new ShootingSet(0., 0.),    //TODO, 第一个定点的数据，之后依次
+            new ShootingSet(20., 30.),    //TODO, 第一个定点Speaker的数据，之后依次
         };
         public static final ShootingSet AMPSet = new ShootingSet(0., 0.);      //TODO
         public static final ShootingSet PassSet = new ShootingSet(0., 0.);     //TODO
     }
+
     public static class ClimbCommandConstants{
         public static final double kClimbDegree=0.0;//TODO 爬链角度
         public static final double kClimbDefaultDegree=0.0;//TODO 放下arm的角度
         public static final double kClimbOpenDegree=0.0;//TODO 打开角度
     }
-    public static class IntakeCommandConstants{
 
-    }
     public static class LedConstants{
         public static final int LedPort = 0;    //TODO
         public static final int LedLength = 0;  //TODO

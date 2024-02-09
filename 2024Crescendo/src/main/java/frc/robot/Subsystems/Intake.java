@@ -10,7 +10,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
-import frc.robot.Constants.IntakConstants;
+import frc.robot.Constants.IntakeConstants;
 
 public class Intake extends SubsystemBase {
     public static Intake m_Instance;
@@ -43,7 +43,7 @@ public class Intake extends SubsystemBase {
     public void NoteIn()
     {
         if(HasNote()) SetIntakeOutput(0);
-        else SetIntakeOutput(IntakConstants.m_NoteInPct);
+        else SetIntakeOutput(IntakeConstants.m_NoteInPct);
     }
     /**
      * Get the Note out of the Intake into the shooter , keep rotating until there is no Note in the Intake
@@ -51,12 +51,12 @@ public class Intake extends SubsystemBase {
     public void NoteOut()
     {
         if(!HasNote()) SetIntakeOutput(0);
-        else SetIntakeOutput(IntakConstants.m_NoteInPct);
+        else SetIntakeOutput(IntakeConstants.m_NoteOutPct);
     }
     Intake()
     {
-        m_Intake= new TalonFX(IntakConstants.IntakeMotorPort);
-        m_InfraredNoteSensor=new DigitalInput(IntakConstants.m_NoteSensor);
+        m_Intake= new TalonFX(IntakeConstants.IntakeMotorPort);
+        m_InfraredNoteSensor=new DigitalInput(IntakeConstants.m_NoteSensor);
         m_IntakeOutputConfigs.NeutralMode=NeutralModeValue.Brake;
         m_IntakeOutputConfigs.Inverted=InvertedValue.CounterClockwise_Positive;
         m_IntakeOutputConfigs.PeakForwardDutyCycle=1;

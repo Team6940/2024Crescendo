@@ -11,7 +11,12 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Commands.Auto.Close4note;
 import frc.robot.Commands.Auto.FarUp4note;
 import frc.robot.Commands.SwerveControl.SwerveControll;
+import frc.robot.Constants.ShootCommandConstants;
+import frc.robot.Constants.ShootConstants;
 import frc.robot.Library.LimelightHelper.LimelightHelpers;
+import frc.robot.Subsystems.ImprovedXboxController;
+import frc.robot.Commands.NoteIntake.NoteIntake;
+import frc.robot.Commands.Shoot.NewShoot;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
@@ -30,9 +35,9 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     if(RobotContainer.m_driverController.getLeftBumper())
     {
-      RobotContainer.m_Arm.SetArmPosition(4);
-      RobotContainer.m_Intake.NoteIn();;
-
+      // RobotContainer.m_Arm.SetArmPosition(4);
+      // RobotContainer.m_Intake.NoteIn();;
+      new NoteIntake().schedule();
     }
     else if(RobotContainer.m_driverController.getLeftTrigger())
     {
@@ -41,18 +46,24 @@ public class Robot extends TimedRobot {
     }
     else if(RobotContainer.m_driverController.getRightBumper())
     {
-      RobotContainer.m_Arm.SetArmPosition(20);
-      RobotContainer.m_Shooter.SetPct(0.8);
-      if(RobotContainer.m_driverController.getRightTrigger())
+      // RobotContainer.m_Arm.SetArmPosition(20);
+      // RobotContainer.m_Shooter.SetPct(0.8);
+      // if(RobotContainer.m_driverController.getRightTrigger())
 
-      {
-        RobotContainer.m_Intake.SetIntakeOutput(1);
-      }
+      // {
+      //   RobotContainer.m_Intake.SetIntakeOutput(1);
+      // }
+      new NewShoot(
+        ShootCommandConstants.SpeakerSet[0], 
+        ImprovedXboxController.Button.kRightBumper.value,
+        ImprovedXboxController.Button.kRightTrigger.value
+      ).schedule();
     }
     else 
     {
+      // RobotContainer.m_Intake.NoteOut();;;
       RobotContainer.m_Shooter.SetPct(0);
-      RobotContainer.m_Intake.NoteOut();;;
+      RobotContainer.m_Intake.SetIntakeOutput(0);
       RobotContainer.m_Arm.SetArmPosition(20);
     }
   }
