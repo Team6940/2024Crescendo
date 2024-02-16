@@ -4,6 +4,7 @@ import frc.robot.RobotContainer;
 import frc.robot.Library.NumberLimiter;
 import frc.robot.Constants.ShootCommandConstants;
 import frc.robot.Constants.GoalConstants;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.SemiAutoConstants;
 import frc.robot.Constants.ShootConstants;
 import frc.robot.Constants.GoalConstants;
@@ -121,8 +122,8 @@ public class NewShoot extends Command{
         RobotContainer.m_Shooter.SetRPS(m_ShooterTargetRPS);
         SmartDashboard.putBoolean("IsAtPosition", RobotContainer.m_Arm.IsAtTargetPosition());
         SmartDashboard.putBoolean("IsAtRPS", RobotContainer.m_Shooter.IsAtTargetRPS());
-        SmartDashboard.putBoolean("IsAtPosition", m_Movement.m_VelocityPIDController.atSetpoint());
-        SmartDashboard.putBoolean("IsAtOmega", m_Movement.m_OmegaPIDController.atSetpoint());
+        // SmartDashboard.putBoolean("IsAtPosition", m_Movement.m_VelocityPIDController.atSetpoint());
+        // SmartDashboard.putBoolean("IsAtOmega", m_Movement.m_OmegaPIDController.atSetpoint());
         if(RobotContainer.m_Arm.IsAtTargetPosition()
             &&RobotContainer.m_Shooter.IsAtTargetRPS()
             &&(m_Auto?m_Movement.m_VelocityPIDController.atSetpoint()&&m_Movement.m_OmegaPIDController.atSetpoint():true)
@@ -143,6 +144,14 @@ public class NewShoot extends Command{
     {
         RobotContainer.m_Arm.SetArmPosition(ShootCommandConstants.DefaultSet.ArmAngle);
         RobotContainer.m_Shooter.SetPct(ShootCommandConstants.DefaultSet.ShooterRPS);
+        RobotContainer.m_Intake.SetIntakeOutput(0);
+        if(m_ShootButtonID==0)
+        {
+            
+        RobotContainer.m_Arm.SetArmPosition(IntakeConstants.ArmAngle);
+        RobotContainer.m_Shooter.SetPct(0);
+        RobotContainer.m_Intake.NoteIn();
+        }
     }
     @Override
     public boolean isFinished() 

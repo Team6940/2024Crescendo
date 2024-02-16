@@ -29,7 +29,7 @@ import java.util.Map;
 public final class Constants 
 {
     public static final class SemiAutoConstants{
-        public static final double kSemiAutoVelocityP=4;//TODO
+        public static final double kSemiAutoVelocityP=2.6;//TODO
         public static final double kSemiAutoVelocityI=0.00;//TODO
         public static final double kSemiAutoVelocityD=0.0;//TODO
         public static final Constraints kSemiAutoVelocityConstrants =new Constraints(1,2);//TODO
@@ -60,9 +60,9 @@ public final class Constants
     public static final class IntakeConstants {
         public static final int IntakeMotorPort=18;
         public static final int m_NoteSensor=0;
-        public static final double m_NoteInPct=0.5;
+        public static final double m_NoteInPct=1.0;
         public static final double m_NoteOutPct = 1.0;
-        public static final double ArmAngle = 4.;
+        public static final double ArmAngle = 4;
 
         // public static final double m_IntakeP=0.;
         // public static final double m_IntakeI=0.;
@@ -344,7 +344,7 @@ public final class Constants
         }
         public static final ShootingSet DefaultSet = new ShootingSet(20, 0.);  //TODO
         public static final ShootingSet SpeakerSet[] = {
-            new ShootingSet(12., 50),    //TODO, 第一个定点Speaker的数据，之后依次
+            new ShootingSet(12., 50)  //TODO, 第一个定点Speaker的数据，之后依次
         };
         public static final ShootingSet AMPSet = new ShootingSet(95, 20);      //TODO
         public static final ShootingSet PassSet = new ShootingSet(0., 0.);     //TODO

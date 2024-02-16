@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Commands.Auto.Close4note;
@@ -16,13 +17,16 @@ import frc.robot.Commands.SwerveControl.SwerveControll;
 import frc.robot.Constants.ShootCommandConstants;
 import frc.robot.Constants.ShootConstants;
 import frc.robot.Library.LimelightHelper.LimelightHelpers;
+import frc.robot.Library.team3476.net.editing.LiveEditableValue;
 import frc.robot.Subsystems.ImprovedXboxController;
+import frc.robot.Subsystems.ImprovedXboxController.Button;
 import frc.robot.Commands.NoteIntake.NoteIntake;
 import frc.robot.Commands.Shoot.NewShoot;
 
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-
+  private LiveEditableValue<Double> m_ArmtargetAngle=new LiveEditableValue<Double>(0., SmartDashboard.getEntry("TuneArmAngle"));
+  private LiveEditableValue<Double> m_ShooterRPS=new LiveEditableValue<Double>(0., SmartDashboard.getEntry("TuneShooterRPS"));
   private RobotContainer m_robotContainer;
 
   @Override
@@ -49,7 +53,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    new FarUp4note().schedule();
+    new Close4note().schedule();
   }
 
   @Override
@@ -63,7 +67,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    RobotContainer.m_swerve.ResetOdometry(new Pose2d(0.67,7.43,new Rotation2d(0)));
+    RobotContainer.m_swerve.ResetOdometry(new Pose2d(0.67,7.65,new Rotation2d(0)));
     RobotContainer.m_swerve.zeroGyro();
   }
 
@@ -74,7 +78,7 @@ public class Robot extends TimedRobot {
     {
       // RobotContainer.m_Arm.SetArmPosition(4);
       // RobotContainer.m_Intake.NoteIn();;
-      new NoteIntake().schedule();
+      new NoteIntake(Button.kLeftBumper.value).schedule();
     }
     else if(RobotContainer.m_driverController.getLeftTrigger())
     {
@@ -83,17 +87,17 @@ public class Robot extends TimedRobot {
     }
     else if(RobotContainer.m_driverController.getRightBumperPressed())
     {
-      // RobotContainer.m_Arm.SetArmPosition(20);
-      // RobotContainer.m_Shooter.SetPct(0.8);
+      // RobotContainer.m_Arm.SetArmPosition(12);
+      // RobotContainer.m_Shooter.SetRPS(50);
       // if(RobotContainer.m_driverController.getRightTrigger())
 
       // {
       //   RobotContainer.m_Intake.SetIntakeOutput(1);
       // }
       new NewShoot(
-        ShootCommandConstants.SpeakerSet[0], 
+        12,50, 
         ImprovedXboxController.Button.kRightBumper.value,
-        ImprovedXboxController.Button.kRightTrigger.value
+        ImprovedXboxController.Button.kRightBumper.value
       ).schedule();
     }
     else if(RobotContainer.m_driverController.getAButtonPressed())

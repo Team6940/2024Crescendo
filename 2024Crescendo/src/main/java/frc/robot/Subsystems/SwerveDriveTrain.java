@@ -196,7 +196,7 @@ public Command followPathCommand(String pathName){
             this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
             this::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
            new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                        new PIDConstants(2, 0.0, 0.00005), // Translation PID constants
+                        new PIDConstants(1.8, 0.0, 0.00008), // Translation PID constants
                         new PIDConstants(3.0, 0.0, 0.), // Rotation PID constants
                         7, // Max module speed, in m/s
                         
