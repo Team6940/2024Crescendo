@@ -9,6 +9,7 @@ import frc.robot.Constants.ShootConstants;
 import frc.robot.Constants.GoalConstants;
 import frc.robot.Constants.ShootConstants;
 import frc.robot.Subsystems.Shooter;
+import frc.robot.Subsystems.ImprovedXboxController.Button;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,6 +17,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class NoteIntake extends Command{
+    int m_ButtonID = Button.kLeftBumper.value;
+    public NoteIntake(int _ButtonID){
+        m_ButtonID=_ButtonID;
+    }
     @Override
     public void initialize(){
         addRequirements(RobotContainer.m_Arm);
@@ -33,7 +38,7 @@ public class NoteIntake extends Command{
     }
     @Override
     public boolean isFinished(){
-        if(!RobotContainer.m_driverController.getLeftBumper()) return true;
+        if(!RobotContainer.m_driverController.getButton(m_ButtonID)) return true;
         return false;
     }
 }

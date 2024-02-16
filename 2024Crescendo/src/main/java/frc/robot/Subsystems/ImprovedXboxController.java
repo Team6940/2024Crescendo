@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.XboxController;
 public class ImprovedXboxController extends XboxController {
     /** Represents a digital button on an XboxController. */
     public enum Button {
+        kAutoButton(0),
         /** Left bumper. */
         kLeftBumper(5),
         /** Right bumper. */
@@ -25,9 +26,9 @@ public class ImprovedXboxController extends XboxController {
         /** Start. */
         kStart(8),
         /** Left trigger. */
-        kLeftTrigger(11),
+        kLeftTrigger(15),
         /** Right trigger. */
-        kRightTrigger(12);
+        kRightTrigger(16);
 
         /** Button value. */
         public final int value;
@@ -95,6 +96,10 @@ public class ImprovedXboxController extends XboxController {
      * @return The state of the button.
      */
     public boolean getButton(int button){
+        if(button==Button.kAutoButton.value)
+        {
+            return true;
+        }
         if(button == Button.kLeftTrigger.value){
             return getLeftTrigger();
         }

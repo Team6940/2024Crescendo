@@ -18,6 +18,7 @@ public class Intake extends SubsystemBase {
     private MotorOutputConfigs m_IntakeOutputConfigs=new MotorOutputConfigs();
     private Slot0Configs m_Slot0Configs = new Slot0Configs();
     private double m_MotorOutput;
+    public boolean m_IsCloseLoop;
     DigitalInput m_InfraredNoteSensor;
     /**
      * Set the output of the intake 1 stands for taking the note in
@@ -46,6 +47,7 @@ public class Intake extends SubsystemBase {
         else SetIntakeOutput(IntakeConstants.m_NoteInPct);
     }
     /**
+
      * Get the Note out of the Intake into the shooter , keep rotating until there is no Note in the Intake
      */
     public void NoteOut()
@@ -53,6 +55,10 @@ public class Intake extends SubsystemBase {
         // if(!HasNote()) SetIntakeOutput(0);
         // else 
         SetIntakeOutput(IntakeConstants.m_NoteOutPct);
+    }
+    
+    @Override
+    public void periodic() {
     }
     Intake()
     {

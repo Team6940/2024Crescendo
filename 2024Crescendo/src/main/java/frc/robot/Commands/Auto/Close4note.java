@@ -6,15 +6,25 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
+import frc.robot.Commands.NoteIntake.NoteIntake;
+import frc.robot.Commands.Shoot.NewShoot;
+import frc.robot.Constants.ShootCommandConstants;
+import frc.robot.Subsystems.ImprovedXboxController.Button;
 
 public class Close4note extends SequentialCommandGroup{
     public Close4note(){
         addRequirements(RobotContainer.m_swerve);
         addCommands(
             new InstantCommand(()->RobotContainer.m_swerve.ResetOdometry(PathPlannerPath.fromPathFile("close4notes-1").getPreviewStartingHolonomicPose())),
-            RobotContainer.m_swerve.followPathCommand("close4notes-1"),
-        RobotContainer.m_swerve.followPathCommand("close4notes-2"),
-        RobotContainer.m_swerve.followPathCommand("close4notes-3"));
+            new NewShoot(ShootCommandConstants.SpeakerSet[0], Button.kAutoButton.value, Button.kAutoButton.value).withTimeout(2),
+            
+            RobotContainer.m_swerve.followPathCommand("close4notes-1").raceWith(new NoteIntake(Button.kAutoButton.value)),
+            new NewShoot(ShootCommandConstants.SpeakerSet[0], Button.kAutoButton.value, Button.kAutoButton.value).withTimeout(2),
+        RobotContainer.m_swerve.followPathCommand("close4notes-2").raceWith(new NoteIntake(Button.kAutoButton.value)),
+            new NewShoot(ShootCommandConstants.SpeakerSet[0], Button.kAutoButton.value, Button.kAutoButton.value).withTimeout(2),
+        RobotContainer.m_swerve.followPathCommand("close4notes-3").raceWith(new NoteIntake(Button.kAutoButton.value)),
+            new NewShoot(ShootCommandConstants.SpeakerSet[0], Button.kAutoButton.value, Button.kAutoButton.value).withTimeout(2)
+        );
     }
 
 }

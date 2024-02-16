@@ -6,6 +6,7 @@ import frc.robot.Library.LimelightHelper.LimelightHelpers;
 import frc.robot.Library.team1706.MathUtils;
 import frc.robot.Constants.ShootCommandConstants;
 import frc.robot.Constants.GoalConstants;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.SemiAutoConstants;
 import frc.robot.Constants.ShootConstants;
 import frc.robot.Constants.GoalConstants;
@@ -123,8 +124,7 @@ public class NewShoot extends Command{
         SmartDashboard.putBoolean("IsAtRPS", RobotContainer.m_Shooter.IsAtTargetRPS());
         if(RobotContainer.m_Arm.IsAtTargetPosition()
             &&RobotContainer.m_Shooter.IsAtTargetRPS()
-        )
-{ 
+        ){ 
             m_State = ShooterState.Shooting;
         }
     }
@@ -139,6 +139,14 @@ public class NewShoot extends Command{
     {
         RobotContainer.m_Arm.SetArmPosition(ShootCommandConstants.DefaultSet.ArmAngle);
         RobotContainer.m_Shooter.SetPct(ShootCommandConstants.DefaultSet.ShooterRPS);
+        RobotContainer.m_Intake.SetIntakeOutput(0);
+        if(m_ShootButtonID==0)
+        {
+            
+        RobotContainer.m_Arm.SetArmPosition(IntakeConstants.ArmAngle);
+        RobotContainer.m_Shooter.SetPct(0);
+        RobotContainer.m_Intake.NoteIn();
+        }
     }
     @Override
     public boolean isFinished() 
