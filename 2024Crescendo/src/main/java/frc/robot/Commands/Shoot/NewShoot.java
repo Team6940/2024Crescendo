@@ -2,6 +2,8 @@ package frc.robot.Commands.Shoot;
 
 import frc.robot.RobotContainer;
 import frc.robot.Library.NumberLimiter;
+import frc.robot.Library.LimelightHelper.LimelightHelpers;
+import frc.robot.Library.team1706.MathUtils;
 import frc.robot.Constants.ShootCommandConstants;
 import frc.robot.Constants.GoalConstants;
 import frc.robot.Constants.IntakeConstants;
@@ -11,11 +13,16 @@ import frc.robot.Constants.GoalConstants;
 import frc.robot.Constants.ShootConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Subsystems.Shooter;
+import frc.robot.Library.LimelightHelper.LimelightHelpers;
+
+import javax.swing.plaf.TreeUI;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -24,39 +31,19 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.StadiaController.Button;
 
 public class NewShoot extends Command{
-    boolean m_Auto;
+    boolean m_LineUp;
     double m_ArmTargetAngle;
     double m_ShooterTargetRPS;
     int m_AimButtonID;
     int m_ShootButtonID;
-    class Movement{
-        Pose2d m_TargetPose2d;
-        PIDController m_VelocityPIDController;
-        PIDController m_OmegaPIDController;
-        Rotation2d m_VelocityDirection;
-        double m_BeginTime;
-        SlewRateLimiter m_SemiAutoOmegSlewRateLimiter=new SlewRateLimiter(SemiAutoConstants.SemiAutoOmegaSlewRate);
-        SlewRateLimiter m_SemiAutoVelocitySlewRateLimiter=new SlewRateLimiter(SemiAutoConstants.SemiAutoVelocitySlewRate);
-    }
-    Movement m_Movement=new Movement();
+    int m_TargetAprilTagID = 0;
+    double m_TargetDirection = 0.;
     public enum ShooterState{
         Aiming, Shooting;
     }
     ShooterState m_State;
-    public NewShoot(double _ArmTargetAngle, double _ShooterTargetRPS, Pose2d _TargetPose, int _AimButtonID, int _ShootButtonID){
-        m_Auto=true;
-        addRequirements(RobotContainer.m_Arm);
-        addRequirements(RobotContainer.m_Intake);
-        addRequirements(RobotContainer.m_Shooter);
-        addRequirements(RobotContainer.m_swerve);
-        m_ArmTargetAngle = _ArmTargetAngle;
-        m_ShooterTargetRPS = _ShooterTargetRPS;
-        m_AimButtonID = _AimButtonID;
-        m_ShootButtonID = _ShootButtonID;
-        m_Movement.m_TargetPose2d = _TargetPose;
-    }
     public NewShoot(double _ArmTargetAngle, double _ShooterTargetRPS, int _AimButtonID, int _ShootButtonID){
-        m_Auto=false;
+        m_LineUp=false;
         addRequirements(RobotContainer.m_Arm);
         addRequirements(RobotContainer.m_Intake);
         addRequirements(RobotContainer.m_Shooter);
@@ -64,32 +51,31 @@ public class NewShoot extends Command{
         m_ShooterTargetRPS = _ShooterTargetRPS;
         m_AimButtonID = _AimButtonID;
         m_ShootButtonID = _ShootButtonID;
-        m_Movement.m_TargetPose2d = new Pose2d();
     }
     public NewShoot(ShootCommandConstants.ShootingSet _set, int _AimButtonID, int _ShootButtonID){
         this(_set.ArmAngle, _set.ShooterRPS, _AimButtonID, _ShootButtonID);
     }
-    public NewShoot(ShootCommandConstants.ShootingSet _set, Pose2d _TargetPose, int _AimButtonID, int _ShootButtonID){
-        this(_set.ArmAngle, _set.ShooterRPS, _TargetPose, _AimButtonID, _ShootButtonID);
+    public NewShoot(double _ArmTargetAngle, double _ShooterTargetRPS, int _AimButtonID, int _ShootButtonID, int _AprilTagID, double _TargetDirection){
+        m_LineUp=true;
+        addRequirements(RobotContainer.m_Arm);
+        addRequirements(RobotContainer.m_Intake);
+        addRequirements(RobotContainer.m_Shooter);
+        m_ArmTargetAngle = _ArmTargetAngle;
+        m_ShooterTargetRPS = _ShooterTargetRPS;
+        m_AimButtonID = _AimButtonID;
+        m_ShootButtonID = _ShootButtonID;
+        m_TargetAprilTagID = _AprilTagID;
+        m_TargetDirection = _TargetDirection;
     }
     @Override
     public void initialize()
     {
         m_State=ShooterState.Aiming;
-        if(m_Auto){
-            //m_Movement.m_BeginTime = Timer.getFPGATimestamp();
-            Pose2d _CurrentPose2d = RobotContainer.m_swerve.getPose();
-            m_Movement.m_VelocityDirection = new Rotation2d(
-                m_Movement.m_TargetPose2d.getX()-_CurrentPose2d.getX(),
-                m_Movement.m_TargetPose2d.getY()-_CurrentPose2d.getY()
-            );
-            m_Movement.m_VelocityPIDController = new PIDController(SemiAutoConstants.kSemiAutoVelocityP, SemiAutoConstants.kSemiAutoVelocityI, SemiAutoConstants.kSemiAutoVelocityD);   //TODO 没准常数得换
-            m_Movement.m_OmegaPIDController = new PIDController(SemiAutoConstants.kSemiAutoOmegaP,SemiAutoConstants.kSemiAutoOmegaI, SemiAutoConstants.kSemiAutoOmegaD);    //TODO
-            m_Movement.m_OmegaPIDController.setSetpoint(0);
-            m_Movement.m_OmegaPIDController.setTolerance(Math.PI/36);
-            m_Movement.m_VelocityPIDController.setSetpoint(0);
-            m_Movement.m_VelocityPIDController.setTolerance(0.07);
-            m_Movement.m_OmegaPIDController.enableContinuousInput(-Math.PI, Math.PI);
+        if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tid").getDouble(0) == m_TargetAprilTagID){
+            m_LineUp = false;
+        }
+        if(m_LineUp){
+            addRequirements(RobotContainer.m_swerve);
         }
     }
     @Override
@@ -98,37 +84,47 @@ public class NewShoot extends Command{
         if(m_State==ShooterState.Aiming){
             Aim();
         }
-        if(m_State==ShooterState.Shooting){
+        else if(m_State==ShooterState.Shooting){
             Shoot();
         }
+        if(m_LineUp){
+            RobotContainer.m_swerve.Drive(getTranslation2d(), getOmega(), false, false);
+        }
+    }
+    private Translation2d getTranslation2d(){
+        double translationX = -inputTransform(getX());
+        double translationY = -inputTransform(RobotContainer.m_driverController.getLeftX());
+        return new Translation2d(translationX, translationY);
+    }
+    private double inputTransform(double input) {
+        return MathUtils.signedSquare(MathUtils.applyDeadband(input));
+    }
+    private double getOmega(){
+        if(RobotContainer.m_swerve.GetGyroRotation2d().getDegrees()-m_TargetDirection >= ShootCommandConstants.kShootDirectionTolerance){
+            return -ShootCommandConstants.kShootFixOmega;
+        }
+        else if(RobotContainer.m_swerve.GetGyroRotation2d().getDegrees()-m_TargetDirection <= -ShootCommandConstants.kShootDirectionTolerance){
+            return ShootCommandConstants.kShootFixOmega;
+        }
+        return 0.;
+    }
+    private double getX(){
+        if(LimelightHelpers.getTX("limelight")>=ShootCommandConstants.kShootLineUpTolerance) {
+            return -ShootCommandConstants.kShootLineUpFixVelocity;
+        }
+        if(LimelightHelpers.getTX("limelight")>=ShootCommandConstants.kShootLineUpTolerance){
+            return ShootCommandConstants.kShootLineUpFixVelocity;
+        }
+        return 0.;
     }
     void Aim(){
-        if(m_Auto){
-            Pose2d _NowPose2d=RobotContainer.m_swerve.getPose();
-            m_Movement.m_VelocityDirection=new Rotation2d(m_Movement.m_TargetPose2d.getX()-_NowPose2d.getX(),m_Movement.m_TargetPose2d.getY()-_NowPose2d.getY());
-            //double _DeltaTime=Timer.getFPGATimestamp()-m_Movement.m_BeginTime;
-            double _Distance=Math.sqrt((_NowPose2d.getX()-m_Movement.m_TargetPose2d.getX())*(_NowPose2d.getX()-m_Movement.m_TargetPose2d.getX())+
-            (_NowPose2d.getY()-m_Movement.m_TargetPose2d.getY())*(_NowPose2d.getY()-m_Movement.m_TargetPose2d.getY()));//计算两个点之间的距离
-            double _Velocity=-m_Movement.m_VelocityPIDController.calculate(_Distance);
-
-            double _Omega=m_Movement.m_SemiAutoOmegSlewRateLimiter.calculate(m_Movement.m_OmegaPIDController.calculate(-m_Movement.m_TargetPose2d.minus(_NowPose2d).getRotation().getRadians()));
-            _Omega=NumberLimiter.Limit(-SemiAutoConstants.SemiAutoOmegaMax,+SemiAutoConstants.SemiAutoOmegaMax,_Omega);
-            _Velocity=NumberLimiter.Limit(-SemiAutoConstants.kSemiAutoVelocityConstrants.maxVelocity,+SemiAutoConstants.kSemiAutoVelocityConstrants.maxVelocity,_Velocity);
-            _Velocity=m_Movement.m_SemiAutoVelocitySlewRateLimiter.calculate(_Velocity); 
-            RobotContainer.m_swerve.Drive(new Translation2d(_Velocity,m_Movement.m_VelocityDirection), _Omega, true, false);
-        }
         RobotContainer.m_Arm.SetArmPosition(m_ArmTargetAngle);
         RobotContainer.m_Shooter.SetRPS(m_ShooterTargetRPS);
         SmartDashboard.putBoolean("IsAtPosition", RobotContainer.m_Arm.IsAtTargetPosition());
         SmartDashboard.putBoolean("IsAtRPS", RobotContainer.m_Shooter.IsAtTargetRPS());
-        // SmartDashboard.putBoolean("IsAtPosition", m_Movement.m_VelocityPIDController.atSetpoint());
-        // SmartDashboard.putBoolean("IsAtOmega", m_Movement.m_OmegaPIDController.atSetpoint());
         if(RobotContainer.m_Arm.IsAtTargetPosition()
             &&RobotContainer.m_Shooter.IsAtTargetRPS()
-            &&(m_Auto?m_Movement.m_VelocityPIDController.atSetpoint()&&m_Movement.m_OmegaPIDController.atSetpoint():true)
         ){ 
-            RobotContainer.m_swerve.Drive(new Translation2d(0,0), 0, true, false);
-        
             m_State = ShooterState.Shooting;
         }
     }

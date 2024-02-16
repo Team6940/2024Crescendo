@@ -102,7 +102,7 @@ public class Robot extends TimedRobot {
     }
     else if(RobotContainer.m_driverController.getAButtonPressed())
     {
-      new NewShoot(ShootCommandConstants.AMPSet, new Pose2d(1.86,7.43,new Rotation2d(Math.toRadians(-90))), ImprovedXboxController.Button.kA.value, ImprovedXboxController.Button.kB.value).schedule();;
+      
     }
     else 
     {

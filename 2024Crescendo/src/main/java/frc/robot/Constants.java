@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -239,8 +240,6 @@ public final class Constants
 
         public static double kShooterF=0.15;       //TODO
         public static double kShooterRPSTolerance=5.;//TODO
-        public static double kShootDirectionTolerance=0.;
-        public static double kShootFixOmega=0.;
 
     }
 
@@ -260,6 +259,10 @@ public final class Constants
         };
         public static final ShootingSet AMPSet = new ShootingSet(95, 20);      //TODO
         public static final ShootingSet PassSet = new ShootingSet(0., 0.);     //TODO
+        public static double kShootDirectionTolerance=10.;  //TODO
+        public static double kShootFixOmega=3.;             //TODO
+        public static double kShootLineUpTolerance = 5.;    //TODO
+        public static double kShootLineUpFixVelocity = 0.2; //TODO
     }
 
     public static class ClimbCommandConstants{
