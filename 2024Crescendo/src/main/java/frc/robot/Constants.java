@@ -42,21 +42,6 @@ public final class Constants
         public static final double SemiAutoOmegaSlewRate=100;
         public static final double SemiAutoOmegaMax=3;
     }
-    public static final class HoodConstants {
-        
-        public static final double kMinAngle = 0.5;
-        public static final double kMaxAngle = 38;
-        public static final double kHoodTolerance = 1.5;//degrees
-        
-        public static int HoodMotorPort = 20; //14
-        public static double HOOD_GEAR_RATIO = (432/35)*(54/24)*(10/1) ;  
-        
-        public static final double HOOD_HOME_ANGLE = 0; 
-        public static final double HOOD_MAX_ANGLE = 50; 
-        public static final double HOOD_MIN_ANGLE = 0;
-        
-        public static final double HOOD_EJECT_ANGLE = 10;  //TODO
-    }
     public static final class IntakeConstants {
         public static final int IntakeMotorPort=18;
         public static final int m_NoteSensor=0;
@@ -85,22 +70,6 @@ public final class Constants
     public static final class GlobalConstants {
         public static final double kLoopTime = 0.020;
         public static final float INF = (float)Math.pow(10, 5); // This represents the Infinite
-    }
-    
-    public static final class LimelightConstants {
-        // Limelight Constants
-        public static final double LL_HORIZONTAL_CORRECTION = 0.;   //limelight水平修正， + is left
-        public static final Translation3d LL_POS_TO_ROBOT =        //limelight相对外框中心位置
-            new Translation3d(0., 0., 0.);  //TODO
-        public static final double LL_MOUNT_ANGLE = 0.; /* limelight竖直方向固定角度，+ is up */   //TODO
-        public static final double kTrackTolerance = 0.; // Allowable Limelight angle(degree) error in radians //TODO
-        public static final Translation3d[] Apriltag_Position = {       //x is for front/back, y is for left/right, z is for height
-            //TODO, 到时候记得在前面塞一个占位0
-        };
-        public static final double[] Apriltag_Facing={  //apriltag与场地长边平行线右上夹角
-            //the unit is rotation
-            //TODO, 到时候记得在前面塞一个占位0
-        };
     }
     public static final class GoalConstants {
         public enum FieldElement{
@@ -233,16 +202,6 @@ public final class Constants
         public static final int SWERVE_DRIVE_MOTOR_CURRENT_LIMIT = 15;
         public static final int SWERVE_DRIVE_VOLTAGE_LIMIT = 12;
     }
-    public final class HopperConstants
-    {
-        public static final int UpFrontMotorPort=12;
-        public static final int UpBackMotorPort=15;
-        public static final int BottomMotorPort=19;
-        public static final int  UpBallSensorChannel=4;
-        public static final int  DownBallSensor=9;
-
-        public static final double HopperOutput=0.7;
-    }
     public static final class AutoConstants {
         public static final double kMaxSpeedMetersPerSecond = 6;
         public static final double kMaxAccelerationMetersPerSecondSquared = 3;
@@ -270,12 +229,6 @@ public final class Constants
             new TrapezoidProfile.Constraints(
                         3 * Math.PI, 3 * Math.PI);
     }
-    public static class ClimberConstants
-    {
-        public static final int ClimberOutUnits=870000;
-        public static final int ClimberBackUnits=400000;//TODO
-        public static final int ClimberPort=16;
-    }
     public static class ShootConstants{
         public static final int SHOOTER_L_MASTER_ID = 11;  //TODO
         public static final int SHOOTER_R_MASTER_ID = 12;  //TODO
@@ -288,51 +241,10 @@ public final class Constants
         public static double kShooterRPSTolerance=5.;//TODO
         public static double kShootDirectionTolerance=0.;
         public static double kShootFixOmega=0.;
-        private static final Point2D[] kHoodPoints = new Point2D.Double[] {
-            // (distance, ty-angle)
-            new Point2D.Double(2.48/*90*/,7), //
-            new Point2D.Double(3/*105*/, 9), //
-            new Point2D.Double(3.5/*120*/, 12.00), //
-            new Point2D.Double(4/*135*/, 14.00), //
-            new Point2D.Double(4.5/*150*/, 16.00), //
-            new Point2D.Double(5/*165*/, 19.00), //
-            new Point2D.Double(5.5/*180*/, 22.00), //
-            new Point2D.Double(6/*195*/, 24.00), //
-            new Point2D.Double(6.45/*210*/, 26.0), //
-            new Point2D.Double(7.06/*225*/, 29),//
-            new Point2D.Double(7.53/*270*/, 32),
-        };
-        public static final LinearInterpolationTable kHoodTable = new LinearInterpolationTable(kHoodPoints);
-    
-        private static final Point2D[] kRPSPoints = new Point2D.Double[] {
-            // (distance, shooterSpeedRPM)
-            new Point2D.Double(2.48/*90*/, 2300), //
-            new Point2D.Double(3/*135*/, 2400), //
-            new Point2D.Double(3.5/*150*/, 2450), //
-            new Point2D.Double(4/*165*/, 2500), //
-            new Point2D.Double(4.5/*180*/, 2570), //
-            new Point2D.Double(5/*195*/, 2650), //
-            new Point2D.Double(5.5/*210*/, 2680), //
-            new Point2D.Double(6/*225*/, 2720), //
-            new Point2D.Double(6.45/*240*/, 2720),
-            new Point2D.Double(7.06/*270*/, 2720),
-            new Point2D.Double(7.53/*270*/, 2720),
-        };        
-        public static final LinearInterpolationTable kRPMTable = new LinearInterpolationTable(kRPSPoints);
 
     }
 
     public static class ShootCommandConstants{
-        public enum ShootingMode{
-            Default, SpeakerPos1, SpeakerPos2, AMP, NotePassing, Auto;
-        }
-        public static Point2D[] kShootingSets = new Point2D.Double[]{   //x是角度，y是转速（RPS）
-            new Point2D.Double(0.,0.),  //TODO Default
-            new Point2D.Double(0.,0.),  //TODO SpeakerPos1
-            new Point2D.Double(0.,0.),  //TODO SpeakerPos2
-            new Point2D.Double(0.,0.),  //TODO AMP
-            new Point2D.Double(0.,0.),  //TODO NotePassing
-        };
         public static class ShootingSet{
             public double ArmAngle = 0.0;
             public double ShooterRPS = 0.0;
