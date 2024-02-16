@@ -8,7 +8,6 @@ import frc.robot.Constants.SemiAutoConstants;
 import frc.robot.Constants.ShootConstants;
 import frc.robot.Constants.GoalConstants;
 import frc.robot.Constants.ShootConstants;
-import frc.robot.Constants.ShootCommandConstants.ShootingMode;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Subsystems.Shooter;
 import edu.wpi.first.math.controller.PIDController;
