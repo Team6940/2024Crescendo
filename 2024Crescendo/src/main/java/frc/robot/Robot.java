@@ -63,12 +63,13 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    RobotContainer.m_swerve.ResetOdometry(new Pose2d(0.67,7.73,new Rotation2d(0)));
+    RobotContainer.m_swerve.ResetOdometry(new Pose2d(0.67,7.43,new Rotation2d(0)));
     RobotContainer.m_swerve.zeroGyro();
   }
 
   @Override
   public void teleopPeriodic() {
+    
     if(RobotContainer.m_driverController.getLeftBumperPressed())
     {
       // RobotContainer.m_Arm.SetArmPosition(4);
@@ -97,7 +98,7 @@ public class Robot extends TimedRobot {
     }
     else if(RobotContainer.m_driverController.getAButtonPressed())
     {
-      new NewShoot(ShootCommandConstants.AMPSet, new Pose2d(1.86,7.72,new Rotation2d(Math.toRadians(-90))), ImprovedXboxController.Button.kA.value, ImprovedXboxController.Button.kB.value).schedule();;
+      new NewShoot(ShootCommandConstants.AMPSet, new Pose2d(1.86,7.43,new Rotation2d(Math.toRadians(-90))), ImprovedXboxController.Button.kA.value, ImprovedXboxController.Button.kB.value).schedule();;
     }
     else 
     {

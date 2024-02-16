@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.Vector;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
@@ -115,7 +116,9 @@ public class SwerveDriveTrain extends SubsystemBase {
   m_SwervePoseEstimator=new SwerveDrivePoseEstimator(
     SwerveConstants.swerveKinematics,
     new Rotation2d(0),
-     getModulePositions(), new Pose2d()
+     getModulePositions(), new Pose2d(),          
+     VecBuilder.fill(0.05, 0.05, Math.toRadians(5)),
+          VecBuilder.fill(0.5, 0.5, Math.toRadians(30))
 );
 
     //ahrs = new AHRS(SPI.Port.kMXP);
@@ -419,10 +422,7 @@ public Command followPathCommand(String pathName){
 
   @Override
   public void periodic() {
-    if(LimelightHelpers.getTV("limelight"))
-    {
-      m_SwervePoseEstimator.addVisionMeasurement(LimelightHelpers.getBotPose2d_wpiBlue("limelight"), LimelightHelpers.getLatency_Capture("limelight")+LimelightHelpers.getLatency_Pipeline("limelight"));
-    }
+    
     m_fieldRelVel = new FieldRelativeSpeed(getChassisSpeeds(), GetGyroRotation2d());
     m_fieldRelAccel = new FieldRelativeAccel(m_fieldRelVel, m_lastFieldRelVel, GlobalConstants.kLoopTime);
     m_lastFieldRelVel = m_fieldRelVel;
@@ -451,11 +451,15 @@ public Command followPathCommand(String pathName){
       SmartDashboard.putBoolean("Debug/Drive/isOpenloop", isOpenLoop);
       
     }
-    if(LimelightHelpers.getTV("limelight"))
+    if(LimelightHelpers.getTV("limelight")&&RobotContainer.m_driverController.getYButton())
     {
+      SmartDashboard.putBoolean("IsFixing", true);
       RobotContainer.m_swerve.FixPoseEstimator(LimelightHelpers.getBotPose2d_wpiBlue("limelight"),Timer.getFPGATimestamp()-LimelightHelpers.getLatency_Capture("limelight")+LimelightHelpers.getLatency_Pipeline("limelight"));
     }
-
+    else 
+    {SmartDashboard.putBoolean("IsFixing", false);
+      
+    }
   }
   public Translation2d GetRobotToTargetTranslation(Translation2d _TargetTranslation2d)
   {

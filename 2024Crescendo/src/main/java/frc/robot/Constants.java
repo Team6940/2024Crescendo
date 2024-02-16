@@ -29,18 +29,18 @@ import java.util.Map;
 public final class Constants 
 {
     public static final class SemiAutoConstants{
-        public static final double kSemiAutoVelocityP=2;//TODO
+        public static final double kSemiAutoVelocityP=4;//TODO
         public static final double kSemiAutoVelocityI=0.00;//TODO
         public static final double kSemiAutoVelocityD=0.0;//TODO
-        public static final Constraints kSemiAutoVelocityConstrants =new Constraints(2,2);//TODO
+        public static final Constraints kSemiAutoVelocityConstrants =new Constraints(1,2);//TODO
           public static final double SemiAutoVelocitySlewRate=100;
         public static final double SemiAutoVelocityMax=1.5;
-        public static final double kSemiAutoOmegaP=4;//TODO
+        public static final double kSemiAutoOmegaP=6;//TODO
         public static final double kSemiAutoOmegaI=0.0;//TODO
         public static final double kSemiAutoOmegaD=0.0;//TODO
         public static final Constraints kSemiAutoOmegaConstrants =new Constraints(2,100);//TODO
         public static final double SemiAutoOmegaSlewRate=100;
-        public static final double SemiAutoOmegaMax=1;
+        public static final double SemiAutoOmegaMax=3;
     }
     public static final class HoodConstants {
         
@@ -194,10 +194,10 @@ public final class Constants
     
         public static double kLoopSeconds = 0.0;
     
-        public final static double kDriveMotorReductionRatio = 1.0 / (29/15*60/15); //29/15*60/15
-        public final static double kPivotMotorReductionRatio = 1.0 / (56/6*60/10); //56/6*60/10
-        public final static double kDriveEncoderReductionRatio = 1.0 / (29 / 15 * 60 / 15);
-        public final static double kDriveEncoderReductionRatioTest = (29 / 15 * 60 / 15);
+        public final static double kDriveMotorReductionRatio = 1.0 / (29./15*60/15); //29/15*60/15
+        public final static double kPivotMotorReductionRatio = 1.0 / (56./6*60/10); //56/6*60/10
+        public final static double kDriveEncoderReductionRatio = 1.0 / (29. / 15 * 60 / 15);
+        public final static double kDriveEncoderReductionRatioTest = (29. / 15 * 60 / 15);
         public static double kPivotEncoderReductionRatio = -1.0 / 1.0;
     
         public static final double FALCON_TICS_PER_ROTATION = 2048.0;
@@ -346,7 +346,7 @@ public final class Constants
         public static final ShootingSet SpeakerSet[] = {
             new ShootingSet(12., 50),    //TODO, 第一个定点Speaker的数据，之后依次
         };
-        public static final ShootingSet AMPSet = new ShootingSet(90, 20);      //TODO
+        public static final ShootingSet AMPSet = new ShootingSet(95, 20);      //TODO
         public static final ShootingSet PassSet = new ShootingSet(0., 0.);     //TODO
     }
 

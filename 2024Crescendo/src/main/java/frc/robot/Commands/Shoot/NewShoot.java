@@ -121,7 +121,8 @@ public class NewShoot extends Command{
         RobotContainer.m_Shooter.SetRPS(m_ShooterTargetRPS);
         SmartDashboard.putBoolean("IsAtPosition", RobotContainer.m_Arm.IsAtTargetPosition());
         SmartDashboard.putBoolean("IsAtRPS", RobotContainer.m_Shooter.IsAtTargetRPS());
-        SmartDashboard.putBoolean("IsAtSetPoint", m_Movement.m_VelocityPIDController.atSetpoint()&&m_Movement.m_OmegaPIDController.atSetpoint());
+        SmartDashboard.putBoolean("IsAtPosition", m_Movement.m_VelocityPIDController.atSetpoint());
+        SmartDashboard.putBoolean("IsAtOmega", m_Movement.m_OmegaPIDController.atSetpoint());
         if(RobotContainer.m_Arm.IsAtTargetPosition()
             &&RobotContainer.m_Shooter.IsAtTargetRPS()
             &&(m_Auto?m_Movement.m_VelocityPIDController.atSetpoint()&&m_Movement.m_OmegaPIDController.atSetpoint():true)
