@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.RobotBase;
 import frc.robot.Constants.GoalConstants;
-import frc.robot.Constants.LimelightConstants;
 import frc.robot.Library.LimelightHelper.LimelightHelpers;
 import frc.robot.Library.team1706.LinearInterpolationTable;
 
