@@ -35,10 +35,10 @@ public class NewShoot extends Command{
         PIDController m_OmegaPIDController;
         Rotation2d m_VelocityDirection;
         double m_BeginTime;
-        SlewRateLimiter m_SemiAutoOmegSlewRateLimiter=new SlewRateLimiter(DriveConstants.kRotationSlew);
-        SlewRateLimiter m_SemiAutoVelocitySlewRateLimiter=new SlewRateLimiter(DriveConstants.kTranslationSlew);
+        SlewRateLimiter m_SemiAutoOmegSlewRateLimiter=new SlewRateLimiter(SemiAutoConstants.SemiAutoOmegaSlewRate);
+        SlewRateLimiter m_SemiAutoVelocitySlewRateLimiter=new SlewRateLimiter(SemiAutoConstants.SemiAutoVelocitySlewRate);
     }
-    Movement m_Movement;
+    Movement m_Movement=new Movement();
     public enum ShooterState{
         Aiming, Shooting;
     }
@@ -64,7 +64,7 @@ public class NewShoot extends Command{
         m_ShooterTargetRPS = _ShooterTargetRPS;
         m_AimButtonID = _AimButtonID;
         m_ShootButtonID = _ShootButtonID;
-        m_Movement.m_TargetPose2d = new Pose2d(null, null, null);
+        m_Movement.m_TargetPose2d = new Pose2d();
     }
     public NewShoot(ShootCommandConstants.ShootingSet _set, int _AimButtonID, int _ShootButtonID){
         this(_set.ArmAngle, _set.ShooterRPS, _AimButtonID, _ShootButtonID);
@@ -86,9 +86,9 @@ public class NewShoot extends Command{
             m_Movement.m_VelocityPIDController = new PIDController(SemiAutoConstants.kSemiAutoVelocityP, SemiAutoConstants.kSemiAutoVelocityI, SemiAutoConstants.kSemiAutoVelocityD);   //TODO 没准常数得换
             m_Movement.m_OmegaPIDController = new PIDController(SemiAutoConstants.kSemiAutoOmegaP,SemiAutoConstants.kSemiAutoOmegaI, SemiAutoConstants.kSemiAutoOmegaD);    //TODO
             m_Movement.m_OmegaPIDController.setSetpoint(0);
-            m_Movement.m_OmegaPIDController.setTolerance(Math.PI/20);
+            m_Movement.m_OmegaPIDController.setTolerance(Math.PI/36);
             m_Movement.m_VelocityPIDController.setSetpoint(0);
-            m_Movement.m_VelocityPIDController.setTolerance(0.05);
+            m_Movement.m_VelocityPIDController.setTolerance(0.07);
             m_Movement.m_OmegaPIDController.enableContinuousInput(-Math.PI, Math.PI);
         }
     }
@@ -122,12 +122,15 @@ public class NewShoot extends Command{
         
         if(RobotContainer.m_Arm.IsAtTargetPosition()
             &&RobotContainer.m_Shooter.IsAtTargetRPS()
-            &&(m_Auto?RobotContainer.m_swerve.IsAtPosition(m_Movement.m_TargetPose2d):true)
-        ){
+            &&(m_Auto?m_Movement.m_VelocityPIDController.atSetpoint()&&m_Movement.m_OmegaPIDController.atSetpoint():true)
+        ){ 
+            RobotContainer.m_swerve.Drive(new Translation2d(0,0), 0, true, false);
+        
             m_State = ShooterState.Shooting;
         }
     }
     void Shoot(){
+        SmartDashboard.putBoolean("Shooting", true);
         if(RobotContainer.m_driverController.getButton(m_ShootButtonID)){
             RobotContainer.m_Intake.NoteOut();
         }
@@ -136,7 +139,7 @@ public class NewShoot extends Command{
     public void end(boolean interrupted)
     {
         RobotContainer.m_Arm.SetArmPosition(ShootCommandConstants.DefaultSet.ArmAngle);
-        RobotContainer.m_Shooter.SetRPS(ShootCommandConstants.DefaultSet.ShooterRPS);
+        RobotContainer.m_Shooter.SetPct(ShootCommandConstants.DefaultSet.ShooterRPS);
     }
     @Override
     public boolean isFinished() 

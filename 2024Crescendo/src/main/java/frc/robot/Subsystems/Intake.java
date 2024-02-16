@@ -50,8 +50,9 @@ public class Intake extends SubsystemBase {
      */
     public void NoteOut()
     {
-        if(!HasNote()) SetIntakeOutput(0);
-        else SetIntakeOutput(IntakeConstants.m_NoteOutPct);
+        // if(!HasNote()) SetIntakeOutput(0);
+        // else 
+        SetIntakeOutput(IntakeConstants.m_NoteOutPct);
     }
     Intake()
     {

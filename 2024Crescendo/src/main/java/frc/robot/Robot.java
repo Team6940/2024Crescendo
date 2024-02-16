@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,40 +34,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
+    
     CommandScheduler.getInstance().run();
-    if(RobotContainer.m_driverController.getLeftBumper())
-    {
-      // RobotContainer.m_Arm.SetArmPosition(4);
-      // RobotContainer.m_Intake.NoteIn();;
-      new NoteIntake().schedule();
-    }
-    else if(RobotContainer.m_driverController.getLeftTrigger())
-    {
-      RobotContainer.m_Intake.SetIntakeOutput(-0.2);
-      RobotContainer.m_Shooter.SetPct(-0.2);
-    }
-    else if(RobotContainer.m_driverController.getRightBumper())
-    {
-      // RobotContainer.m_Arm.SetArmPosition(20);
-      // RobotContainer.m_Shooter.SetPct(0.8);
-      // if(RobotContainer.m_driverController.getRightTrigger())
-
-      // {
-      //   RobotContainer.m_Intake.SetIntakeOutput(1);
-      // }
-      new NewShoot(
-        ShootCommandConstants.SpeakerSet[0], 
-        ImprovedXboxController.Button.kRightBumper.value,
-        ImprovedXboxController.Button.kRightTrigger.value
-      ).schedule();
-    }
-    else 
-    {
-      // RobotContainer.m_Intake.NoteOut();;;
-      RobotContainer.m_Shooter.SetPct(0);
-      RobotContainer.m_Intake.SetIntakeOutput(0);
-      RobotContainer.m_Arm.SetArmPosition(20);
-    }
   }
 
   @Override
@@ -93,15 +63,48 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    RobotContainer.m_swerve.resetOdometry();
+    RobotContainer.m_swerve.ResetOdometry(new Pose2d(0.67,7.73,new Rotation2d(0)));
     RobotContainer.m_swerve.zeroGyro();
   }
 
   @Override
   public void teleopPeriodic() {
-    if(m_robotContainer.m_driverController.getAButton())
+    if(RobotContainer.m_driverController.getLeftBumperPressed())
     {
-      
+      // RobotContainer.m_Arm.SetArmPosition(4);
+      // RobotContainer.m_Intake.NoteIn();;
+      new NoteIntake().schedule();
+    }
+    else if(RobotContainer.m_driverController.getLeftTrigger())
+    {
+      RobotContainer.m_Intake.SetIntakeOutput(-0.2);
+      RobotContainer.m_Shooter.SetPct(-0.2);
+    }
+    else if(RobotContainer.m_driverController.getRightBumperPressed())
+    {
+      // RobotContainer.m_Arm.SetArmPosition(20);
+      // RobotContainer.m_Shooter.SetPct(0.8);
+      // if(RobotContainer.m_driverController.getRightTrigger())
+
+      // {
+      //   RobotContainer.m_Intake.SetIntakeOutput(1);
+      // }
+      new NewShoot(
+        ShootCommandConstants.SpeakerSet[0], 
+        ImprovedXboxController.Button.kRightBumper.value,
+        ImprovedXboxController.Button.kRightTrigger.value
+      ).schedule();
+    }
+    else if(RobotContainer.m_driverController.getAButtonPressed())
+    {
+      new NewShoot(ShootCommandConstants.AMPSet, new Pose2d(1.86,7.72,new Rotation2d(Math.toRadians(-90))), ImprovedXboxController.Button.kA.value, ImprovedXboxController.Button.kB.value).schedule();;
+    }
+    else 
+    {
+      // RobotContainer.m_Intake.NoteOut();;;
+      // RobotContainer.m_Shooter.SetPct(0);
+      // RobotContainer.m_Intake.SetIntakeOutput(0);
+      // RobotContainer.m_Arm.SetArmPosition(20);
     }
   }
 

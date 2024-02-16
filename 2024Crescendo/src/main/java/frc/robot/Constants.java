@@ -29,17 +29,18 @@ import java.util.Map;
 public final class Constants 
 {
     public static final class SemiAutoConstants{
-        public static final double kSemiAutoVelocityP=6 ;//TODO
+        public static final double kSemiAutoVelocityP=2;//TODO
         public static final double kSemiAutoVelocityI=0.00;//TODO
         public static final double kSemiAutoVelocityD=0.0;//TODO
-        public static final Constraints kSemiAutoVelocityConstrants =new Constraints(6,2);//TODO
-        public static final double SemiAutoVelocityMax=2;
-        public static final double kSemiAutoOmegaP=5;//TODO
+        public static final Constraints kSemiAutoVelocityConstrants =new Constraints(2,2);//TODO
+          public static final double SemiAutoVelocitySlewRate=100;
+        public static final double SemiAutoVelocityMax=1.5;
+        public static final double kSemiAutoOmegaP=4;//TODO
         public static final double kSemiAutoOmegaI=0.0;//TODO
         public static final double kSemiAutoOmegaD=0.0;//TODO
-        public static final Constraints kSemiAutoOmegaConstrants =new Constraints(3,100);//TODO
-        public static final double SemiAutoOmegaSlewRate=2;
-        public static final double SemiAutoOmegaMax=2;
+        public static final Constraints kSemiAutoOmegaConstrants =new Constraints(2,100);//TODO
+        public static final double SemiAutoOmegaSlewRate=100;
+        public static final double SemiAutoOmegaMax=1;
     }
     public static final class HoodConstants {
         
@@ -77,7 +78,7 @@ public final class Constants
         public static final double m_ArmD=0.;                        //TODO
         public static final double m_ArmkV=0.;               //TODO
         public static final double m_ArmkS=0.05;      //TODO
-        public static final double m_ArmVelocity=0.5;        //TODO
+        public static final double m_ArmVelocity=0.25;        //TODO
         public static final double m_ArmAcceleration=1.7;    //TODO
         public static final double ArmGearRatio=250.;
     }
@@ -129,10 +130,10 @@ public final class Constants
         public static final double kOuterDeadband = 0.98; // This value should be lower than the analog stick X or Y reading
                                                           // when aimed at a 45deg angle (Such that X and Y are are
                                                           // maximized simultaneously)
-        public static final double kTranslationSlew = 3.5;
-        public static final double kRotationSlew = 3.00;
+        public static final double kTranslationSlew = 8.0;
+        public static final double kRotationSlew = 4.;
 
-        public static final double kPositionTolerance = 0.0;    //TODO
+        public static final double kPositionTolerance = 0.05;    //TODO
         public static final double kRotationTolerance = 0.0;    //TODO
     }
     
@@ -281,8 +282,10 @@ public final class Constants
         public static double SHOOTER_KP = 0.052;             //TODO
         public static double SHOOTER_KI = 0.;             //TODO
         public static double SHOOTER_KD = 0.0;      
-        public static double kShooterF=0.1;       //TODO
-        public static double kShooterRPSTolerance=1.;//TODO
+        public static double SHOOTER_KV=0.;
+
+        public static double kShooterF=0.15;       //TODO
+        public static double kShooterRPSTolerance=5.;//TODO
         public static double kShootDirectionTolerance=0.;
         public static double kShootFixOmega=0.;
         private static final Point2D[] kHoodPoints = new Point2D.Double[] {
@@ -339,11 +342,11 @@ public final class Constants
                 ShooterRPS = _RPS;
             }
         }
-        public static final ShootingSet DefaultSet = new ShootingSet(20., 0.);  //TODO
+        public static final ShootingSet DefaultSet = new ShootingSet(20, 0.);  //TODO
         public static final ShootingSet SpeakerSet[] = {
-            new ShootingSet(20., 30.),    //TODO, 第一个定点Speaker的数据，之后依次
+            new ShootingSet(12., 50),    //TODO, 第一个定点Speaker的数据，之后依次
         };
-        public static final ShootingSet AMPSet = new ShootingSet(0., 0.);      //TODO
+        public static final ShootingSet AMPSet = new ShootingSet(90, 20);      //TODO
         public static final ShootingSet PassSet = new ShootingSet(0., 0.);     //TODO
     }
 

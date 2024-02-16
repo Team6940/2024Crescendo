@@ -3,6 +3,7 @@ package frc.robot.Subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.ShootCommandConstants;
 import frc.robot.Constants.ShootConstants;
 import frc.robot.Library.team1678.math.Conversions;
 
@@ -53,6 +54,7 @@ public class Shooter extends SubsystemBase {
         m_Shooter_Configuration.Slot0.kP = ShootConstants.SHOOTER_KP;
         m_Shooter_Configuration.Slot0.kI = ShootConstants.SHOOTER_KI;
         m_Shooter_Configuration.Slot0.kD = ShootConstants.SHOOTER_KD;
+        m_Shooter_Configuration.Slot0.kV=ShootConstants.SHOOTER_KV;
         m_Shooter_Configuration.MotorOutput.PeakReverseDutyCycle=0;
     
         //TODO Configs of Sensors;
