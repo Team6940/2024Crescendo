@@ -39,7 +39,7 @@ public class Shoot extends Command{
         {
             addRequirements(RobotContainer.m_swerve);
             double _TargetDistance=RobotContainer.m_swerve.GetRobotToTargetTranslation(DriverStation.getAlliance(),GoalConstants.FieldElement.Speaker).getDistance(new Translation2d());
-            m_ShootAngle=ShootConstants.kHoodTable.getOutput(_TargetDistance);
+            m_ShootAngle=ShootConstants.kHoodTable.getOutput(_TargetDistance);//插值表
             m_ShootRPS=ShootConstants.kRPMTable.getOutput(_TargetDistance);
         
         }

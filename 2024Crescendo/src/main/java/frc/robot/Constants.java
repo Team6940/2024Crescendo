@@ -140,8 +140,8 @@ public final class Constants
         public static final double openLoopRamp = 0.25;
         public static final double closedLoopRamp = 0.0;
     
-        public static final double driveGearRatio = 29/15*60/15;
-        public static final double angleGearRatio = 56/6*60/10; 
+        public static final double driveGearRatio = 29./15.*60./15.;
+        public static final double angleGearRatio = 56./6.*60./10.; 
         
         /* Drive Motor Characterization Values */
         public static final double driveKS = (0.69552 / 12); //divide by 12 to convert from volts to percent output for CTRE

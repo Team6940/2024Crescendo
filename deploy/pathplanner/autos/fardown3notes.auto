@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.4997018311044992,
+      "y": 0.7807579667019352
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "fardown3notes-1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "fardown3notes-2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "fardown3notes-3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "fardown3notes-4"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
