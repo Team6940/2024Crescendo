@@ -8,7 +8,9 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.IntakeConstants;
 
@@ -19,6 +21,8 @@ public class Intake extends SubsystemBase {
     private Slot0Configs m_Slot0Configs = new Slot0Configs();
     private double m_MotorOutput;
     public boolean m_IsCloseLoop;
+    boolean LastSensorOutput=true;
+    
     DigitalInput m_InfraredNoteSensor;
     /**
      * Set the output of the intake 1 stands for taking the note in
@@ -59,6 +63,15 @@ public class Intake extends SubsystemBase {
     
     @Override
     public void periodic() {
+        if(LastSensorOutput==false&&HasNote()==true)
+        {
+            RobotContainer.m_driverController.setRumble(RumbleType.kBothRumble,1);
+        }
+        else{
+             RobotContainer.m_driverController.setRumble(RumbleType.kBothRumble,0.);
+        
+        }
+        LastSensorOutput=HasNote();
     }
     Intake()
     {

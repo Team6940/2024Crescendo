@@ -94,7 +94,7 @@ public class Shooter extends SubsystemBase {
     public double GetRPS()
     {
         // if(m_Enabled){
-            return m_ShooterLeft.getVelocity().getValue();
+            return m_ShooterRght.getVelocity().getValue();
         // }
         // return 0.;
     }
@@ -108,6 +108,10 @@ public class Shooter extends SubsystemBase {
         // }
         // return 0.;
     }
+    public boolean IsRPSSimilar()
+    {
+        return Math.abs(m_ShooterLeft.getVelocity().getValue()-m_ShooterRght.getVelocity().getValue())<2*ShootConstants.kShooterRPSTolerance;
+    }
     /**
      * Is shooter at TargetRPM
      * @return true means the shooter is at Target RPM
@@ -115,13 +119,14 @@ public class Shooter extends SubsystemBase {
     public boolean IsAtTargetRPS()
     {
         // if(m_Enabled){
-            return Math.abs(GetRPS()-GetTargetRPS())<ShootConstants.kShooterRPSTolerance;
+            return (Math.abs(GetRPS()-GetTargetRPS())<ShootConstants.kShooterRPSTolerance)&&IsRPSSimilar();
         // }
         // return false;
     }
     @Override
     public void periodic()
     {
-        SmartDashboard.putNumber("ShooterRPM", GetRPS());
+        SmartDashboard.putNumber("ShooterLeft", m_ShooterLeft.getVelocity().getValue());
+        SmartDashboard.putNumber("ShooterRight", m_ShooterRght.getVelocity().getValue());
     }
 }

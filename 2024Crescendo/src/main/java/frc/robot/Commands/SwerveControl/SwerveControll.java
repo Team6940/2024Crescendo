@@ -14,6 +14,8 @@ import frc.robot.Library.team1706.MathUtils;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveControll extends Command {
@@ -50,11 +52,14 @@ public class SwerveControll extends Command {
     double translationX = -inputTransform(RobotContainer.m_driverController.getLeftY());
     double translationY = -inputTransform(RobotContainer.m_driverController.getLeftX());
     double rotationNew = -inputTransform(RobotContainer.m_driverController.getRightX());
-
+    
     Translation2d translation = new Translation2d(m_slewX.calculate(
       translationX) * SwerveConstants.kMaxSpeed,
         m_slewY.calculate(translationY) * SwerveConstants.kMaxSpeed);
-
+    if(DriverStation.getAlliance().get()==Alliance.Red)
+    {
+      translation.rotateBy(new Rotation2d(Math.PI));
+    }
     RobotContainer.m_swerve.Drive(
         translation,
         m_slewRot.calculate(rotationNew) * DriveConstants.kMaxAngularSpeed,

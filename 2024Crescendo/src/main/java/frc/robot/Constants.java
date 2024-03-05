@@ -51,7 +51,7 @@ public final class Constants
         public static final int m_NoteSensor=0;
         public static final double m_NoteInPct=1.0;
         public static final double m_NoteOutPct = 1.0;
-        public static final double ArmAngle = 4;
+        public static final double ArmAngle = 2;
 
         // public static final double m_IntakeP=0.;
         // public static final double m_IntakeI=0.;
@@ -103,7 +103,7 @@ public final class Constants
         public static final double kOuterDeadband = 0.98; // This value should be lower than the analog stick X or Y reading
                                                           // when aimed at a 45deg angle (Such that X and Y are are
                                                           // maximized simultaneously)
-        public static final double kTranslationSlew = 8.0;
+        public static final double kTranslationSlew = 5.0;
         public static final double kRotationSlew = 4.;
 
         public static final double kPositionTolerance = 0.05;    //TODO
@@ -236,13 +236,14 @@ public final class Constants
     public static class ShootConstants{
         public static final int SHOOTER_L_MASTER_ID = 11;  //TODO
         public static final int SHOOTER_R_MASTER_ID = 12;  //TODO
-        public static double SHOOTER_KP = 0.052;             //TODO
+        public static double SHOOTER_KP = 0.06;             //TODO
         public static double SHOOTER_KI = 0.;             //TODO
         public static double SHOOTER_KD = 0.0;      
-        public static double SHOOTER_KV=0.;
+        public static double SHOOTER_KV=0.007;
 
-        public static double kShooterF=0.15;       //TODO
-        public static double kShooterRPSTolerance=5.;//TODO
+        public static double kShooterF=0;       //TODO
+        public static double kShooterRPSTolerance=
+        5;//TODO
 
     }
 
@@ -258,11 +259,14 @@ public final class Constants
         }
         public static final ShootingSet DefaultSet = new ShootingSet(20, 0.);  //TODO
         public static final ShootingSet SpeakerSet[] = {
-            new ShootingSet(12., 50)  //TODO, 第一个定点Speaker的数据，之后依次
+            new ShootingSet(12., 50),
+            
+            new ShootingSet(18., 50)  //TODO, 第一个定点Speaker的数据，之后依次
         };
-        public static final ShootingSet AMPSet = new ShootingSet(95, 20);      //TODO
-        public static final ShootingSet PassSet = new ShootingSet(0., 0.);     //TODO
-        public static double kShootDirectionTolerance=10.;  //TODO
+        public static final ShootingSet AMPSet = new ShootingSet(90
+        , 20);      //TODO
+        public static final ShootingSet PassSet = new ShootingSet(20., 50.);     //TODO
+        public static double kShootDirectionTolerance=3.;  //TODO
         public static double kShootFixOmega=3.;             //TODO
         public static double kShootLineUpTolerance = 5.;    //TODO
         public static double kShootLineUpFixVelocity = 0.2; //TODO
@@ -293,15 +297,45 @@ public final class Constants
     }
     public static class AutoShootCommandConstants
     {
-        public static final double NewShootAngleTolerance=2.;
-        public static final double NewShootFixingOmega=2.;
-        public static final double AutoShootRPS=30.;
+        public static final double NewShootAngleTolerance=2;
+        public static final double NewShootFixingOmega=1.5;
+        public static final double AutoShootRPS=50.;
         public static final int AutoShootButton=Button.kRightBumper.value;
         public static final Point2D[] m_Points=
         {
-            new Point2D.Double(0., 0.)
+            
+            new Point2D.Double(-10.25, 40.5),
+            new Point2D.Double(-4.68, 34),
+            new Point2D.Double(1.93, 32.),
+            new Point2D.Double(6.97, 27.),
+            new Point2D.Double(12.8, 20.),
+            new Point2D.Double(21.63, 16.),
+            new Point2D.Double(21.64, 16)
+            
+            
+            
+            
+            
+            
+            
+        };public static final Point2D[] m_RPSPoints=
+        {
+            
+            new Point2D.Double(-10.25, 65),
+            new Point2D.Double(-4.68, 60),
+            new Point2D.Double(1.93, 57.),
+            new Point2D.Double(6.97, 50.),
+            new Point2D.Double(21.63, 50.),
+            new Point2D.Double(21.64, 50)
+            
+            
+            
+            
+            
         };
-        public static final LinearInterpolationTable m_ShootLinearInterPolationTable=new LinearInterpolationTable(m_Points);
+        public static final LinearInterpolationTable m_CloseShootLinearInterPolationTable=new LinearInterpolationTable(m_Points);
+        public static final LinearInterpolationTable m_RPSInterPolationTable=new LinearInterpolationTable(m_RPSPoints);
+    
     }
 
 }

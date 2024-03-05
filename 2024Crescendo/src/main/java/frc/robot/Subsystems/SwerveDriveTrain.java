@@ -108,17 +108,15 @@ public class SwerveDriveTrain extends SubsystemBase {
     gyro = new Pigeon2(SwerveConstants.PigeonIMUPort);
 
     // The coordinate system may be wrong 
-    swerve_modules_[0] = new SwerveModule(3, 4, false,  false, 375,  false, false);//front left
+    swerve_modules_[0] = new SwerveModule(3, 4, true,  false, -1660,  false, false);//front left
     swerve_modules_[1] = new SwerveModule(7, 8, true, false, 485, true, true);//front right
-    swerve_modules_[2] =new SwerveModule(5, 6, true, false, 4744,  false, false);//back left
-    swerve_modules_[3] = new SwerveModule(1, 2, false,  false, 1772, true, true); new SwerveModule(5, 6, true, false, 1720,  false, false);//back right
+    swerve_modules_[2] =new SwerveModule(5, 6, true, false, 846,  false, false);//back left
+    swerve_modules_[3] = new SwerveModule(1, 2, false,  false, 1775, true, true); new SwerveModule(5, 6, true, false, 1720,  false, false);//back right
     
   m_SwervePoseEstimator=new SwerveDrivePoseEstimator(
     SwerveConstants.swerveKinematics,
     new Rotation2d(0),
-     getModulePositions(), new Pose2d(),          
-     VecBuilder.fill(0.05, 0.05, Math.toRadians(5)),
-          VecBuilder.fill(0.5, 0.5, Math.toRadians(30))
+     getModulePositions(), new Pose2d()
 );
 
     //ahrs = new AHRS(SPI.Port.kMXP);
@@ -196,8 +194,9 @@ public Command followPathCommand(String pathName){
             this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
             this::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
            new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                        new PIDConstants(1.8, 0.0, 0.00008), // Translation PID constants
-                        new PIDConstants(3.0, 0.0, 0.), // Rotation PID constants
+                        new PIDConstants(1.6
+                , 0.0, 0.0000), // Translation PID constants
+                        new PIDConstants(2.0, 0.0, 0.), // Rotation PID constants
                         7, // Max module speed, in m/s
                         
                         0.4, // Drive base radius in meters. Distance from robot center to furthest module.

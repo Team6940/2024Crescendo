@@ -5,6 +5,7 @@ import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.networktables.NetworkTableInstance.NetworkMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -30,7 +31,8 @@ public class Arm extends SubsystemBase{
     private TalonFXConfiguration m_LeftTalonFXConfiguration=new TalonFXConfiguration();
     private TalonFXConfiguration m_RghtTalonFXConfiguration=new TalonFXConfiguration();
     private MotionMagicDutyCycle m_MotionMagicDutyCycle=new MotionMagicDutyCycle(0, false, 0., 0, true, false, false);
-    
+    public double ArmFixingFactor=0.;
+    public double ArmOffset=0.;
     Arm()
     {
         m_ArmMotorLeft= new TalonFX(ArmConstants.ArmMotorLeftPort);
@@ -48,7 +50,7 @@ public class Arm extends SubsystemBase{
         m_LeftTalonFXConfiguration.Slot0.GravityType=GravityTypeValue.Arm_Cosine;
         m_LeftTalonFXConfiguration.MotionMagic.MotionMagicCruiseVelocity=ArmConstants.m_ArmVelocity;
         m_LeftTalonFXConfiguration.MotionMagic.MotionMagicAcceleration=ArmConstants.m_ArmAcceleration;
-        
+        m_LeftTalonFXConfiguration.Feedback.FeedbackRotorOffset=0.;
         
         m_RghtTalonFXConfiguration=m_LeftTalonFXConfiguration;
         m_ArmMotorLeft.getConfigurator().apply(m_LeftTalonFXConfiguration);
@@ -56,13 +58,27 @@ public class Arm extends SubsystemBase{
         m_RghtTalonFXConfiguration.MotorOutput.Inverted=InvertedValue.CounterClockwise_Positive;
         m_ArmMotorRight.getConfigurator().apply(m_RghtTalonFXConfiguration);
     }
+    public void ResetArmPosition(double _Degree)
+    {
+        ArmOffset=_Degree;
+    }
+    public void SetCoast()
+    {
+        m_ArmMotorLeft.setNeutralMode(NeutralModeValue.Coast);
+        m_ArmMotorRight.setNeutralMode(NeutralModeValue.Coast);
+    }
+    public void SetBrake()
+    {
+        m_ArmMotorLeft.setNeutralMode(NeutralModeValue.Brake);
+        m_ArmMotorRight.setNeutralMode(NeutralModeValue.Brake);
+    }
     /**
      * Set the arm to the target Position
      * @param _Degree degree
      */
     public void SetArmPosition(double _Degree)
     {
-        m_TargetPosition=_Degree;
+        m_TargetPosition=_Degree+ArmFixingFactor-ArmOffset;
         m_ArmMotorLeft.setControl(m_MotionMagicDutyCycle.withPosition(m_TargetPosition/360.));
         m_ArmMotorRight.setControl(m_MotionMagicDutyCycle.withPosition(m_TargetPosition/360.));
     }
@@ -77,7 +93,7 @@ public class Arm extends SubsystemBase{
      */
     public double GetArmPosition()
     {
-         return m_ArmMotorLeft.getPosition().getValue()*360.;
+         return m_ArmMotorLeft.getPosition().getValue()*360.+ArmOffset;
     }
     /*
      * Get the Arm's Position in degrees
@@ -97,5 +113,6 @@ public class Arm extends SubsystemBase{
     public void periodic()
     {
         SmartDashboard.putNumber("ArmPosition", GetArmPosition());
+        SmartDashboard.putNumber("ArmOffset", ArmFixingFactor);
     }
 }  

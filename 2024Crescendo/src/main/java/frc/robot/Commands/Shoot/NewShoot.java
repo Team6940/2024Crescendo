@@ -56,7 +56,7 @@ public class NewShoot extends Command{
         this(_set.ArmAngle, _set.ShooterRPS, _AimButtonID, _ShootButtonID);
     }
     public NewShoot(double _ArmTargetAngle, double _ShooterTargetRPS, int _AimButtonID, int _ShootButtonID, int _AprilTagID, double _TargetDirection){
-        m_LineUp=true;
+        m_LineUp=false;
         addRequirements(RobotContainer.m_Arm);
         addRequirements(RobotContainer.m_Intake);
         addRequirements(RobotContainer.m_Shooter);
@@ -123,7 +123,7 @@ public class NewShoot extends Command{
         SmartDashboard.putBoolean("IsAtPosition", RobotContainer.m_Arm.IsAtTargetPosition());
         SmartDashboard.putBoolean("IsAtRPS", RobotContainer.m_Shooter.IsAtTargetRPS());
         if(RobotContainer.m_Arm.IsAtTargetPosition()
-            &&RobotContainer.m_Shooter.IsAtTargetRPS()
+            &&RobotContainer.m_Shooter.IsAtTargetRPS()&&RobotContainer.m_Shooter.IsRPSSimilar()
         ){ 
             m_State = ShooterState.Shooting;
         }
@@ -142,9 +142,8 @@ public class NewShoot extends Command{
         RobotContainer.m_Intake.SetIntakeOutput(0);
         if(m_ShootButtonID==0)
         {
-            
+            RobotContainer.m_Shooter.SetPct(0);
         RobotContainer.m_Arm.SetArmPosition(IntakeConstants.ArmAngle);
-        RobotContainer.m_Shooter.SetPct(0);
         RobotContainer.m_Intake.NoteIn();
         }
     }

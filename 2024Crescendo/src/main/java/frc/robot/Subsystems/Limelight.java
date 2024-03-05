@@ -70,8 +70,8 @@ private static LinearInterpolationTable distTable = new LinearInterpolationTable
 
   @Override
   public void periodic() {
-  
-    LimelightHelpers.getLatestResults("limelight");
+
+    // LimelightHelpers.getLatestResults("limelight");
     // This method will be called once per scheduler run
   }
 
