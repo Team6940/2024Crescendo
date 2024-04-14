@@ -103,8 +103,8 @@ public final class Constants
         public static final double kOuterDeadband = 0.98; // This value should be lower than the analog stick X or Y reading
                                                           // when aimed at a 45deg angle (Such that X and Y are are
                                                           // maximized simultaneously)
-        public static final double kTranslationSlew = 5.0;
-        public static final double kRotationSlew = 4.;
+        public static final double kTranslationSlew = 20.0;
+        public static final double kRotationSlew = 10;
 
         public static final double kPositionTolerance = 0.05;    //TODO
         public static final double kRotationTolerance = 0.0;    //TODO
@@ -150,10 +150,10 @@ public final class Constants
          * 车子在行驶过程中基本不抖动，底盘PID大部分情况下是正常的。
          * 
          */
-        public static double kDriveMotorkP = 0.026; // 5e-2 0.05   0.025
+        public static double kDriveMotorkP = 0.312; // 5e-2 0.05   0.025
         public static double kDriveMotorkI = 0; //5e-4 0.005  0.0016
         public static double kDriveMotorkD = 0.; //   5e-0 5 1.5  2.5
-        public static double kDriveMotorkF = 0.004;//   0.045       0.06
+        public static double kDriveMotorkF = 0.054;//   0.045       0.06
         public static double kDriveMotorIZone = 0;// 90          240
         public static double kSensorVelocityMeasPeriod = 10;
     

@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.VelocityDutyCycle;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
@@ -36,7 +37,8 @@ public class SwerveModule extends SubsystemBase {
   private Slot0Configs m_drive_slot0Configs = new Slot0Configs();
   private MotorOutputConfigs m_MotorOutputConfigs =new MotorOutputConfigs();
   final DutyCycleOut m_DutyCycleOut = new DutyCycleOut(0);
-  final VelocityDutyCycle m_request = new VelocityDutyCycle(0,0,false,0,0,true, true, true);
+  
+  final VelocityVoltage m_request = new VelocityVoltage(0,0,false,0,0,true, true, true);
   
   SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(Constants.SwerveConstants.driveKS, Constants.SwerveConstants.driveKV, Constants.SwerveConstants.driveKA);
 

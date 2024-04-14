@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Commands.ArmCoast;
 import frc.robot.Commands.Auto.Close4note;
 import frc.robot.Commands.Auto.Close5note;
 import frc.robot.Commands.Auto.FarUp4note;
@@ -35,7 +36,6 @@ public class Robot extends TimedRobot {
   private int LastPov=12;
   @Override
   public void robotInit() {
-   RobotContainer.m_swerve.setDefaultCommand(new SwerveControll());
     m_robotContainer = new RobotContainer();
   }
 

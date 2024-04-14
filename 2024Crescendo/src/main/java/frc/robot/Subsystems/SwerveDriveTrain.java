@@ -197,7 +197,7 @@ public Command followPathCommand(String pathName){
                         new PIDConstants(1.6
                 , 0.0, 0.0000), // Translation PID constants
                         new PIDConstants(2.0, 0.0, 0.), // Rotation PID constants
-                        7, // Max module speed, in m/s
+                        4.5, // Max module speed, in m/s
                         
                         0.4, // Drive base radius in meters. Distance from robot center to furthest module.
                         new ReplanningConfig() // Default path replanning config. See the API for the options here
@@ -443,22 +443,22 @@ public Command followPathCommand(String pathName){
       SmartDashboard.putNumber("GetPosition1", swerve_modules_[1].GetPosition().distanceMeters);
       SmartDashboard.putNumber("GetPosition2", swerve_modules_[2].GetPosition().distanceMeters);
       SmartDashboard.putNumber("GetPosition3", swerve_modules_[3].GetPosition().distanceMeters);
-
+      SmartDashboard.putNumber("Velocityx", getFieldRelativeChassisSpeeds().vxMetersPerSecond);
       SmartDashboard.putNumber("Debug/Drive/x meters", getPose().getX());
       SmartDashboard.putNumber("Debug/Drive/y meters", getPose().getY());
       SmartDashboard.putNumber("Debug/Drive/rot radians", getPose().getRotation().getDegrees());
       SmartDashboard.putBoolean("Debug/Drive/isOpenloop", isOpenLoop);
       
     }
-    if(LimelightHelpers.getTV("limelight")&&RobotContainer.m_driverController.getYButton())
-    {
-      SmartDashboard.putBoolean("IsFixing", true);
-      RobotContainer.m_swerve.FixPoseEstimator(LimelightHelpers.getBotPose2d_wpiBlue("limelight"),Timer.getFPGATimestamp()-LimelightHelpers.getLatency_Capture("limelight")+LimelightHelpers.getLatency_Pipeline("limelight"));
-    }
-    else 
-    {SmartDashboard.putBoolean("IsFixing", false);
+    // if(LimelightHelpers.getTV("limelight")&&RobotContainer.m_driverController.getYButton())
+    // {
+    //   SmartDashboard.putBoolean("IsFixing", true);
+    //   RobotContainer.m_swerve.FixPoseEstimator(LimelightHelpers.getBotPose2d_wpiBlue("limelight"),Timer.getFPGATimestamp()-LimelightHelpers.getLatency_Capture("limelight")+LimelightHelpers.getLatency_Pipeline("limelight"));
+    // }
+    // else 
+    // {SmartDashboard.putBoolean("IsFixing", false);
       
-    }
+    // }
   }
   public Translation2d GetRobotToTargetTranslation(Translation2d _TargetTranslation2d)
   {

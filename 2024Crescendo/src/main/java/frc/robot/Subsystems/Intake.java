@@ -11,8 +11,10 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.Commands.Rumble;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Library.LimelightHelper.LimelightHelpers;
 
 public class Intake extends SubsystemBase {
     public static Intake m_Instance;
@@ -65,11 +67,8 @@ public class Intake extends SubsystemBase {
     public void periodic() {
         if(LastSensorOutput==false&&HasNote()==true)
         {
-            RobotContainer.m_driverController.setRumble(RumbleType.kBothRumble,1);
-        }
-        else{
-             RobotContainer.m_driverController.setRumble(RumbleType.kBothRumble,0.);
-        
+            
+           new Rumble(RumbleType.kBothRumble, 1).withTimeout(0.1).schedule();;
         }
         LastSensorOutput=HasNote();
     }

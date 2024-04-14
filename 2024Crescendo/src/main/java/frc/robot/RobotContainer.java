@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Subsystems.Shooter;
 import frc.robot.Subsystems.Intake;
+import frc.robot.Commands.ArmCoast;
+import frc.robot.Commands.SwerveControl.SwerveControll;
 import frc.robot.Subsystems.Arm;
 import frc.robot.Subsystems.Led;
 import frc.robot.Subsystems.Limelight;
@@ -25,6 +27,10 @@ public class RobotContainer {
   
   public RobotContainer() {
     configureBindings();
+    
+   RobotContainer.m_swerve.setDefaultCommand(new SwerveControll());
+   
+   RobotContainer.m_Arm.setDefaultCommand(new ArmCoast());
   }
 
   private void configureBindings() {}
