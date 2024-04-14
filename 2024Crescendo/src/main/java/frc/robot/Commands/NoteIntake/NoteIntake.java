@@ -20,11 +20,11 @@ public class NoteIntake extends Command{
     int m_ButtonID = Button.kLeftBumper.value;
     public NoteIntake(int _ButtonID){
         m_ButtonID=_ButtonID;
+        addRequirements(RobotContainer.m_Arm);
+        addRequirements(RobotContainer.m_Intake);
     }
     @Override
     public void initialize(){
-        addRequirements(RobotContainer.m_Arm);
-        addRequirements(RobotContainer.m_Intake);
     }
     @Override
     public void execute(){

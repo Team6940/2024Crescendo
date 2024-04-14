@@ -32,9 +32,10 @@ public class Arm extends SubsystemBase{
     private TalonFXConfiguration m_RghtTalonFXConfiguration=new TalonFXConfiguration();
     private MotionMagicDutyCycle m_MotionMagicDutyCycle=new MotionMagicDutyCycle(0, false, 0., 0, true, false, false);
     public double ArmFixingFactor=0.;
-    public double ArmOffset=0.;
+    public double ArmOffset;
     Arm()
     {
+        ArmFixingFactor=1.5;
         m_ArmMotorLeft= new TalonFX(ArmConstants.ArmMotorLeftPort);
         m_ArmMotorRight=new TalonFX(ArmConstants.ArmMotorRightPort);
         m_LeftTalonFXConfiguration.MotorOutput.NeutralMode=NeutralModeValue.Brake;
@@ -94,6 +95,14 @@ public class Arm extends SubsystemBase{
     public double GetArmPosition()
     {
          return m_ArmMotorLeft.getPosition().getValue()*360.+ArmOffset;
+    }
+    /**
+     * Get the Arm's Postion In degree
+     * @return the Arm's Position Compare to the Initial Degree
+     */
+    public double GetArmRawPosition()
+    {
+         return m_ArmMotorLeft.getPosition().getValue()*360.;
     }
     /*
      * Get the Arm's Position in degrees

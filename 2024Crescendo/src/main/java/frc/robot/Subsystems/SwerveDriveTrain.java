@@ -34,8 +34,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -50,8 +48,11 @@ import frc.robot.Library.team1706.FieldRelativeAccel;
 import frc.robot.Library.team1706.FieldRelativeSpeed;
 import frc.robot.Library.team95.BetterSwerveKinematics;
 import frc.robot.Library.team95.BetterSwerveModuleState;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class SwerveDriveTrain extends SubsystemBase {
 
@@ -81,7 +82,7 @@ public class SwerveDriveTrain extends SubsystemBase {
   public boolean autoPixy = false;
 
   private Field2d m_field = new Field2d();
-
+    
   private FieldRelativeSpeed m_fieldRelVel = new FieldRelativeSpeed();
   private FieldRelativeSpeed m_lastFieldRelVel = new FieldRelativeSpeed();
   private FieldRelativeAccel m_fieldRelAccel = new FieldRelativeAccel();
@@ -109,9 +110,9 @@ public class SwerveDriveTrain extends SubsystemBase {
 
     // The coordinate system may be wrong 
     swerve_modules_[0] = new SwerveModule(3, 4, true,  false, -1660,  false, false);//front left
-    swerve_modules_[1] = new SwerveModule(7, 8, true, false, 485, true, true);//front right
-    swerve_modules_[2] =new SwerveModule(5, 6, true, false, 846,  false, false);//back left
-    swerve_modules_[3] = new SwerveModule(1, 2, false,  false, 1775, true, true); new SwerveModule(5, 6, true, false, 1720,  false, false);//back right
+    swerve_modules_[1] = new SwerveModule(7, 8, true, false, 165, true, true);//front right
+    swerve_modules_[2] =new SwerveModule(5, 6, true, false, 1011,  false, false);//back left
+    swerve_modules_[3] = new SwerveModule(1, 2, false,  false, -1771, true, true); //back right
     
   m_SwervePoseEstimator=new SwerveDrivePoseEstimator(
     SwerveConstants.swerveKinematics,
@@ -125,7 +126,7 @@ public class SwerveDriveTrain extends SubsystemBase {
     /* select cargo color for sig */
     //PixySignature = SmartDashboard.getBoolean("Debug/Pixy/alliance", false) ? Pixy2CCC.CCC_SIG1 : Pixy2CCC.CCC_SIG2;
 
-    SmartDashboard.putData("Debug/Drive/Field", m_field);
+    // SmartDashboard.putData("Debug/Drive/Field", m_field);
 
   }
   
@@ -140,7 +141,7 @@ public class SwerveDriveTrain extends SubsystemBase {
     var states = SwerveConstants.swerveKinematics.toSwerveModuleStates(
       fieldRelative ? 
       ChassisSpeeds.fromFieldRelativeSpeeds(
-        translation.getX(), translation.getY(), omega, GetGyroRotation2d())
+        translation.getX(), translation.getY(), omega, GetRobotRotation2d())
       : new ChassisSpeeds(translation.getX() , translation.getY(), omega)
     );
 
@@ -183,8 +184,12 @@ public class SwerveDriveTrain extends SubsystemBase {
       new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
       new SwerveModuleState(0, Rotation2d.fromDegrees(45))
   };
-public Command followPathCommand(String pathName){
-    PathPlannerPath path = PathPlannerPath.fromPathFile(pathName);
+public Command followPathCommand(String pathName,boolean _IsChoreo){
+    PathPlannerPath path ;
+    if(_IsChoreo)
+      path= PathPlannerPath.fromChoreoTrajectory(pathName);
+    else
+      path=PathPlannerPath.fromPathFile(pathName);
     
     // You must wrap the path following command in a FollowPathWithEvents command in order for event markers to work
     return 
@@ -194,10 +199,10 @@ public Command followPathCommand(String pathName){
             this::getChassisSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
             this::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
            new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                        new PIDConstants(1.6
-                , 0.0, 0.0000), // Translation PID constants
+                        new PIDConstants(1.2
+                , 0.0, 0.0012), // Translation PID constants
                         new PIDConstants(2.0, 0.0, 0.), // Rotation PID constants
-                        4.5, // Max module speed, in m/s
+                        3.7, // Max module speed, in m/s
                         
                         0.4, // Drive base radius in meters. Distance from robot center to furthest module.
                         new ReplanningConfig() // Default path replanning config. See the API for the options here
@@ -304,9 +309,9 @@ public Command followPathCommand(String pathName){
     whetherstoreyaw = true;
     // ahrs version
     //ahrs.reset();
-    //ResetOdometry(new Pose2d());
+    ResetOdometry(new Pose2d());
     //Pigeon version
-    zeroGyro();
+    // zeroGyro();
   }
 
   public void WhetherStoreYaw(){
@@ -322,12 +327,16 @@ public Command followPathCommand(String pathName){
   }
 
   public void ResetOdometry(Pose2d pose){
+
     m_SwervePoseEstimator.resetPosition(GetGyroRotation2d(), getModulePositions(),pose);
     //for (int i = 0 ; i < swerve_modules_.length; i++){
     //  swerve_modules_[i].setPose(pose);
     //}
   }
-
+  public Rotation2d GetRobotRotation2d()
+  {
+    return m_SwervePoseEstimator.getEstimatedPosition().getRotation();
+  }
   public Rotation2d GetGyroRotation2d(){
     // An offset will be needed if the robot doesn't face downfield
     
@@ -438,18 +447,19 @@ public Command followPathCommand(String pathName){
     
 
     m_field.setRobotPose(getPose());
-    if(enanbleTelemetry){
-      SmartDashboard.putNumber("GetPosition0", swerve_modules_[0].GetPosition().distanceMeters);
-      SmartDashboard.putNumber("GetPosition1", swerve_modules_[1].GetPosition().distanceMeters);
-      SmartDashboard.putNumber("GetPosition2", swerve_modules_[2].GetPosition().distanceMeters);
-      SmartDashboard.putNumber("GetPosition3", swerve_modules_[3].GetPosition().distanceMeters);
-      SmartDashboard.putNumber("Velocityx", getFieldRelativeChassisSpeeds().vxMetersPerSecond);
-      SmartDashboard.putNumber("Debug/Drive/x meters", getPose().getX());
-      SmartDashboard.putNumber("Debug/Drive/y meters", getPose().getY());
-      SmartDashboard.putNumber("Debug/Drive/rot radians", getPose().getRotation().getDegrees());
-      SmartDashboard.putBoolean("Debug/Drive/isOpenloop", isOpenLoop);
+    SmartDashboard.putData("Field", m_field);
+    // if(enanbleTelemetry){
+    //   SmartDashboard.putNumber("GetPosition0", swerve_modules_[0].GetPosition().distanceMeters);
+    //   SmartDashboard.putNumber("GetPosition1", swerve_modules_[1].GetPosition().distanceMeters);
+    //   SmartDashboard.putNumber("GetPosition2", swerve_modules_[2].GetPosition().distanceMeters);
+    //   SmartDashboard.putNumber("GetPosition3", swerve_modules_[3].GetPosition().distanceMeters);
+    //   SmartDashboard.putNumber("Velocityx", getFieldRelativeChassisSpeeds().vxMetersPerSecond);
+    //   SmartDashboard.putNumber("Debug/Drive/x meters", getPose().getX());
+    //   SmartDashboard.putNumber("Debug/Drive/y meters", getPose().getY());
+    //   SmartDashboard.putNumber("Debug/Drive/rot radians", getPose().getRotation().getDegrees());
+    //   SmartDashboard.putBoolean("Debug/Drive/isOpenloop", isOpenLoop);
       
-    }
+    // }
     // if(LimelightHelpers.getTV("limelight")&&RobotContainer.m_driverController.getYButton())
     // {
     //   SmartDashboard.putBoolean("IsFixing", true);

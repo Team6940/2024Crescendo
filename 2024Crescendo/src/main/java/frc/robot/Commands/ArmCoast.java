@@ -1,5 +1,6 @@
 package frc.robot.Commands;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ClimbCommandConstants;
 import frc.robot.Constants.ShootCommandConstants;
@@ -15,7 +16,7 @@ public class ArmCoast extends Command{
     @Override
     public void initialize()
     {
-        
+        SmartDashboard.putBoolean("ArmCoasting", true);
     }
     @Override
     public void execute()
@@ -35,6 +36,7 @@ public class ArmCoast extends Command{
     @Override
     public void end(boolean interrupted)
     {
+        SmartDashboard.putBoolean("ArmCoasting", false);
         // RobotContainer.m_Arm.SetArmPosition(ShootCommandConstants.DefaultSet.ArmAngle);
     }
     @Override

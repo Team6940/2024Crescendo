@@ -13,8 +13,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Climb extends Command{
 
+    boolean m_IsDown=false;
     public Climb(){
         addRequirements(RobotContainer.m_Arm);
+        
     }
 
     @Override
@@ -25,17 +27,19 @@ public class Climb extends Command{
     @Override
     public void execute()
     {
+        if(RobotContainer.m_driverController.getBButtonReleased())
+            
+            RobotContainer.m_Arm.SetArmPosition(ClimbCommandConstants.kClimbDegree);
+        
 
     }
     @Override
     public void end(boolean interrupted)
     {
-        RobotContainer.m_Arm.SetArmPosition(ClimbCommandConstants.kClimbDegree);
-    }
+       }
     @Override
     public boolean isFinished() 
     {
-        if(RobotContainer.m_driverController.getAButtonReleased() )return true;//TODO 哪个按键？
         return false;
     }
 }

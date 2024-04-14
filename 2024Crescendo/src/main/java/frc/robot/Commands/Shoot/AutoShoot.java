@@ -1,5 +1,6 @@
 package frc.robot.Commands.Shoot;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -18,11 +19,13 @@ public class AutoShoot extends Command{
     
     double m_ArmTargetAngle=0.;
     double m_SHooterTargetRPS=0.;
-;
+    public static double LastShootty=0.;
+    public static double LastShootArmAngle=0.;
     enum AutoShootState {
         Aim,Accelerate,Shoot;
     }
     AutoShootState m_State;
+    PIDController m_PidController;
     public AutoShoot()
     {
         
@@ -35,6 +38,12 @@ public class AutoShoot extends Command{
     public void initialize()
     {
         m_State=AutoShootState.Aim;
+        m_PidController=new PIDController(AutoShootCommandConstants.NewShootFixingkP, AutoShootCommandConstants.NewShootFixingkI, 0);
+        m_PidController.setSetpoint(0.);
+        m_PidController.setIZone(5);
+        m_PidController.setTolerance(AutoShootCommandConstants.NewShootAngleTolerance);
+        
+        m_PidController.reset();
     }
     void Aim()
     {
@@ -43,10 +52,15 @@ public class AutoShoot extends Command{
         RobotContainer.m_Shooter.SetRPS(AutoShootCommandConstants.AutoShootRPS);
         if(LimelightHelpers.getTV("limelight"))
         {
-            if(LimelightHelpers.getTX("limelight")>AutoShootCommandConstants.NewShootAngleTolerance)
-            _Omega=-AutoShootCommandConstants.NewShootFixingOmega;
-            else if(LimelightHelpers.getTX("limelight")<-AutoShootCommandConstants.NewShootAngleTolerance)
-            _Omega=AutoShootCommandConstants.NewShootFixingOmega;
+            
+            // if(LimelightHelpers.getTX("limelight")>AutoShootCommandConstants.NewShootAngleTolerance)
+            // _Omega=-AutoShootCommandConstants.NewShootFixingOmega;
+            // else if(LimelightHelpers.getTX("limelight")<-AutoShootCommandConstants.NewShootAngleTolerance)
+            // _Omega=AutoShootCommandConstants.NewShootFixingOmega;
+            if(!m_PidController.atSetpoint())
+            {
+                _Omega=m_PidController.calculate(LimelightHelpers.getTX("limelight"));
+            }
             else
             {
                 RobotContainer.m_swerve.Drive(new Translation2d(), _Omega, false, false);
@@ -54,6 +68,7 @@ public class AutoShoot extends Command{
                 m_ArmTargetAngle=AutoShootCommandConstants.m_CloseShootLinearInterPolationTable.getOutput(LimelightHelpers.getTY("limelight"));
                 m_SHooterTargetRPS=AutoShootCommandConstants.m_RPSInterPolationTable.getOutput(LimelightHelpers.getTY("limelight"));
                 
+        LastShootty=LimelightHelpers.getTY("limelight");
                 SmartDashboard.putNumber("ArmGgle", m_ArmTargetAngle);
                 SmartDashboard.putNumber("LimelightTY", LimelightHelpers.getTY("limelight"));
                 m_State=AutoShootState.Accelerate;
@@ -74,6 +89,7 @@ public class AutoShoot extends Command{
     }
     void Shoot()
     {
+        LastShootArmAngle=RobotContainer.m_Arm.GetArmRawPosition();
         RobotContainer.m_Intake.NoteOut();
     }
     @Override

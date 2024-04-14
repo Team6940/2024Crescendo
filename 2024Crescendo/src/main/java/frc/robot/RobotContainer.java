@@ -30,7 +30,7 @@ public class RobotContainer {
     
    RobotContainer.m_swerve.setDefaultCommand(new SwerveControll());
    
-   RobotContainer.m_Arm.setDefaultCommand(new ArmCoast());
+  //  RobotContainer.m_Arm.setDefaultCommand(new ArmCoast());
   }
 
   private void configureBindings() {}

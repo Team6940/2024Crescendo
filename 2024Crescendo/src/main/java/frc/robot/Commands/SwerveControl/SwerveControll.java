@@ -58,7 +58,7 @@ public class SwerveControll extends Command {
         m_slewY.calculate(translationY) * SwerveConstants.kMaxSpeed);
     if(DriverStation.getAlliance().get()==Alliance.Red)
     {
-      translation.rotateBy(new Rotation2d(Math.PI));
+      translation=translation.unaryMinus();
     }
     RobotContainer.m_swerve.Drive(
         translation,

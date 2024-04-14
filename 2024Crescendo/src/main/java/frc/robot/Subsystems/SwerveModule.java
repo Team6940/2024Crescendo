@@ -22,7 +22,6 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.MathUtil;
 import frc.robot.Constants;
@@ -192,8 +191,8 @@ public class SwerveModule extends SubsystemBase {
 
     double percentOutput = feedforward.calculate(optimalState.speedMetersPerSecond);
 
-    SmartDashboard.putNumber("OptimalSpeed", optimalState.speedMetersPerSecond);
-    SmartDashboard.putNumber("Debug/Drive/PercentOut", percentOutput);
+    // SmartDashboard.putNumber("OptimalSpeed", optimalState.speedMetersPerSecond);
+    // SmartDashboard.putNumber("Debug/Drive/PercentOut", percentOutput);
     if(isOpenLoop){
       if (drive_motor_output_enabled) {
         //drive_motor_.set(ControlMode.PercentOutput,
@@ -259,9 +258,9 @@ public class SwerveModule extends SubsystemBase {
 
     double percentOutput = feedforward.calculate(optimalState.speedMetersPerSecond);
 
-    SmartDashboard.putNumber("OptimalSpeed", optimalState.speedMetersPerSecond);
-    SmartDashboard.putNumber("Angle", pivotOutput);
-    SmartDashboard.putNumber("Debug/Drive/PercentOut", percentOutput);
+    // SmartDashboard.putNumber("OptimalSpeed", optimalState.speedMetersPerSecond);
+    // SmartDashboard.putNumber("Angle", pivotOutput);
+    // SmartDashboard.putNumber("Debug/Drive/PercentOut", percentOutput);
 
     if(isOpenLoop){
       if (drive_motor_output_enabled) {

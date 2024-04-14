@@ -29,11 +29,11 @@ public class Close4note extends SequentialCommandGroup{
         }),
             new NewShoot(ShootCommandConstants.SpeakerSet[0], Button.kAutoButton.value, Button.kAutoButton.value).withTimeout(1.4),
             
-            RobotContainer.m_swerve.followPathCommand("close4notes-1").raceWith(new NoteIntake(Button.kAutoButton.value)),
+            RobotContainer.m_swerve.followPathCommand("close4notes-1",false).raceWith(new NoteIntake(Button.kAutoButton.value)),
             new NewShoot(ShootCommandConstants.SpeakerSet[0], Button.kAutoButton.value, Button.kAutoButton.value).withTimeout(1.4),
-        RobotContainer.m_swerve.followPathCommand("close4notes-2").raceWith(new NoteIntake(Button.kAutoButton.value)),
+        RobotContainer.m_swerve.followPathCommand("close4notes-2",false).raceWith(new NoteIntake(Button.kAutoButton.value)),
             new NewShoot(ShootCommandConstants.SpeakerSet[0], Button.kAutoButton.value, Button.kAutoButton.value).withTimeout(1.4),
-        RobotContainer.m_swerve.followPathCommand("close4notes-3").raceWith(new NoteIntake(Button.kAutoButton.value)),
+        RobotContainer.m_swerve.followPathCommand("close4notes-3",false).raceWith(new NoteIntake(Button.kAutoButton.value)),
             new NewShoot(ShootCommandConstants.SpeakerSet[0], Button.kAutoButton.value, Button.kAutoButton.value).withTimeout(1.4)
         );
     }
